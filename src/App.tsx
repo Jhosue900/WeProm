@@ -8,8 +8,8 @@ import Features from './components/Features';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CartModal from './components/CartModal';
+import SuccessModal from './components/SuccessModal';
 
-// Interface CartItem
 interface CartItem {
   name: string;
   price: string;
@@ -18,10 +18,15 @@ interface CartItem {
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [lastAddedItem, setLastAddedItem] = useState<CartItem | null>(null);
 
   const handleAddToCart = (name: string, price: string) => {
-    setCartItems([...cartItems, { name, price }]);
-    console.log('Producto agregado:', name, price); // Para debug
+    const newItem = { name, price };
+    setCartItems([...cartItems, newItem]);
+    setLastAddedItem(newItem);
+    setIsSuccessModalOpen(true); // Mostrar modal de éxito
+    console.log('Producto agregado:', name, price);
   };
 
   const handleRemoveItem = (index: number) => {
@@ -30,6 +35,24 @@ function App() {
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
+  };
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+  };
+
+  const goToCart = () => {
+    setIsSuccessModalOpen(false);
+    setIsCartOpen(true);
+  };
+
+  const continueShopping = () => {
+    setIsSuccessModalOpen(false);
+    // Scroll suave a la sección de productos
+    const proyectosSection = document.getElementById('proyectos');
+    if (proyectosSection) {
+      proyectosSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -42,11 +65,20 @@ function App() {
       <Features />
       <Contact />
       <Footer />
+      
       <CartModal
         isOpen={isCartOpen}
         onClose={toggleCart}
         cartItems={cartItems}
         onRemoveItem={handleRemoveItem}
+      />
+      
+      <SuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={closeSuccessModal}
+        onGoToCart={goToCart}
+        onContinueShopping={continueShopping}
+        productName={lastAddedItem?.name || ''}
       />
     </div>
   );

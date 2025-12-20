@@ -9,7 +9,7 @@ interface HeaderProps {
 export default function Header({ cartCount, onCartClick }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartPulse, setCartPulse] = useState(false);
+  const [cartAnimation, setCartAnimation] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,11 +20,11 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Efecto de pulso cuando se agrega al carrito
+  // Efecto de animación cuando cambia el carrito
   useEffect(() => {
     if (cartCount > 0) {
-      setCartPulse(true);
-      const timer = setTimeout(() => setCartPulse(false), 1000);
+      setCartAnimation('cart-bounce');
+      const timer = setTimeout(() => setCartAnimation(''), 800);
       return () => clearTimeout(timer);
     }
   }, [cartCount]);
@@ -49,7 +49,7 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
       >
         <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
           {/* Logo */}
-          <a href="#" className="text-xl sm:text-2xl font-bold text-weprom-dark flex items-center gap-2 group z-50">
+          <a href="#" className="text-xl sm:text-2xl font-bold text-weprom-dark flex items-center gap-2 group z-50 hover-lift">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-weprom-pink to-purple-600 rounded-full flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
               <span className="text-white font-bold text-sm sm:text-base">W</span>
             </div>
@@ -62,7 +62,7 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
               <a 
                 key={i} 
                 href={`#${item.toLowerCase()}`} 
-                className="relative group text-sm xl:text-base"
+                className="relative group text-sm xl:text-base shine-effect"
               >
                 <span className="hover:text-weprom-pink transition-colors duration-300">
                   {item}
@@ -76,12 +76,12 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
           <div className="flex items-center space-x-3 sm:space-x-4">
             <button
               onClick={handleCartButtonClick}
-              className={`relative transition-all duration-300 group z-50 ${cartPulse ? 'animate-pulse' : ''}`}
+              className={`relative transition-all duration-300 group z-50 ${cartAnimation}`}
               aria-label={`Carrito de compras (${cartCount} items)`}
             >
               <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform duration-300 text-gray-700 hover:text-weprom-pink" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-weprom-pink text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-bounce font-semibold">
+                <span className="absolute -top-2 -right-2 bg-weprom-pink text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse font-semibold border-2 border-white">
                   {cartCount}
                 </span>
               )}
@@ -102,7 +102,7 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden animate-fade-in modal-overlay"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -119,7 +119,7 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
               key={i}
               href={`#${item.toLowerCase()}`}
               onClick={handleNavClick}
-              className="text-lg font-medium text-gray-800 hover:text-weprom-pink transition-colors duration-300 py-2 border-b border-gray-100"
+              className="text-lg font-medium text-gray-800 hover:text-weprom-pink transition-colors duration-300 py-2 border-b border-gray-100 hover-lift"
             >
               {item}
             </a>
@@ -131,7 +131,7 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
                 handleNavClick();
                 handleCartButtonClick();
               }}
-              className="mt-2 w-full bg-weprom-pink text-white py-2 rounded-lg font-semibold hover:bg-pink-600 transition-colors"
+              className="mt-2 w-full bg-weprom-pink text-white py-2 rounded-lg font-semibold hover:bg-pink-600 transition-colors duration-300 hover-lift"
             >
               Ver Carrito
             </button>

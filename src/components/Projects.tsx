@@ -19,18 +19,31 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
   const handleAddToCartClick = (e: React.MouseEvent<HTMLButtonElement>, name: string, price: string) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Agregando al carrito:', name, price);
-    onAddToCart(name, price);
     
-    // Feedback visual
+    // Feedback visual inmediato
     const button = e.currentTarget;
-    button.style.backgroundColor = '#10b981'; // Verde de éxito
+    const originalHTML = button.innerHTML;
+    const originalBg = button.style.backgroundColor;
+    const originalColor = button.style.color;
+    
+    // Cambiar ícono a check
+    button.innerHTML = `
+      <svg class="w-5 h-5 animate-check" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+      </svg>
+    `;
+    button.style.backgroundColor = '#10b981'; // Verde
     button.style.color = 'white';
     
+    // Llamar a la función de agregar al carrito
+    onAddToCart(name, price);
+    
+    // Restaurar después de 1 segundo
     setTimeout(() => {
-      button.style.backgroundColor = '';
-      button.style.color = '';
-    }, 300);
+      button.innerHTML = originalHTML;
+      button.style.backgroundColor = originalBg;
+      button.style.color = originalColor;
+    }, 1000);
   };
 
   return (
@@ -55,68 +68,65 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
         </div>
 
         {/* Grid de productos */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {projectsData.map((product, index) => (
             <div
               key={product.id}
-              className="bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 group animate-fade-in-up overflow-hidden"
+              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group overflow-hidden animate-fade-in-up"
               style={{ animationDelay: `${index * 100}ms` }}
               onMouseEnter={() => setHoveredProduct(product.id)}
               onMouseLeave={() => setHoveredProduct(null)}
             >
-              {/* Imagen del producto */}
-              <div className="relative h-32 sm:h-40 lg:h-48 overflow-hidden bg-gray-100">
+              {/* Contenedor de imagen */}
+              <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
                 <img
                   src={product.img}
                   alt={product.name}
-                  className={`w-full h-full object-cover transition-transform duration-700 ${hoveredProduct === product.id ? 'scale-110' : 'scale-100'}`}
+                  className={`w-full h-full object-cover transition-transform duration-700 ${
+                    hoveredProduct === product.id ? 'scale-110' : 'scale-100'
+                  }`}
                 />
                 
-                {/* Botón de agregar al carrito - AHORA FUNCIONAL */}
+                {/* Botón de agregar al carrito */}
                 <button
                   onClick={(e) => handleAddToCartClick(e, product.name, product.price)}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2) rotate(90deg)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = ''}
-                  className="absolute bottom-3 right-3 bg-white p-2 rounded-full shadow-lg text-weprom-pink hover:bg-weprom-pink hover:text-white transition-all duration-300 z-10 focus:outline-none focus:ring-2 focus:ring-weprom-pink focus:ring-offset-2"
-                  style={{
-                    transform: hoveredProduct === product.id ? 'scale(1.1)' : 'scale(1)',
-                    opacity: hoveredProduct === product.id ? 1 : 0.9
-                  }}
+                  className={`absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-xl text-weprom-pink hover:bg-weprom-pink hover:text-white transition-all duration-300 z-10 ${
+                    hoveredProduct === product.id ? 'scale-110 rotate-12' : 'scale-100'
+                  }`}
                   aria-label={`Agregar ${product.name} al carrito`}
-                  title={`Agregar ${product.name} al carrito`}
+                  title="Agregar al carrito"
                 >
-                  <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <Plus className="w-5 h-5" />
                 </button>
                 
                 {/* Overlay en hover */}
-                <div className={`absolute inset-0 bg-gradient-to-t from-black/20 to-transparent transition-opacity duration-300 ${hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'}`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent transition-opacity duration-300 ${
+                  hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
+                }`}></div>
               </div>
               
               {/* Información del producto */}
-              <div className="p-3 sm:p-4">
-                <h4 className={`font-bold text-sm sm:text-base mb-1 transition-colors duration-300 ${hoveredProduct === product.id ? 'text-weprom-pink' : 'text-gray-800'}`}>
+              <div className="p-4 sm:p-6">
+                <h4 className={`font-bold text-lg mb-2 transition-colors duration-300 ${
+                  hoveredProduct === product.id ? 'text-weprom-pink' : 'text-gray-900'
+                }`}>
                   {product.name}
                 </h4>
-                <p className={`font-semibold text-sm sm:text-base transition-all duration-300 inline-block ${hoveredProduct === product.id ? 'text-purple-600 scale-105' : 'text-weprom-pink'}`}>
+                <p className={`text-xl font-bold transition-all duration-300 inline-block ${
+                  hoveredProduct === product.id ? 'text-purple-600 scale-105' : 'text-weprom-pink'
+                }`}>
                   {product.price}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">Haz clic en + para agregar</p>
+                <p className="text-sm text-gray-500 mt-2">Haz clic en el botón + para agregar al carrito</p>
               </div>
               
               {/* Indicador de hover */}
-              <div className={`h-1 bg-gradient-to-r from-weprom-pink to-purple-600 transition-all duration-300 ${hoveredProduct === product.id ? 'w-full' : 'w-0'}`}></div>
+              <div className={`h-1 bg-gradient-to-r from-weprom-pink via-purple-500 to-purple-600 transition-all duration-300 ${
+                hoveredProduct === product.id ? 'w-full' : 'w-0'
+              }`}></div>
             </div>
           ))}
         </div>
-
-        {/* Debug info (solo en desarrollo) */}
-        {process.env.NODE_ENV === 'development' && (
-          <div className="mt-8 p-4 bg-gray-100 rounded-lg text-sm">
-            <p className="font-semibold text-weprom-pink">Debug Info:</p>
-            <p>onAddToCart function: {typeof onAddToCart === 'function' ? '✓ Disponible' : '✗ No disponible'}</p>
-            <p>Total productos: {projectsData.length}</p>
-          </div>
-        )}
       </div>
     </section>
   );
