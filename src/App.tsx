@@ -8,7 +8,12 @@ import Features from './components/Features';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CartModal from './components/CartModal';
-import { CartItem } from './types';
+
+// Interface CartItem
+interface CartItem {
+  name: string;
+  price: string;
+}
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -16,6 +21,7 @@ function App() {
 
   const handleAddToCart = (name: string, price: string) => {
     setCartItems([...cartItems, { name, price }]);
+    console.log('Producto agregado:', name, price); // Para debug
   };
 
   const handleRemoveItem = (index: number) => {
