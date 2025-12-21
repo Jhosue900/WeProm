@@ -41,42 +41,44 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
   return (
     <>
       {/* Recuadro morado con contacto y búsqueda */}
-      <div className="fixed top-0 left-0 w-full bg-purple-600 z-20 py-2">
-        <div className="container mx-auto px-4 flex justify-between items-center text-white">
+       <div className="fixed top-0 left-0 w-full bg-purple-600 z-20 py-2">
+        <div className="container mx-auto px-4 flex flex-row sm:flex-row justify-between      items-center text-white">
           {/* Información de contacto */}
-          <div className="flex space-x-6 text-xs sm:text-sm">
-            <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap sm:flex-nowrap justify-between sm:space-x-6      text-xs sm:text-sm w-full sm:w-auto">
+            <div className="flex items-center space-x-2 mb-2 sm:mb-0">
               <span>📧</span>
               <span>contacto@weprom.com</span>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 mb-2 sm:mb-0">
               <span>📞</span>
               <span>+1 (123) 456-7890</span>
             </div>
           </div>
 
           {/* Mini buscador */}
-          <div className="flex items-center space-x-2 [@media(max-width:632px)]:w-[41%] justify-end">
+          <div className="flex sm:flex-row items-center space-x-2 w-full sm:w-auto mt-2 sm:mt-0">
             <input
               type="text"
               placeholder="Buscar..."
-              className="px-3 py-1 rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 [@media(max-width:632px)]:w-[50%]"
+              className="px-3 py-1 rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 w-full sm:w-[250px]"
             />
-            <button className="text-white">
+            <button className="text-white mt-2 sm:mt-0">
               <Search className="w-5 h-5" />
             </button>
           </div>
         </div>
       </div>
 
+
       {/* Recuadro blanco fijo */}
-      <div className="fixed top-0 left-0 w-full bg-white z-10 shadow-md pt-6 sm:pt-10 [@media(max-width:632px)]:mt-[20px] [@media(max-width:443px)]:mt-[25px]">
+      <div className="fixed top-0 left-0 w-full bg-white z-10 shadow-md pt-6 sm:pt-8 md:mt-0 mt-[30px] sm:mt-[25px] md:mt-0 lg:mt-2">
+
         <header
           className={`w-full transition-all duration-500 ${
             isScrolled ? 'bg-white/95 backdrop-blur-md py-3' : 'bg-transparent py-4 sm:py-5'
           }`}
         >
-          <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+          <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center [@media(max-width:439px)]:mt-[25px]">
             {/* Logo */}
             <a href="#" className="text-xl sm:text-2xl font-bold text-weprom-dark flex items-center gap-2 group z-50 hover-lift">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-weprom-pink to-purple-600 rounded-full flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">

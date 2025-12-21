@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen [@media(max-width:632px)]:h-[120vh] sm:h-[140vh] lg:h-[120vh] flex items-center justify-center overflow-hidden pt-16 md:pt-0 lg:pt-0"
+      className="relative min-h-screen [@media(max-width:632px)]:h-[120vh] sm:h-[130vh] lg:h-[120vh] flex items-center justify-center overflow-hidden pt-16 md:pt-0 lg:pt-0"
     >
       <div
         className="absolute inset-0 z-0"
@@ -16,7 +16,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/60 sm:from-white/90 sm:to-white/40"></div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 sm:pt-4 lg:pt-90 sm:p-[140]">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 sm:pt-0 lg:pt-90 sm:p-[140] [@media(max-width:1023px)]:pt-[82px]">
         {/* Contenido de texto */}
         <div className="animate-fade-in-up text-center lg:text-left">
           <span className="text-weprom-pink font-bold tracking-wider uppercase text-xs sm:text-sm inline-block animate-slide-in">
