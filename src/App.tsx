@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import TrustedCompanies from './components/TrustedCompanies';
@@ -9,14 +10,14 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CartModal from './components/CartModal';
 import SuccessModal from './components/SuccessModal';
-
+import LoginForm from './components/dashboard/login';
 
 interface CartItem {
   name: string;
   price: string;
 }
 
-function App() {
+function HomePage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -26,7 +27,7 @@ function App() {
     const newItem = { name, price };
     setCartItems([...cartItems, newItem]);
     setLastAddedItem(newItem);
-    setIsSuccessModalOpen(true); // Mostrar modal de éxito
+    setIsSuccessModalOpen(true);
     console.log('Producto agregado:', name, price);
   };
 
@@ -49,7 +50,6 @@ function App() {
 
   const continueShopping = () => {
     setIsSuccessModalOpen(false);
-    // Scroll suave a la sección de productos
     const proyectosSection = document.getElementById('proyectos');
     if (proyectosSection) {
       proyectosSection.scrollIntoView({ behavior: 'smooth' });
@@ -61,20 +61,19 @@ function App() {
       <Header cartCount={cartItems.length} onCartClick={toggleCart} />
       <Hero />
       <TrustedCompanies />
-      
       <Campaigns />
       <Projects onAddToCart={handleAddToCart} />
       <Features />
       <Contact />
       <Footer />
-      
+
       <CartModal
         isOpen={isCartOpen}
         onClose={toggleCart}
         cartItems={cartItems}
         onRemoveItem={handleRemoveItem}
       />
-      
+
       <SuccessModal
         isOpen={isSuccessModalOpen}
         onClose={closeSuccessModal}
@@ -83,6 +82,18 @@ function App() {
         productName={lastAddedItem?.name || ''}
       />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
 
