@@ -2,9 +2,9 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen sm:h-[80vh] lg:h-[120vh] flex items-center justify-center overflow-hidden pt-16 sm:pt-0"
+      className="relative min-h-screen [@media(max-width:632px)]:h-[120vh] sm:h-[140vh] lg:h-[120vh] flex items-center justify-center overflow-hidden pt-16 md:pt-0 lg:pt-0"
     >
-      <div 
+      <div
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')",
@@ -16,7 +16,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/60 sm:from-white/90 sm:to-white/40"></div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 sm:py-0">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-12 sm:pt-4 lg:pt-90 sm:p-[140]">
         {/* Contenido de texto */}
         <div className="animate-fade-in-up text-center lg:text-left">
           <span className="text-weprom-pink font-bold tracking-wider uppercase text-xs sm:text-sm inline-block animate-slide-in">
@@ -32,7 +32,7 @@ export default function Hero() {
             Artículos promocionales únicos para tu empresa. Calidad, diseño y funcionalidad
             en cada producto.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in animation-delay-500 px-4 sm:px-0">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in animation-delay-500 px-4 sm:px-0 lg:justify-start justify-center">
             <a
               href="#proyectos"
               className="bg-weprom-pink text-white px-6 sm:px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-pink-600 hover:shadow-xl transition-all transform hover:-translate-y-1 hover:scale-105 duration-300 text-center text-sm sm:text-base"

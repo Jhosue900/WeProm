@@ -56,11 +56,11 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
           </div>
 
           {/* Mini buscador */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 [@media(max-width:632px)]:w-[41%] justify-end">
             <input
               type="text"
               placeholder="Buscar..."
-              className="px-3 py-1 rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="px-3 py-1 rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-400 [@media(max-width:632px)]:w-[50%]"
             />
             <button className="text-white">
               <Search className="w-5 h-5" />
@@ -70,7 +70,7 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
       </div>
 
       {/* Recuadro blanco fijo */}
-      <div className="fixed top-0 left-0 w-full bg-white z-10 shadow-md pt-6 sm:pt-10">
+      <div className="fixed top-0 left-0 w-full bg-white z-10 shadow-md pt-6 sm:pt-10 [@media(max-width:632px)]:mt-[20px] [@media(max-width:443px)]:mt-[25px]">
         <header
           className={`w-full transition-all duration-500 ${
             isScrolled ? 'bg-white/95 backdrop-blur-md py-3' : 'bg-transparent py-4 sm:py-5'
