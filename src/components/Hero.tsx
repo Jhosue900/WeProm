@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen sm:h-[85vh] lg:h-[80vh] flex items-center justify-center overflow-hidden pt-16 sm:pt-0"
+      className="relative min-h-screen sm:h-[80vh] lg:h-[120vh] flex items-center justify-center overflow-hidden pt-16 sm:pt-0"
     >
       <div 
         className="absolute inset-0 z-0"

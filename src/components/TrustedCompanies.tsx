@@ -23,8 +23,16 @@ export default function TrustedCompanies() {
               style={{ animationDelay: `${index * 100}ms` }}
             />
           ))}
+
+
+
+          
         </div>
       </div>
+
+
+
+
     </section>
   );
 }

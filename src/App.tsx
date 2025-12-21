@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import CartModal from './components/CartModal';
 import SuccessModal from './components/SuccessModal';
 
+
 interface CartItem {
   name: string;
   price: string;
@@ -60,6 +61,7 @@ function App() {
       <Header cartCount={cartItems.length} onCartClick={toggleCart} />
       <Hero />
       <TrustedCompanies />
+      
       <Campaigns />
       <Projects onAddToCart={handleAddToCart} />
       <Features />
