@@ -279,11 +279,10 @@ export default function Dashboard() {
 
         {activeTab === 'overview' && (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { label: 'Campañas Activas', value: campaigns.length, icon: Tag, color: 'from-pink-500 to-purple-600' },
                 { label: 'Total Productos', value: products.length, icon: Package, color: 'from-blue-500 to-cyan-600' },
-                { label: 'Inventario Total', value: totalProducts, icon: ShoppingBag, color: 'from-green-500 to-emerald-600' }
               ].map((stat, idx) => (
                 <div key={idx} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
                   <div className="flex items-center justify-between mb-4">
