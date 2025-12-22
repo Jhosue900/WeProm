@@ -1,20 +1,57 @@
 import { ArrowRight, Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-// Datos de productos
-const projectsData = [
-  { id: 1, name: 'Bolso Canvas', price: '$45.000', img: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=400&fit=crop' },
-  { id: 2, name: 'Botella Térmica', price: '$35.000', img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop' },
-  { id: 3, name: 'Libreta Premium', price: '$25.000', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&h=400&fit=crop' },
-  { id: 4, name: 'USB Personalizado', price: '$18.000', img: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=400&fit=crop' }
-];
+// Configuración de la API
+const API_URL = 'https://we-prom-backend.vercel.app';
+
+interface Product {
+  id: number;
+  name: string;
+  price: string;
+  stock: number;
+  img: string;
+}
 
 interface ProjectsProps {
   onAddToCart: (name: string, price: string) => void;
 }
 
 export default function Projects({ onAddToCart }: ProjectsProps) {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
+
+  // Cargar productos desde el servidor
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  const loadProducts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch(`${API_URL}/products`);
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setProducts(result.data);
+      } else {
+        throw new Error(result.message || 'Error al cargar los productos');
+      }
+    } catch (error) {
+      console.error('Error cargando productos:', error);
+      setError('No se pudieron cargar los productos. Intenta de nuevo más tarde.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAddToCartClick = (e: React.MouseEvent<HTMLButtonElement>, name: string, price: string) => {
     e.preventDefault();
@@ -46,6 +83,66 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
     }, 1000);
   };
 
+  if (loading) {
+    return (
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
+            <div className="w-full sm:w-auto">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                Proyectos Recientes
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600">Cargando productos...</p>
+            </div>
+          </div>
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
+            <div className="w-full sm:w-auto">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                Proyectos Recientes
+              </h2>
+              <p className="text-sm sm:text-base text-red-600">{error}</p>
+              <button
+                onClick={loadProducts}
+                className="mt-4 px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+              >
+                Reintentar
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
+            <div className="w-full sm:w-auto">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                Proyectos Recientes
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600">No hay productos disponibles en este momento.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6">
@@ -69,7 +166,7 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
 
         {/* Grid de productos */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {projectsData.map((product, index) => (
+          {products.map((product, index) => (
             <div
               key={product.id}
               className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group overflow-hidden animate-fade-in-up"
@@ -85,6 +182,9 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
                   className={`w-full h-full object-cover transition-transform duration-700 ${
                     hoveredProduct === product.id ? 'scale-110' : 'scale-100'
                   }`}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop';
+                  }}
                 />
                 
                 {/* Botón de agregar al carrito */}
@@ -95,9 +195,27 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
                   }`}
                   aria-label={`Agregar ${product.name} al carrito`}
                   title="Agregar al carrito"
+                  disabled={product.stock === 0}
                 >
-                  <Plus className="w-5 h-5" />
+                  {product.stock === 0 ? (
+                    <span className="text-xs font-bold">SIN STOCK</span>
+                  ) : (
+                    <Plus className="w-5 h-5" />
+                  )}
                 </button>
+                
+                {/* Indicador de stock */}
+                {product.stock > 0 && product.stock <= 5 && (
+                  <div className="absolute top-4 left-4 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    ¡Últimas {product.stock} unidades!
+                  </div>
+                )}
+                
+                {product.stock === 0 && (
+                  <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    AGOTADO
+                  </div>
+                )}
                 
                 {/* Overlay en hover */}
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent transition-opacity duration-300 ${
@@ -115,9 +233,13 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
                 <p className={`text-xl font-bold transition-all duration-300 inline-block ${
                   hoveredProduct === product.id ? 'text-purple-600 scale-105' : 'text-weprom-pink'
                 }`}>
-                  {product.price}
+                  ${parseInt(product.price).toLocaleString()}
                 </p>
-                <p className="text-sm text-gray-500 mt-2">Haz clic en el botón + para agregar al carrito</p>
+                <p className="text-sm text-gray-500 mt-2">
+                  {product.stock === 0 
+                    ? 'Producto temporalmente agotado' 
+                    : `Stock disponible: ${product.stock} unidades`}
+                </p>
               </div>
               
               {/* Indicador de hover */}

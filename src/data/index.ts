@@ -14,13 +14,6 @@ export const campaignsData: Campaign[] = [
     desc: "Kits de bienvenida, libretas y bolígrafos premium.",
     img: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
     color: "bg-blue-100"
-  },
-  {
-    id: 3,
-    title: "Eco Friendly",
-    desc: "Productos sostenibles y amigables con el medio ambiente.",
-    img: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5fa5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    color: "bg-green-100"
   }
 ];
 

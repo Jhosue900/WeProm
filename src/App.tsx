@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import CartModal from './components/CartModal';
 import SuccessModal from './components/SuccessModal';
 import LoginForm from './components/dashboard/login';
+import Dashboard from './components/dashboard/Dashboard';
 
 interface CartItem {
   name: string;
@@ -92,6 +93,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );
