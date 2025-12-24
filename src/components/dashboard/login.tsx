@@ -90,12 +90,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                 </div>
               )}
 
-              {/* Credenciales de prueba */}
-              <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-xl text-xs">
-                <p className="font-semibold mb-1">Credenciales de prueba:</p>
-                <p>Email: admin@weprom.com</p>
-                <p>Password: admin123</p>
-              </div>
+              
 
               {/* Campo Email */}
               <div className="animate-fade-in animation-delay-200">

@@ -354,14 +354,14 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                 <span className="text-white font-bold">W</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Dashboard WeProm</h1>
+                <h1 className="text-2xl font-bold text-gray-900">WeProm</h1>
                 <p className="text-sm text-gray-500">Panel de administración</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
               {user && (
                 <div className="text-right mr-4">
-                  <p className="text-sm font-semibold text-gray-900">{user.email}</p>
+                  <p className="text-sm font-semibold text-gray-900">{user.name}</p>
                   <p className="text-xs text-gray-500">Administrador</p>
                 </div>
               )}
