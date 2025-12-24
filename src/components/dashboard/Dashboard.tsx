@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Package, Tag, Plus, Edit2, Trash2, Save, X, Upload, TrendingUp, ShoppingBag, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Package, Tag, Plus, Edit2, Trash2, Save, X, Upload, TrendingUp, ShoppingBag, Loader2, LogOut } from 'lucide-react';
 
 // Configuración de la API
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -32,7 +33,12 @@ interface ProductForm {
   image: File | null;
 }
 
-export default function Dashboard() {
+interface DashboardProps {
+  onLogout?: () => void;
+}
+
+export default function Dashboard({ onLogout }: DashboardProps) {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,15 +48,95 @@ export default function Dashboard() {
   const [showProductForm, setShowProductForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
 
   const [campaignForm, setCampaignForm] = useState<CampaignForm>({ title: '', description: '', image: null });
   const [productForm, setProductForm] = useState<ProductForm>({ name: '', price: '', stock: '', image: null });
 
+  // Obtener token del localStorage
+  const getToken = () => localStorage.getItem('token');
+
+  // Verificar token al montar el componente
+  useEffect(() => {
+    const token = getToken();
+    
+    // Si no hay token, redirigir al home
+    if (!token) {
+      navigate('/');
+      return;
+    }
+
+    // Verificar que el token sea válido
+    verifyTokenWithBackend(token);
+  }, [navigate]);
+
+  // Verificar token con el backend
+  const verifyTokenWithBackend = async (token: string) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/verify`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        // Token inválido o expirado
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/');
+        return;
+      }
+
+      const data = await response.json();
+      if (data.success && data.user) {
+        setUser(data.user);
+      }
+    } catch (error) {
+      console.error('Error verificando token:', error);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      navigate('/');
+    }
+  };
+
   // Cargar datos al montar
   useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
     loadCampaigns();
     loadProducts();
   }, []);
+
+  // Función para manejar logout
+  const handleLogout = async () => {
+    try {
+      const token = getToken();
+      if (token) {
+        await fetch(`${API_URL}/auth/logout`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error en logout:', error);
+    } finally {
+      // Limpiar localStorage
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      
+      // Redirigir al home
+      navigate('/');
+      
+      // Llamar callback de logout si existe
+      if (onLogout) {
+        onLogout();
+      }
+    }
+  };
 
   const loadCampaigns = async () => {
     try {
@@ -111,6 +197,9 @@ export default function Dashboard() {
 
       const response = await fetch(url, {
         method,
+        headers: {
+          'Authorization': `Bearer ${getToken()}`
+        },
         body: formData,
       });
 
@@ -120,6 +209,9 @@ export default function Dashboard() {
         await loadCampaigns();
         resetCampaignForm();
         alert(editingCampaign ? 'Campaña actualizada' : 'Campaña creada');
+      } else if (response.status === 401 || response.status === 403) {
+        alert('Sesión expirada. Por favor inicia sesión nuevamente.');
+        handleLogout();
       }
     } catch (error) {
       console.error('Error guardando campaña:', error);
@@ -148,6 +240,9 @@ export default function Dashboard() {
 
       const response = await fetch(url, {
         method,
+        headers: {
+          'Authorization': `Bearer ${getToken()}`
+        },
         body: formData,
       });
 
@@ -157,6 +252,9 @@ export default function Dashboard() {
         await loadProducts();
         resetProductForm();
         alert(editingProduct ? 'Producto actualizado' : 'Producto creado');
+      } else if (response.status === 401 || response.status === 403) {
+        alert('Sesión expirada. Por favor inicia sesión nuevamente.');
+        handleLogout();
       }
     } catch (error) {
       console.error('Error guardando producto:', error);
@@ -200,12 +298,18 @@ export default function Dashboard() {
     try {
       const response = await fetch(`${API_URL}/campaigns/${id}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${getToken()}`
+        }
       });
       const result = await response.json();
       
       if (result.success) {
         await loadCampaigns();
         alert('Campaña eliminada');
+      } else if (response.status === 401 || response.status === 403) {
+        alert('Sesión expirada. Por favor inicia sesión nuevamente.');
+        handleLogout();
       }
     } catch (error) {
       console.error('Error eliminando campaña:', error);
@@ -219,12 +323,18 @@ export default function Dashboard() {
     try {
       const response = await fetch(`${API_URL}/products/${id}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${getToken()}`
+        }
       });
       const result = await response.json();
       
       if (result.success) {
         await loadProducts();
         alert('Producto eliminado');
+      } else if (response.status === 401 || response.status === 403) {
+        alert('Sesión expirada. Por favor inicia sesión nuevamente.');
+        handleLogout();
       }
     } catch (error) {
       console.error('Error eliminando producto:', error);
@@ -248,8 +358,20 @@ export default function Dashboard() {
                 <p className="text-sm text-gray-500">Panel de administración</p>
               </div>
             </div>
-            <div className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full text-sm font-semibold">
-              Admin
+            <div className="flex items-center gap-4">
+              {user && (
+                <div className="text-right mr-4">
+                  <p className="text-sm font-semibold text-gray-900">{user.email}</p>
+                  <p className="text-xs text-gray-500">Administrador</p>
+                </div>
+              )}
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105"
+              >
+                <LogOut className="w-4 h-4" />
+                Cerrar Sesión
+              </button>
             </div>
           </div>
         </div>
