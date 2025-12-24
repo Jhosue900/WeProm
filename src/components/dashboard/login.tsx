@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { Mail, Lock, Eye, EyeOff, LogIn, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'https://we-prom-backend.vercel.app';
 
@@ -13,6 +14,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -45,6 +47,8 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
         if (onLoginSuccess) {
           onLoginSuccess();
         }
+        navigate('/dashboard');
+        
       } else {
         setError(data.message || 'Error al iniciar sesión');
       }
