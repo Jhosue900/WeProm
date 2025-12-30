@@ -166,3 +166,56 @@
 .animate-slide-in {
   will-change: opacity, transform;
 }
+
+/* Mejoras globales */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  @apply antialiased;
+}
+
+body {
+  @apply bg-weprom-dark text-weprom-gray-300;
+  background: linear-gradient(135deg, #0A0A0A 0%, #1C1C1E 100%);
+  min-height: 100vh;
+}
+
+/* Mejora de contraste para textos */
+h1, h2, h3, h4 {
+  @apply text-weprom-white;
+}
+
+/* Efectos de hover mejorados */
+.hover-lift {
+  @apply transition-transform duration-300 hover:-translate-y-1;
+}
+
+.hover-glow {
+  @apply transition-all duration-300 hover:shadow-lg hover:shadow-weprom-red/20;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-weprom-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-weprom-gray-800 rounded-full hover:bg-weprom-gray-700;
+}
+
+/* Gradientes de texto */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r;
+}
+
+.text-gradient-primary {
+  @apply from-weprom-red to-weprom-yellow;
+}
+
+.text-gradient-secondary {
+  @apply from-weprom-blue to-weprom-green;
+}

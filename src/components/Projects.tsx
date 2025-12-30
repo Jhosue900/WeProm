@@ -60,8 +60,7 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
     // Feedback visual inmediato
     const button = e.currentTarget;
     const originalHTML = button.innerHTML;
-    const originalBg = button.style.backgroundColor;
-    const originalColor = button.style.color;
+    const originalBg = button.style.backgroundImage;
     
     // Cambiar ícono a check
     button.innerHTML = `
@@ -69,8 +68,7 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
       </svg>
     `;
-    button.style.backgroundColor = '#10b981'; // Verde
-    button.style.color = 'white';
+    button.style.backgroundImage = 'linear-gradient(135deg, #34C759 0%, #32D74B 100%)';
     
     // Llamar a la función de agregar al carrito
     onAddToCart(name, price);
@@ -78,25 +76,27 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
     // Restaurar después de 1 segundo
     setTimeout(() => {
       button.innerHTML = originalHTML;
-      button.style.backgroundColor = originalBg;
-      button.style.color = originalColor;
+      button.style.backgroundImage = originalBg;
     }, 1000);
   };
 
+  // Colores del Rainbow Effect para las cards
+  const colors = ['red', 'blue', 'green', 'yellow'];
+
   if (loading) {
     return (
-      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-white">
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-gradient-dark">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
             <div className="w-full sm:w-auto">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-white mb-2 tracking-wide">
                 Proyectos Recientes
               </h2>
-              <p className="text-sm sm:text-base text-gray-600">Cargando productos...</p>
+              <p className="text-sm sm:text-base text-weprom-gray-400 font-light">Cargando productos...</p>
             </div>
           </div>
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-transparent border-gradient-to-r from-weprom-red to-weprom-yellow"></div>
           </div>
         </div>
       </section>
@@ -105,17 +105,17 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
 
   if (error) {
     return (
-      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-white">
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-gradient-dark">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
             <div className="w-full sm:w-auto">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-white mb-2 tracking-wide">
                 Proyectos Recientes
               </h2>
-              <p className="text-sm sm:text-base text-red-600">{error}</p>
+              <p className="text-sm sm:text-base text-weprom-red font-light">{error}</p>
               <button
                 onClick={loadProducts}
-                className="mt-4 px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors"
+                className="mt-4 px-6 py-2 bg-gradient-to-r from-weprom-red to-weprom-yellow text-weprom-white rounded-lg hover:shadow-xl transition-all duration-300 font-semibold transform hover:-translate-y-1"
               >
                 Reintentar
               </button>
@@ -128,14 +128,14 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
 
   if (products.length === 0) {
     return (
-      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-white">
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-gradient-dark">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
             <div className="w-full sm:w-auto">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-white mb-2 tracking-wide">
                 Proyectos Recientes
               </h2>
-              <p className="text-sm sm:text-base text-gray-600">No hay productos disponibles en este momento.</p>
+              <p className="text-sm sm:text-base text-weprom-gray-400 font-light">No hay productos disponibles en este momento.</p>
             </div>
           </div>
         </div>
@@ -144,19 +144,21 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
   }
 
   return (
-    <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-white">
+    <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-gradient-dark">
       <div className="container mx-auto px-4 sm:px-6">
-        {/* Header */}
+        {/* Header con tipografía WeProm */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 animate-fade-in-up gap-4">
           <div className="w-full sm:w-auto">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-white mb-2 tracking-wide">
               Proyectos Recientes
             </h2>
-            <p className="text-sm sm:text-base text-gray-600">Lo último en merchandising corporativo.</p>
+            <p className="text-sm sm:text-base text-weprom-gray-400 font-light leading-relaxed">
+              Lo último en merchandising corporativo.
+            </p>
           </div>
           <a
             href="#"
-            className="flex items-center text-weprom-pink font-semibold hover:underline group text-sm sm:text-base"
+            className="flex items-center text-weprom-red font-semibold hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-weprom-red hover:to-weprom-yellow group text-sm sm:text-base hover-lift"
             onClick={(e) => e.preventDefault()}
           >
             Ver todos 
@@ -164,90 +166,99 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
           </a>
         </div>
 
-        {/* Grid de productos */}
+        {/* Grid de productos con Dark Effect y Rainbow Effect */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {products.map((product, index) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 group overflow-hidden animate-fade-in-up"
-              style={{ animationDelay: `${index * 100}ms` }}
-              onMouseEnter={() => setHoveredProduct(product.id)}
-              onMouseLeave={() => setHoveredProduct(null)}
-            >
-              {/* Contenedor de imagen */}
-              <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                <img
-                  src={product.img}
-                  alt={product.name}
-                  className={`w-full h-full object-cover transition-transform duration-700 ${
-                    hoveredProduct === product.id ? 'scale-110' : 'scale-100'
-                  }`}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop';
-                  }}
-                />
+          {products.map((product, index) => {
+            const color = colors[index % 4];
+            
+            return (
+              <div
+                key={product.id}
+                className="bg-gradient-to-b from-weprom-dark-gray to-weprom-dark rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 border border-weprom-gray-800 group overflow-hidden animate-fade-in-up relative backdrop-blur-sm"
+                style={{ animationDelay: `${index * 100}ms` }}
+                onMouseEnter={() => setHoveredProduct(product.id)}
+                onMouseLeave={() => setHoveredProduct(null)}
+              >
+                {/* Gradiente superior sutil */}
+                <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-weprom-${color} to-transparent`}></div>
                 
-                {/* Botón de agregar al carrito */}
-                <button
-                  onClick={(e) => handleAddToCartClick(e, product.name, product.price)}
-                  className={`absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-xl text-weprom-pink hover:bg-weprom-pink hover:text-white transition-all duration-300 z-10 ${
-                    hoveredProduct === product.id ? 'scale-110 rotate-12' : 'scale-100'
-                  }`}
-                  aria-label={`Agregar ${product.name} al carrito`}
-                  title="Agregar al carrito"
-                  disabled={product.stock === 0}
-                >
-                  {product.stock === 0 ? (
-                    <span className="text-xs font-bold">SIN STOCK</span>
-                  ) : (
-                    <Plus className="w-5 h-5" />
+                {/* Contenedor de imagen con Vintage Effect */}
+                <div className="relative h-48 sm:h-56 overflow-hidden bg-weprom-dark">
+                  <img
+                    src={product.img}
+                    alt={product.name}
+                    className={`w-full h-full object-cover transition-all duration-700 filter grayscale group-hover:grayscale-0 ${
+                      hoveredProduct === product.id ? 'scale-110' : 'scale-100'
+                    }`}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop';
+                    }}
+                  />
+                  
+                  {/* Botón de agregar al carrito */}
+                  <button
+                    onClick={(e) => handleAddToCartClick(e, product.name, product.price)}
+                    className={`absolute bottom-4 right-4 bg-gradient-to-r from-weprom-red to-weprom-yellow p-3 rounded-full shadow-lg text-weprom-white hover:shadow-xl transition-all duration-300 z-10 ${
+                      hoveredProduct === product.id ? 'scale-110 rotate-12' : 'scale-100'
+                    }`}
+                    aria-label={`Agregar ${product.name} al carrito`}
+                    title="Agregar al carrito"
+                    disabled={product.stock === 0}
+                  >
+                    {product.stock === 0 ? (
+                      <span className="text-xs font-bold">SIN STOCK</span>
+                    ) : (
+                      <Plus className="w-5 h-5" />
+                    )}
+                  </button>
+                  
+                  {/* Indicador de stock */}
+                  {product.stock > 0 && product.stock <= 5 && (
+                    <div className="absolute top-4 left-4 bg-gradient-to-r from-weprom-yellow to-weprom-red text-weprom-black text-xs font-semibold px-2 py-1 rounded-full">
+                      ¡Últimas {product.stock} unidades!
+                    </div>
                   )}
-                </button>
+                  
+                  {product.stock === 0 && (
+                    <div className="absolute top-4 left-4 bg-gradient-to-r from-weprom-red to-weprom-red/80 text-weprom-white text-xs font-semibold px-2 py-1 rounded-full">
+                      AGOTADO
+                    </div>
+                  )}
+                  
+                  {/* Overlay oscuro en hover */}
+                  <div className={`absolute inset-0 bg-gradient-to-t from-weprom-dark via-transparent to-transparent transition-opacity duration-300 ${
+                    hoveredProduct === product.id ? 'opacity-80' : 'opacity-60'
+                  }`}></div>
+                </div>
                 
-                {/* Indicador de stock */}
-                {product.stock > 0 && product.stock <= 5 && (
-                  <div className="absolute top-4 left-4 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    ¡Últimas {product.stock} unidades!
-                  </div>
-                )}
+                {/* Información del producto */}
+                <div className="p-4 sm:p-6">
+                  <h4 className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
+                    hoveredProduct === product.id 
+                      ? 'text-transparent bg-clip-text bg-gradient-to-r from-weprom-red to-weprom-yellow' 
+                      : 'text-weprom-white'
+                  }`}>
+                    {product.name}
+                  </h4>
+                  <p className={`text-xl font-extrabold transition-all duration-300 inline-block bg-gradient-to-r from-weprom-gray-300 to-weprom-gray-400 bg-clip-text text-transparent ${
+                    hoveredProduct === product.id ? 'from-weprom-red to-weprom-yellow scale-105' : ''
+                  }`}>
+                    ${parseInt(product.price).toLocaleString()}
+                  </p>
+                  <p className="text-sm text-weprom-gray-400 font-light mt-2">
+                    {product.stock === 0 
+                      ? 'Producto temporalmente agotado' 
+                      : `Stock disponible: ${product.stock} unidades`}
+                  </p>
+                </div>
                 
-                {product.stock === 0 && (
-                  <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    AGOTADO
-                  </div>
-                )}
-                
-                {/* Overlay en hover */}
-                <div className={`absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent transition-opacity duration-300 ${
-                  hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
+                {/* Indicador de hover con color de marca */}
+                <div className={`h-1 bg-gradient-to-r from-weprom-${color} to-transparent transition-all duration-300 ${
+                  hoveredProduct === product.id ? 'w-full' : 'w-0'
                 }`}></div>
               </div>
-              
-              {/* Información del producto */}
-              <div className="p-4 sm:p-6">
-                <h4 className={`font-bold text-lg mb-2 transition-colors duration-300 ${
-                  hoveredProduct === product.id ? 'text-weprom-pink' : 'text-gray-900'
-                }`}>
-                  {product.name}
-                </h4>
-                <p className={`text-xl font-bold transition-all duration-300 inline-block ${
-                  hoveredProduct === product.id ? 'text-purple-600 scale-105' : 'text-weprom-pink'
-                }`}>
-                  ${parseInt(product.price).toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-500 mt-2">
-                  {product.stock === 0 
-                    ? 'Producto temporalmente agotado' 
-                    : `Stock disponible: ${product.stock} unidades`}
-                </p>
-              </div>
-              
-              {/* Indicador de hover */}
-              <div className={`h-1 bg-gradient-to-r from-weprom-pink via-purple-500 to-purple-600 transition-all duration-300 ${
-                hoveredProduct === product.id ? 'w-full' : 'w-0'
-              }`}></div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
