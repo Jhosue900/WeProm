@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ShoppingCart, Menu, X, Search } from 'lucide-react';
 import Logo from '../logo.jpg'
+import { motion } from "framer-motion";
+
 
 interface HeaderProps {
   cartCount: number;
@@ -42,14 +44,21 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
     onCartClick();
   };
 
+
   return (
-    <>
+    <motion.div
+      initial={{ y: -40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       {/* Top Bar con gradiente sutil */}
-      <div className={`fixed top-0 left-0 w-full bg-gradient-to-r from-weprom-dark via-weprom-dark-gray to-weprom-dark z-[100] py-2.5 shadow-lg border-b border-weprom-gray-800 transition-transform duration-300 ${
-        showTopBar ? 'translate-y-0' : '-translate-y-full'
-      }`}>
+      <div
+        className={`fixed top-0 left-0 w-full bg-gradient-to-r from-weprom-dark via-weprom-dark-gray to-weprom-dark z-[100] py-2.5 shadow-lg border-b border-weprom-gray-800 transition-transform duration-300 ${
+          showTopBar ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         <div className="container mx-auto px-4 flex flex-row justify-between items-center text-weprom-white">
-          {/* Información de contacto con iconos */}
+          {/* Información de contacto */}
           <div className="flex items-center gap-3 sm:gap-4">
             <a 
               href="tel:+11234567890"
@@ -224,6 +233,6 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
           </div>
         </div>
       </nav>
-    </>
+    </motion.div>
   );
 }

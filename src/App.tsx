@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -12,6 +12,7 @@ import CartModal from './components/CartModal';
 import SuccessModal from './components/SuccessModal';
 import LoginForm from './components/dashboard/login';
 import Dashboard from './components/dashboard/Dashboard';
+import SplashScreen from "./components/SplashScreen";
 
 interface CartItem {
   name: string;
@@ -87,15 +88,32 @@ function HomePage() {
 }
 
 function App() {
+
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
+    <>
+      {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
+
+      {!showSplash && (
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      )}
+    </>
   );
 }
 
