@@ -1,5 +1,5 @@
-import { useState, FormEvent } from 'react';
-import { Mail, Lock, Eye, EyeOff, LogIn, Loader2, Sparkles, Shield, Zap } from 'lucide-react';
+import { useState, FormEvent, useEffect } from 'react';
+import { Mail, Lock, Eye, EyeOff, LogIn, Loader2, Sparkles, Shield, Zap, Sun, Moon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -14,7 +14,35 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
+
+  // Verificar tema al cargar
+  useEffect(() => {
+    const isDark = localStorage.getItem('theme') === 'dark' ||
+      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setIsDarkMode(isDark);
+    
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  // Toggle tema oscuro/claro
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -60,6 +88,21 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-weprom-gray-50 via-white to-weprom-gray-100 dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark">
+      {/* Selector de tema flotante */}
+      <div className="absolute top-6 right-6 z-50">
+        <button
+          onClick={toggleDarkMode}
+          className="p-3 rounded-xl bg-white/80 dark:bg-weprom-dark/80 backdrop-blur-sm border border-weprom-gray-200 dark:border-weprom-gray-700 hover:border-weprom-yellow shadow-lg transition-all duration-300 group"
+          aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+        >
+          {isDarkMode ? (
+            <Sun className="w-5 h-5 text-weprom-yellow group-hover:rotate-12 transition-transform" />
+          ) : (
+            <Moon className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400 group-hover:rotate-12 transition-transform" />
+          )}
+        </button>
+      </div>
+
       {/* Elementos decorativos de fondo mejorados */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradientes animados */}
@@ -73,8 +116,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12">
         <div className="max-w-[480px] mx-auto">
-        
-
           {/* Tarjeta del formulario mejorada */}
           <div className="relative group">
             {/* Glow effect */}
@@ -83,6 +124,21 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
             <div className="relative bg-white dark:bg-weprom-dark-gray rounded-3xl shadow-2xl overflow-hidden border border-weprom-gray-200/50 dark:border-weprom-gray-800/50 backdrop-blur-xl">
               {/* Header con gradiente mejorado */}
               <div className="relative p-8 text-center bg-gradient-to-br from-weprom-red via-weprom-yellow to-weprom-red overflow-hidden">
+                {/* Selector de tema en header (solo móvil) */}
+                <div className="md:hidden absolute top-4 right-4">
+                  <button
+                    onClick={toggleDarkMode}
+                    className="p-2 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 hover:border-white/50 transition-colors"
+                    aria-label={isDarkMode ? "Modo claro" : "Modo oscuro"}
+                  >
+                    {isDarkMode ? (
+                      <Sun className="w-4 h-4 text-white" />
+                    ) : (
+                      <Moon className="w-4 h-4 text-white" />
+                    )}
+                  </button>
+                </div>
+
                 {/* Efectos de fondo */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_50%)]"></div>
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.2),transparent_50%)]"></div>
@@ -106,6 +162,26 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
 
               {/* Formulario */}
               <div className="p-8 space-y-6">
+                {/* Indicador de tema (solo desktop) */}
+                <div className="hidden md:flex items-center justify-center gap-3 p-3 bg-weprom-gray-100 dark:bg-weprom-gray-900 rounded-xl">
+                  <div className="flex items-center gap-2">
+                    {isDarkMode ? (
+                      <Sun className="w-4 h-4 text-weprom-yellow" />
+                    ) : (
+                      <Moon className="w-4 h-4 text-weprom-gray-600 dark:text-weprom-gray-400" />
+                    )}
+                    <span className="text-sm font-medium text-weprom-gray-700 dark:text-weprom-gray-300">
+                      Tema: {isDarkMode ? 'Oscuro' : 'Claro'}
+                    </span>
+                  </div>
+                  <button
+                    onClick={toggleDarkMode}
+                    className="ml-2 text-sm font-semibold text-weprom-blue hover:text-weprom-red transition-colors"
+                  >
+                    Cambiar
+                  </button>
+                </div>
+
                 {/* Mensaje de error mejorado */}
                 {error && (
                   <div className="relative overflow-hidden bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 border border-red-300 dark:border-red-700 rounded-2xl p-4 animate-shake">
@@ -197,7 +273,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                   </button>
                 </form>
 
-
                 {/* Footer */}
                 <div className="text-center pt-4">
                   <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-500 font-medium">
@@ -213,8 +288,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               <div className="w-full h-1 bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue"></div>
             </div>
           </div>
-
-          
         </div>
       </div>
     </section>

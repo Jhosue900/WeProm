@@ -6,7 +6,8 @@ import {
   Target, Award, ChevronRight, Eye, Briefcase, 
   FileText, Image, Video, Megaphone, BarChart,
   Sparkles, Grid, Settings, Bell, Search,
-  Home, BarChart2, Users as UsersIcon, CreditCard
+  Home, BarChart2, Users as UsersIcon, CreditCard,
+  Sun, Moon
 } from 'lucide-react';
 
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -64,6 +65,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   });
   
   const [isLoadingStats, setIsLoadingStats] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const getToken = () => localStorage.getItem('token');
 
@@ -75,6 +77,19 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     }
     verifyTokenWithBackend(token);
   }, [navigate]);
+
+  // Verificar tema al cargar
+  useEffect(() => {
+    const isDark = localStorage.getItem('theme') === 'dark' ||
+      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setIsDarkMode(isDark);
+    
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
 
   const verifyTokenWithBackend = async (token: string) => {
     try {
@@ -113,6 +128,20 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       loadDashboardStats();
     }
   }, [campaigns, projects]);
+
+  // Toggle tema oscuro/claro
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -365,6 +394,19 @@ export default function Dashboard({ onLogout }: DashboardProps) {
 
             {/* Barra superior derecha - Desktop */}
             <div className="hidden md:flex items-center gap-4">
+              {/* Selector de tema */}
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-lg bg-weprom-gray-100 dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-yellow transition-colors"
+                aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+              >
+                {isDarkMode ? (
+                  <Sun className="w-5 h-5 text-weprom-yellow" />
+                ) : (
+                  <Moon className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
+                )}
+              </button>
+
               {/* Usuario */}
               {user && (
                 <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-weprom-gray-100 dark:bg-weprom-gray-900">
@@ -425,6 +467,28 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                 className="p-2 rounded-lg bg-white dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700"
               >
                 <X className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
+              </button>
+            </div>
+
+            {/* Selector de tema en mobile */}
+            <div className="mb-6">
+              <button
+                onClick={toggleDarkMode}
+                className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-weprom-gray-100 dark:bg-weprom-gray-900 rounded-xl hover:bg-weprom-gray-200 dark:hover:bg-weprom-gray-800 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  {isDarkMode ? (
+                    <Sun className="w-5 h-5 text-weprom-yellow" />
+                  ) : (
+                    <Moon className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
+                  )}
+                  <span className="text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                    {isDarkMode ? 'Modo Claro' : 'Modo Oscuro'}
+                  </span>
+                </div>
+                <div className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors ${isDarkMode ? 'bg-weprom-yellow/20' : 'bg-weprom-gray-300'}`}>
+                  <div className={`w-4 h-4 rounded-full bg-white shadow-md transition-transform ${isDarkMode ? 'translate-x-6' : ''}`}></div>
+                </div>
               </button>
             </div>
 
@@ -553,8 +617,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                       <p className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400">Proyectos</p>
                       <p className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mt-1">{stats.activeProjects}</p>
                     </div>
-
-                    
                   </div>
                 </div>
               </div>
