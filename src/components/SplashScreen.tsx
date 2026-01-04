@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import Logo from "../logo.jpg";
-import LogoLight from "../logoToLight.jpg";
+import Logo from "../LOGOLISONEGRO.png";
+import LogoLight from "../LOGOLISOBLANCO.png";
 
 interface SplashScreenProps {
   onFinish: () => void;

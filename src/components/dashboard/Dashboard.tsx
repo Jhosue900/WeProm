@@ -4,7 +4,9 @@ import {
   Package, Tag, Plus, Edit2, Trash2, Save, X, Upload, 
   TrendingUp, Loader2, LogOut, Menu, Users, Calendar, 
   Target, Award, ChevronRight, Eye, Briefcase, 
-  FileText, Image, Video, Megaphone, BarChart
+  FileText, Image, Video, Megaphone, BarChart,
+  Sparkles, Grid, Settings, Bell, Search,
+  Home, BarChart2, Users as UsersIcon, CreditCard
 } from 'lucide-react';
 
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -338,119 +340,161 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <header className="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="container mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold">W</span>
+    <div className="min-h-screen bg-gradient-to-b from-weprom-gray-50 via-white to-weprom-gray-50 dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark">
+      {/* Header principal */}
+      <header className="sticky top-0 z-50 bg-white/95 dark:bg-weprom-dark/95 backdrop-blur-sm border-b border-weprom-gray-200 dark:border-weprom-gray-800">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between py-4">
+            {/* Logo y branding */}
+            <div className="flex items-center gap-3 group">
+              <div className="w-10 h-10 bg-gradient-to-r from-weprom-red to-weprom-yellow rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-extrabold">W</span>
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">WeProm</h1>
-                <p className="text-xs sm:text-sm text-gray-500 hidden sm:block">Panel de administración</p>
+                <h1 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                  WeProm
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-weprom-red to-weprom-yellow ml-2">
+                    Dashboard
+                  </span>
+                </h1>
+                <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400 hidden sm:block">
+                  Panel de administración
+                </p>
               </div>
             </div>
-            
+
+            {/* Barra superior derecha - Desktop */}
             <div className="hidden md:flex items-center gap-4">
+              {/* Usuario */}
               {user && (
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-gray-900">{user.name}</p>
-                  <p className="text-xs text-gray-500">Administrador</p>
+                <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-weprom-gray-100 dark:bg-weprom-gray-900">
+                  <div className="w-8 h-8 bg-gradient-to-r from-weprom-red to-weprom-yellow rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">
+                      {user.name?.charAt(0) || 'A'}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">{user.name}</p>
+                    <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">Administrador</p>
+                  </div>
                 </div>
               )}
+
+              {/* Botón logout */}
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105"
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 <LogOut className="w-4 h-4" />
                 Cerrar Sesión
               </button>
             </div>
 
+            {/* Menú móvil */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="md:hidden p-2.5 rounded-lg bg-weprom-gray-100 dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-red transition-colors"
             >
-              <Menu className="w-6 h-6 text-gray-900" />
+              <Menu className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
             </button>
           </div>
         </div>
+      </header>
 
-        {isMobileMenuOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" onClick={() => setIsMobileMenuOpen(false)} />
-        )}
+      {/* Sidebar móvil */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden" onClick={() => setIsMobileMenuOpen(false)} />
+      )}
 
-        <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
-          <div className="p-6">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-xl font-bold text-gray-900">Menú</h2>
+      <div className={`fixed top-0 right-0 h-full w-72 bg-white dark:bg-weprom-dark-gray shadow-2xl z-50 transform transition-transform duration-300 ease-out md:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="h-full pt-4 flex flex-col">
+          {/* Header mobile menu */}
+          <div className="p-6 border-b border-weprom-gray-200 dark:border-weprom-gray-800 bg-gradient-to-r from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-weprom-red to-weprom-yellow rounded-xl flex items-center justify-center">
+                  <span className="text-white font-extrabold">W</span>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">Dashboard</p>
+                  <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">Panel Admin</p>
+                </div>
+              </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 rounded-lg bg-white dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700"
               >
-                <X className="w-6 h-6 text-gray-600" />
+                <X className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
               </button>
             </div>
 
+            {/* Usuario en mobile */}
             {user && (
-              <div className="mb-8 p-4 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl">
-                <p className="text-sm font-semibold text-gray-900">{user.name}</p>
-                <p className="text-xs text-gray-500">Administrador</p>
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-weprom-gray-100 dark:bg-weprom-gray-900">
+                <div className="w-10 h-10 bg-gradient-to-r from-weprom-red to-weprom-yellow rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">
+                    {user.name?.charAt(0) || 'A'}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">{user.name}</p>
+                  <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">Administrador</p>
+                </div>
               </div>
             )}
+          </div>
 
-            <nav className="space-y-2 mb-8">
+          {/* Navegación móvil - SOLO las 3 pestañas principales */}
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="space-y-1">
               {[
-                { id: 'overview', label: 'Resumen', icon: TrendingUp },
-                { id: 'campaigns', label: 'Campañas', icon: Tag },
-                { id: 'projects', label: 'Proyectos', icon: Briefcase }
+                { id: 'overview', label: 'Resumen', icon: Home, color: 'red' },
+                { id: 'campaigns', label: 'Campañas', icon: Megaphone, color: 'blue' },
+                { id: 'projects', label: 'Proyectos', icon: Briefcase, color: 'green' }
               ].map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleMobileMenuItemClick(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all ${
-                    activeTab === item.id
-                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                      : 'text-gray-700 hover:bg-gray-100'
+                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl font-semibold transition-all duration-300 ${activeTab === item.id
+                    ? `bg-gradient-to-r from-weprom-${item.color} to-weprom-yellow text-white shadow-lg`
+                    : 'text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800'
                   }`}
                 >
                   <item.icon className="w-5 h-5" />
                   {item.label}
                 </button>
               ))}
-            </nav>
+            </div>
 
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                handleLogout();
-              }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold transition-all"
-            >
-              <LogOut className="w-4 h-4" />
-              Cerrar Sesión
-            </button>
+            {/* Logout mobile */}
+            <div className="mt-8">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3.5 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+              >
+                <LogOut className="w-5 h-5" />
+                Cerrar Sesión
+              </button>
+            </div>
           </div>
         </div>
-      </header>
+      </div>
 
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <div className="hidden md:flex gap-2 mb-8 overflow-x-auto pb-2">
+      {/* Contenido principal */}
+      <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        {/* Tabs de navegación - Desktop - SOLO las 3 pestañas principales */}
+        <div className="hidden md:flex gap-3 mb-8 overflow-x-auto pb-4">
           {[
-            { id: 'overview', label: 'Resumen', icon: TrendingUp },
-            { id: 'campaigns', label: 'Campañas', icon: Tag },
+            { id: 'overview', label: 'Resumen', icon: Home },
+            { id: 'campaigns', label: 'Campañas', icon: Megaphone },
             { id: 'projects', label: 'Proyectos', icon: Briefcase }
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap ${
-                activeTab === tab.id
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow'
+              className={`flex items-center gap-3 px-5 py-3.5 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap ${activeTab === tab.id
+                ? 'bg-gradient-to-r from-weprom-red to-weprom-yellow text-white shadow-lg'
+                : 'bg-white dark:bg-weprom-dark-gray text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800 shadow'
               }`}
             >
               <tab.icon className="w-5 h-5" />
@@ -459,442 +503,391 @@ export default function Dashboard({ onLogout }: DashboardProps) {
           ))}
         </div>
 
-        {activeTab === 'overview' && (
-          <div className="space-y-8">
-            {/* Welcome Card */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-pink-500 via-purple-600 to-blue-600 rounded-2xl p-6 sm:p-8 text-white shadow-2xl">
-              <div className="relative z-10">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                  <div>
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-2">¡Bienvenido de nuevo, {user?.name || 'Admin'}! 👋</h2>
-                    <p className="text-pink-100 text-sm sm:text-base">Panel de control de WeProm - Agencia de Publicidad</p>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2">
-                    <Calendar className="w-4 h-4" />
-                    <span className="text-sm font-semibold">
-                      {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-6 grid grid-cols-2 sm:grid-cols-2 gap-4">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
-                    <div className="flex items-center justify-between">
-                      <Target className="w-6 h-6" />
-                      <span className="text-xs px-2 py-1 rounded-full bg-green-500/30 text-green-200">Activas</span>
+        {/* Contenido según pestaña activa */}
+        <div className="space-y-8">
+          {activeTab === 'overview' && (
+            <div className="space-y-8">
+              {/* Tarjeta de bienvenida */}
+              <div className="relative overflow-hidden bg-gradient-to-br from-weprom-red/20 via-weprom-yellow/20 to-weprom-blue/20 dark:from-weprom-red/10 dark:via-weprom-yellow/10 dark:to-weprom-blue/10 rounded-2xl p-6 sm:p-8 border border-weprom-gray-200 dark:border-weprom-gray-800">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-rainbow"></div>
+                <div className="relative z-10">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+                    <div>
+                      <div className="inline-flex items-center gap-2 mb-4">
+                        <Sparkles className="w-5 h-5 text-weprom-yellow animate-pulse" />
+                        <span className="text-sm font-semibold bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue bg-clip-text text-transparent uppercase tracking-widest">
+                          Dashboard
+                        </span>
+                      </div>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-3">
+                        ¡Hola, {user?.name || 'Administrador'}! 👋
+                      </h2>
+                      <p className="text-weprom-gray-600 dark:text-weprom-gray-400">
+                        Bienvenido al panel de control de WeProm Marketing
+                      </p>
                     </div>
-                    <p className="text-xs text-pink-100 mt-2">Campañas Activas</p>
-                    <p className="text-xl font-bold mt-1">{stats.activeCampaigns}</p>
-                  </div>
-                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
-                    <div className="flex items-center justify-between">
-                      <Briefcase className="w-6 h-6" />
-                      <span className="text-xs px-2 py-1 rounded-full bg-blue-500/30 text-green-200">Activos</span>
+                    <div className="flex items-center gap-2 bg-white/50 dark:bg-weprom-dark/50 backdrop-blur-sm rounded-xl px-4 py-2 border border-weprom-gray-200 dark:border-weprom-gray-800">
+                      <Calendar className="w-4 h-4 text-weprom-gray-600 dark:text-weprom-gray-400" />
+                      <span className="text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                        {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
+                      </span>
                     </div>
-                    <p className="text-xs text-pink-100 mt-2">Proyectos Activos</p>
-                    <p className="text-xl font-bold mt-1">{stats.activeProjects}</p>
+                  </div>
+
+                  {/* Estadísticas rápidas */}
+                  <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="bg-white/50 dark:bg-weprom-dark/50 backdrop-blur-sm rounded-xl p-4 border border-weprom-gray-200 dark:border-weprom-gray-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <Target className="w-5 h-5 text-weprom-red" />
+                        <span className="text-xs px-2 py-1 rounded-full bg-weprom-red/10 text-weprom-red">Activas</span>
+                      </div>
+                      <p className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400">Campañas</p>
+                      <p className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mt-1">{stats.activeCampaigns}</p>
+                    </div>
+
+                    <div className="bg-white/50 dark:bg-weprom-dark/50 backdrop-blur-sm rounded-xl p-4 border border-weprom-gray-200 dark:border-weprom-gray-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <Briefcase className="w-5 h-5 text-weprom-blue" />
+                        <span className="text-xs px-2 py-1 rounded-full bg-weprom-blue/10 text-weprom-blue">Activos</span>
+                      </div>
+                      <p className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400">Proyectos</p>
+                      <p className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mt-1">{stats.activeProjects}</p>
+                    </div>
+
+                    
                   </div>
                 </div>
               </div>
-              <div className="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-            </div>
 
-            {/* Quick Actions */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Acciones Rápidas</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-                {[
-                  { 
-                    icon: Megaphone, 
-                    label: 'Campañas', 
-                    description: 'Publicar campaña',
-                    color: 'bg-gradient-to-r from-pink-500 to-purple-600', 
-                    onClick: () => { setActiveTab('campaigns'); setShowCampaignForm(true); } 
-                  },
-                  { 
-                    icon: Image, 
-                    label: 'Proyectos', 
-                    description: 'Publicar proyecto',
-                    color: 'bg-gradient-to-r from-blue-500 to-cyan-600', 
-                    onClick: () => { setActiveTab('projects'); setShowProjectForm(true); } 
-                  },
-                ].map((action, idx) => (
+              {/* Acciones rápidas */}
+              <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-800">
+                <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-6">Acciones Rápidas</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <button
-                    key={idx}
-                    onClick={action.onClick}
-                    className={`flex flex-col items-start p-5 rounded-xl text-white font-semibold transition-all transform hover:scale-[1.02] hover:shadow-lg ${action.color}`}
+                    onClick={() => { setActiveTab('campaigns'); setShowCampaignForm(true); }}
+                    className="group p-5 rounded-xl border border-weprom-gray-200 dark:border-weprom-gray-800 hover:border-weprom-red transition-all duration-300 transform hover:-translate-y-1"
                   >
                     <div className="flex items-center gap-3 mb-3">
-                      <action.icon className="w-6 h-6" />
-                      <span className="text-lg">{action.label}</span>
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-weprom-red to-weprom-yellow flex items-center justify-center">
+                        <Megaphone className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-bold text-weprom-gray-900 dark:text-weprom-white">Crear Campaña</h4>
+                        <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">Nueva campaña publicitaria</p>
+                      </div>
                     </div>
-                    <p className="text-sm text-white/90 text-left">{action.description}</p>
-                    <div className="mt-4 flex items-center text-sm">
-                      <span>Ir</span>
-                      <ChevronRight className="w-4 h-4 ml-1" />
+                    <div className="flex items-center text-weprom-red text-sm">
+                      <span>Iniciar</span>
+                      <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </button>
-                ))}
-              </div>
-            </div>
 
-            {/* Campaigns & Projects Preview */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Campaigns Preview */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900">Campañas Recientes</h3>
-                    <p className="text-gray-500 text-sm">Tus campañas publicitarias más recientes</p>
-                  </div>
-                  <button 
-                    onClick={() => setActiveTab('campaigns')}
-                    className="text-pink-500 hover:text-pink-600 text-sm font-semibold flex items-center gap-1"
+                  <button
+                    onClick={() => { setActiveTab('projects'); setShowProjectForm(true); }}
+                    className="group p-5 rounded-xl border border-weprom-gray-200 dark:border-weprom-gray-800 hover:border-weprom-blue transition-all duration-300 transform hover:-translate-y-1"
                   >
-                    Ver todas <ChevronRight className="w-4 h-4" />
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-weprom-blue to-weprom-green flex items-center justify-center">
+                        <Briefcase className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-bold text-weprom-gray-900 dark:text-weprom-white">Nuevo Proyecto</h4>
+                        <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">Proyecto gráfico</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center text-weprom-blue text-sm">
+                      <span>Iniciar</span>
+                      <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </button>
                 </div>
-                <div className="space-y-4">
-                  {campaigns.slice(0, 3).map((campaign) => (
-                    <div key={campaign.id} className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors group">
-                      <div className="relative flex-shrink-0">
-                        <img src={campaign.img} alt={campaign.title} className="w-16 h-16 rounded-lg object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-gray-900 truncate">{campaign.title}</h4>
-                        <p className="text-sm text-gray-500 truncate">{campaign.description}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          <span className="text-xs text-gray-600">En ejecución</span>
-                        </div>
-                      </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'campaigns' && (
+            <div>
+              <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-800">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                  <div>
+                    <div className="inline-flex items-center gap-2 mb-3">
+                      <div className="h-0.5 w-6 bg-gradient-to-r from-weprom-red to-weprom-yellow"></div>
+                      <span className="text-sm font-semibold text-weprom-red uppercase tracking-widest">
+                        Campañas
+                      </span>
                     </div>
-                  ))}
-                  {campaigns.length === 0 && (
-                    <div className="text-center py-8 text-gray-500">
-                      <Megaphone className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                      <p>No hay campañas activas</p>
-                      <button 
-                        onClick={() => { setActiveTab('campaigns'); setShowCampaignForm(true); }}
-                        className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:shadow-lg transition-all text-sm"
-                      >
-                        <Plus className="w-4 h-4" />
-                        Crear primera campaña
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                      Gestión de Campañas
+                    </h2>
+                  </div>
+                  <button
+                    onClick={() => setShowCampaignForm(true)}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-6 py-3.5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Plus className="w-5 h-5" />
+                    Nueva Campaña
+                  </button>
+                </div>
+
+                {showCampaignForm ? (
+                  <div className="bg-gradient-to-br from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray rounded-2xl p-6 border-2 border-weprom-red/20">
+                    <div className="flex justify-between items-center mb-6">
+                      <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                        {editingCampaign ? 'Editar Campaña' : 'Nueva Campaña'}
+                      </h3>
+                      <button onClick={resetCampaignForm} className="text-weprom-gray-400 hover:text-weprom-red transition-colors">
+                        <X className="w-6 h-6" />
                       </button>
                     </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Projects Preview */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900">Proyectos Recientes</h3>
-                    <p className="text-gray-500 text-sm">Tus proyectos gráficos más recientes</p>
-                  </div>
-                  <button 
-                    onClick={() => setActiveTab('projects')}
-                    className="text-blue-500 hover:text-blue-600 text-sm font-semibold flex items-center gap-1"
-                  >
-                    Ver todos <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  {projects.slice(0, 3).map((project) => (
-                    <div key={project.id} className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-xl transition-colors group">
-                      <div className="relative flex-shrink-0">
-                        <img src={project.img} alt={project.name} className="w-16 h-16 rounded-lg object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-gray-900 truncate">{project.name}</h4>
-                        <div className="flex items-center gap-2 mt-1">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span className="text-xs text-gray-600">Diseño gráfico</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  {projects.length === 0 && (
-                    <div className="text-center py-8 text-gray-500">
-                      <Image className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                      <p>No hay proyectos activos</p>
-                      <button 
-                        onClick={() => { setActiveTab('projects'); setShowProjectForm(true); }}
-                        className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-600 text-white px-4 py-2 rounded-lg font-semibold hover:shadow-lg transition-all text-sm"
-                      >
-                        <Plus className="w-4 h-4" />
-                        Agregar primer proyecto
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Agency Performance */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900">Métricas</h3>
-                  <p className="text-gray-500 text-sm">Métricas clave de WeProm</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                <div className="text-center p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl">
-                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <Target className="w-6 h-6 text-white" />
-                  </div>
-                  <h4 className="font-bold text-gray-900">Campañas</h4>
-                  <p className="text-sm text-gray-600 mt-1">Campañas en ejecución</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">{stats.activeCampaigns}</p>
-                </div>
-                <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <Briefcase className="w-6 h-6 text-white" />
-                  </div>
-                  <h4 className="font-bold text-gray-900">Proyectos</h4>
-                  <p className="text-sm text-gray-600 mt-1">Proyectos activos</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">{stats.activeProjects}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'campaigns' && (
-          <div>
-            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
-                  <Tag className="w-5 sm:w-6 h-5 sm:h-6 text-pink-500" />
-                  Gestión de Campañas
-                </h2>
-                <button
-                  onClick={() => setShowCampaignForm(true)}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 sm:px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  <Plus className="w-5 h-5" />
-                  Nueva Campaña
-                </button>
-              </div>
-
-              {showCampaignForm ? (
-                <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border-2 border-pink-200">
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {editingCampaign ? 'Editar Campaña' : 'Nueva Campaña'}
-                    </h3>
-                    <button onClick={resetCampaignForm} className="text-gray-400 hover:text-gray-600">
-                      <X className="w-6 h-6" />
-                    </button>
-                  </div>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Título</label>
-                      <input
-                        type="text"
-                        value={campaignForm.title}
-                        onChange={(e) => setCampaignForm({ ...campaignForm, title: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all"
-                        placeholder="Ej: Campaña de lanzamiento 2024"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
-                      <textarea
-                        value={campaignForm.description}
-                        onChange={(e) => setCampaignForm({ ...campaignForm, description: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all resize-none"
-                        rows={3}
-                        placeholder="Describe la estrategia de la campaña..."
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Imagen</label>
-                      <div className="flex gap-2">
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">Título</label>
                         <input
-                          type="file"
-                          accept="image/*"
-                          onChange={(e) => handleImageChange(e, 'campaign')}
-                          className="hidden"
-                          id="campaign-image"
+                          type="text"
+                          value={campaignForm.title}
+                          onChange={(e) => setCampaignForm({ ...campaignForm, title: e.target.value })}
+                          className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-red focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700"
+                          placeholder="Nombre de la campaña"
                         />
-                        <label
-                          htmlFor="campaign-image"
-                          className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-pink-500 transition-colors flex items-center justify-center gap-2 bg-white"
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">Descripción</label>
+                        <textarea
+                          value={campaignForm.description}
+                          onChange={(e) => setCampaignForm({ ...campaignForm, description: e.target.value })}
+                          className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-red focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 resize-none"
+                          rows={4}
+                          placeholder="Descripción de la campaña..."
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">Imagen</label>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleImageChange(e, 'campaign')}
+                            className="hidden"
+                            id="campaign-image"
+                          />
+                          <label
+                            htmlFor="campaign-image"
+                            className="flex-1 px-4 py-3.5 border-2 border-dashed border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl cursor-pointer hover:border-weprom-red transition-colors flex items-center justify-center gap-3 bg-white dark:bg-weprom-dark"
+                          >
+                            <Upload className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
+                            <span className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">Seleccionar imagen</span>
+                          </label>
+                        </div>
+                        {imagePreview && (
+                          <img src={imagePreview} alt="Preview" className="mt-4 w-full h-48 object-cover rounded-xl border border-weprom-gray-200 dark:border-weprom-gray-800" />
+                        )}
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                        <button
+                          onClick={handleSaveCampaign}
+                          disabled={loading}
+                          className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-6 py-3.5 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          <Upload className="w-5 h-5 text-gray-600" />
-                          <span className="text-sm text-gray-600">Seleccionar imagen</span>
-                        </label>
+                          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                          {loading ? 'Guardando...' : (editingCampaign ? 'Actualizar' : 'Crear Campaña')}
+                        </button>
+                        <button
+                          onClick={resetCampaignForm}
+                          className="px-6 py-3.5 bg-weprom-gray-100 dark:bg-weprom-gray-900 hover:bg-weprom-gray-200 dark:hover:bg-weprom-gray-800 text-weprom-gray-700 dark:text-weprom-gray-300 rounded-xl font-semibold transition-colors"
+                        >
+                          Cancelar
+                        </button>
                       </div>
-                      {imagePreview && (
-                        <img src={imagePreview} alt="Preview" className="mt-3 w-full h-48 object-cover rounded-xl" />
-                      )}
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                      <button
-                        onClick={handleSaveCampaign}
-                        disabled={loading}
-                        className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-                        {loading ? 'Guardando...' : 'Guardar'}
-                      </button>
-                      <button
-                        onClick={resetCampaignForm}
-                        className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-colors"
-                      >
-                        Cancelar
-                      </button>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {campaigns.map((campaign) => (
-                    <div key={campaign.id} className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500">
-                      <img src={campaign.img} alt={campaign.title} className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
-                        <h3 className="text-2xl font-bold text-white mb-2">{campaign.title}</h3>
-                        <p className="text-gray-200 text-sm mb-4">{campaign.description}</p>
-                        <div className="flex flex-col sm:flex-row gap-2">
-                          <button
-                            onClick={() => handleEditCampaign(campaign)}
-                            className="flex items-center justify-center gap-2 bg-white/90 hover:bg-white text-gray-900 px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105"
-                          >
-                            <Edit2 className="w-4 h-4" />
-                            Editar
-                          </button>
-                          <button
-                            onClick={() => handleDeleteCampaign(campaign.id)}
-                            className="flex items-center justify-center gap-2 bg-red-500/90 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                            Eliminar
-                          </button>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {campaigns.map((campaign) => (
+                      <div key={campaign.id} className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 bg-gradient-to-br from-white to-weprom-gray-50 dark:from-weprom-dark-gray dark:to-weprom-dark border border-weprom-gray-200 dark:border-weprom-gray-800">
+                        <div className="relative h-56 overflow-hidden">
+                          <img src={campaign.img} alt={campaign.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                          <div className="absolute top-4 right-4">
+                            <div className="px-3 py-1 rounded-full bg-gradient-to-r from-weprom-red to-weprom-yellow text-white text-xs font-bold shadow-lg">
+                              ✨ Destacada
+                            </div>
+                          </div>
                         </div>
+                        <div className="p-6">
+                          <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-3">{campaign.title}</h3>
+                          <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 mb-6 line-clamp-2">{campaign.description}</p>
+                          <div className="flex gap-3">
+                            <button
+                              onClick={() => handleEditCampaign(campaign)}
+                              className="flex-1 flex items-center justify-center gap-2 bg-weprom-gray-100 dark:bg-weprom-gray-900 hover:bg-weprom-gray-200 dark:hover:bg-weprom-gray-800 text-weprom-gray-700 dark:text-weprom-gray-300 px-4 py-2.5 rounded-lg font-semibold transition-all"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => handleDeleteCampaign(campaign.id)}
+                              className="flex items-center justify-center bg-red-100 dark:bg-red-900/20 hover:bg-red-200 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 p-2.5 rounded-lg transition-all"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-weprom-red to-weprom-yellow transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'projects' && (
-          <div>
-            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
-                  <Briefcase className="w-5 sm:w-6 h-5 sm:h-6 text-blue-500" />
-                  Gestión de Proyectos
-                </h2>
-                <button
-                  onClick={() => setShowProjectForm(true)}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-600 text-white px-4 sm:px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  <Plus className="w-5 h-5" />
-                  Nuevo Proyecto
-                </button>
+                    ))}
+                  </div>
+                )}
               </div>
+            </div>
+          )}
 
-              {showProjectForm ? (
-                <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border-2 border-blue-200">
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {editingProject ? 'Editar Proyecto' : 'Nuevo Proyecto'}
-                    </h3>
-                    <button onClick={resetProjectForm} className="text-gray-400 hover:text-gray-600">
-                      <X className="w-6 h-6" />
-                    </button>
+          {activeTab === 'projects' && (
+            <div>
+              <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-800">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                  <div>
+                    <div className="inline-flex items-center gap-2 mb-3">
+                      <div className="h-0.5 w-6 bg-gradient-to-r from-weprom-blue to-weprom-green"></div>
+                      <span className="text-sm font-semibold text-weprom-blue uppercase tracking-widest">
+                        Proyectos
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                      Gestión de Proyectos
+                    </h2>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
-                      <input
-                        type="text"
-                        value={projectForm.name}
-                        onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                        placeholder="Ej: Branding Corporativo"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Imagen</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => handleImageChange(e, 'project')}
-                        className="hidden"
-                        id="project-image"
-                      />
-                      <label
-                        htmlFor="project-image"
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-blue-500 transition-colors flex items-center justify-center gap-2 bg-white"
-                      >
-                        <Upload className="w-5 h-5 text-gray-600" />
-                        <span className="text-sm text-gray-600">Seleccionar</span>
-                      </label>
-                    </div>
-                    <div className="md:col-span-2">
-                      {imagePreview && (
-                        <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover rounded-xl" />
-                      )}
-                    </div>
-                    <div className="md:col-span-2 flex flex-col sm:flex-row gap-3 pt-2">
-                      <button
-                        onClick={handleSaveProject}
-                        disabled={loading}
-                        className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-                        {loading ? 'Guardando...' : 'Guardar'}
-                      </button>
-                      <button
-                        onClick={resetProjectForm}
-                        className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-colors"
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                  </div>
+                  <button
+                    onClick={() => setShowProjectForm(true)}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3.5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Plus className="w-5 h-5" />
+                    Nuevo Proyecto
+                  </button>
                 </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {projects.map((project) => (
-                    <div key={project.id} className="bg-white border-2 border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 group hover:border-blue-200">
-                      <div className="relative overflow-hidden">
-                        <img src={project.img} alt={project.name} className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-110" />
+
+                {showProjectForm ? (
+                  <div className="bg-gradient-to-br from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray rounded-2xl p-6 border-2 border-weprom-blue/20">
+                    <div className="flex justify-between items-center mb-6">
+                      <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                        {editingProject ? 'Editar Proyecto' : 'Nuevo Proyecto'}
+                      </h3>
+                      <button onClick={resetProjectForm} className="text-weprom-gray-400 hover:text-weprom-blue transition-colors">
+                        <X className="w-6 h-6" />
+                      </button>
+                    </div>
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">Nombre del Proyecto</label>
+                        <input
+                          type="text"
+                          value={projectForm.name}
+                          onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })}
+                          className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-blue focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700"
+                          placeholder="Nombre del proyecto"
+                        />
                       </div>
-                      <div className="p-4">
-                        <h3 className="font-bold text-lg text-gray-900 mb-1 truncate">{project.name}</h3>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleEditProject(project)}
-                            className="flex-1 flex items-center justify-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg font-semibold transition-all text-sm"
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">Imagen</label>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleImageChange(e, 'project')}
+                            className="hidden"
+                            id="project-image"
+                          />
+                          <label
+                            htmlFor="project-image"
+                            className="flex-1 px-4 py-3.5 border-2 border-dashed border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl cursor-pointer hover:border-weprom-blue transition-colors flex items-center justify-center gap-3 bg-white dark:bg-weprom-dark"
                           >
-                            <Edit2 className="w-4 h-4" />
-                            Editar
-                          </button>
-                          <button
-                            onClick={() => handleDeleteProject(project.id)}
-                            className="flex items-center justify-center bg-red-100 hover:bg-red-200 text-red-600 p-2 rounded-lg transition-all"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                            <Upload className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
+                            <span className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">Seleccionar imagen</span>
+                          </label>
+                        </div>
+                        {imagePreview && (
+                          <img src={imagePreview} alt="Preview" className="mt-4 w-full h-48 object-cover rounded-xl border border-weprom-gray-200 dark:border-weprom-gray-800" />
+                        )}
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                        <button
+                          onClick={handleSaveProject}
+                          disabled={loading}
+                          className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3.5 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                          {loading ? 'Guardando...' : (editingProject ? 'Actualizar' : 'Crear Proyecto')}
+                        </button>
+                        <button
+                          onClick={resetProjectForm}
+                          className="px-6 py-3.5 bg-weprom-gray-100 dark:bg-weprom-gray-900 hover:bg-weprom-gray-200 dark:hover:bg-weprom-gray-800 text-weprom-gray-700 dark:text-weprom-gray-300 rounded-xl font-semibold transition-colors"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {projects.map((project) => (
+                      <div key={project.id} className="group bg-white dark:bg-weprom-dark-gray border-2 border-weprom-gray-200 dark:border-weprom-gray-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 hover:border-weprom-blue">
+                        <div className="relative h-48 overflow-hidden">
+                          <img src={project.img} alt={project.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </div>
+                        <div className="p-5">
+                          <h3 className="font-extrabold text-lg text-weprom-gray-900 dark:text-weprom-white mb-4 truncate">{project.name}</h3>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleEditProject(project)}
+                              className="flex-1 flex items-center justify-center gap-2 bg-weprom-gray-100 dark:bg-weprom-gray-900 hover:bg-weprom-gray-200 dark:hover:bg-weprom-gray-800 text-weprom-gray-700 dark:text-weprom-gray-300 px-3 py-2 rounded-lg font-semibold transition-all text-sm"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => handleDeleteProject(project.id)}
+                              className="flex items-center justify-center bg-red-100 dark:bg-red-900/20 hover:bg-red-200 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 p-2 rounded-lg transition-all"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Footer del dashboard */}
+      <footer className="mt-12 py-6 border-t border-weprom-gray-200 dark:border-weprom-gray-800">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-center md:text-left">
+              <p className="text-sm font-light text-weprom-gray-600 dark:text-weprom-gray-400">
+                WeProm Dashboard v1.0
+              </p>
+              <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-500 mt-1">
+                &copy; 2025 WeProm Marketing. Panel administrativo.
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <a href="#" className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400 hover:text-weprom-red transition-colors">
+                Ayuda
+              </a>
+              <a href="#" className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400 hover:text-weprom-blue transition-colors">
+                Contacto
+              </a>
+              <a href="#" className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400 hover:text-weprom-green transition-colors">
+                Documentación
+              </a>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      </footer>
     </div>
   );
 }

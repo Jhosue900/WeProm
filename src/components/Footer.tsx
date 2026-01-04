@@ -2,9 +2,9 @@ import { Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook', color: 'red' },
-    { icon: Instagram, href: '#', label: 'Instagram', color: 'blue' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn', color: 'green' }
+    { icon: Facebook, href: 'https://www.instagram.com/weprommarketing?igsh=MTVrYmVjcjM3Z3N3Zg==', label: 'Facebook', color: 'red' },
+    { icon: Instagram, href: 'https://www.instagram.com/weprommarketing?igsh=MTVrYmVjcjM3Z3N3Zg==', label: 'Instagram', color: 'blue' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/weprom-mexico/?originalSubdomain=mx', label: 'LinkedIn', color: 'green' }
   ];
 
   return (

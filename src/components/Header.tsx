@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
-import Logo from '../logo.jpg';
-import LogoLight from '../logoToLight.jpg';
+import LogoLight from '../LOGOLISONEGRO.png';
+import Logo from '../LOGOLISOBLANCO.png';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -73,16 +73,34 @@ export default function Header() {
     setIsMobileMenuOpen(false);
   };
 
+  // Función para generar el enlace basado en el nombre
+  const getNavLink = (name: string) => {
+    const mappings: Record<string, string> = {
+      'Inicio': '#',
+      'Campañas': '#campañas',
+      'Proyectos': '#proyectos',
+      'Servicios': '#servicios',
+      'Contacto': '#contacto',
+      'Nosotros': '#nosotros',
+      'Reseñas': '#reseñas',
+      'FAQ': '#faq',
+      'Proceso de compra': '#proceso'
+    };
+    
+    return mappings[name] || `#${name.toLowerCase()}`;
+  };
+
   return (
     <>
-      {/* Top Bar - Solo visible en desktop */}
+      {/* Top Bar - Visible en todas las pantallas */}
       <div
-        className={`hidden md:flex fixed top-0 left-0 w-full bg-white dark:bg-weprom-dark z-[100] py-2.5 border-b border-weprom-gray-200 dark:border-weprom-gray-800 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 w-full bg-white dark:bg-weprom-dark z-[100] py-3.5 md:py-3.5 border-b border-weprom-gray-200 dark:border-weprom-gray-800 transition-transform duration-300 ${
           showTopBar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <div className="container mx-auto px-4 flex justify-between items-center text-weprom-gray-600 dark:text-weprom-gray-400">
-          <div className="flex items-center gap-6">
+          {/* Contacto - Desktop: ambos visibles, Mobile: solo iconos */}
+          <div className="flex items-center gap-3 md:gap-6">
             <a 
               href="tel:+573001234567"
               className="flex items-center gap-2 hover:text-weprom-red transition-colors group"
@@ -92,7 +110,7 @@ export default function Header() {
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                 </svg>
               </div>
-              <span className="text-sm font-light">+57 300 123 4567</span>
+              <span className="text-sm font-light hidden sm:inline">+57 300 123 4567</span>
             </a>
             
             <a 
@@ -105,18 +123,18 @@ export default function Header() {
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
                 </svg>
               </div>
-              <span className="text-sm font-light">hola@weprom.com</span>
+              <span className="text-sm font-light hidden sm:inline">hola@weprom.com</span>
             </a>
           </div>
 
           {/* Redes sociales en top bar */}
-          <div className="flex items-center gap-3">
-            <a href="#" className="hover:text-weprom-red transition-colors">
-              <span className="text-sm font-light">Instagram</span>
+          <div className="flex items-center gap-2 md:gap-3">
+            <a href="https://www.instagram.com/weprommarketing?igsh=MTVrYmVjcjM3Z3N3Zg==" className="hover:text-weprom-red transition-colors p-1.5 md:p-0">
+              <span className="text-xs md:text-sm font-light">Instagram</span>
             </a>
-            <div className="h-4 w-px bg-weprom-gray-300 dark:bg-weprom-gray-700"></div>
-            <a href="#" className="hover:text-weprom-blue transition-colors">
-              <span className="text-sm font-light">Facebook</span>
+            <div className="h-3 md:h-4 w-px bg-weprom-gray-300 dark:bg-weprom-gray-700"></div>
+            <a href="https://www.instagram.com/weprommarketing?igsh=MTVrYmVjcjM3Z3N3Zg==" className="hover:text-weprom-blue transition-colors p-1.5 md:p-0">
+              <span className="text-xs md:text-sm font-light">Facebook</span>
             </a>
           </div>
         </div>
@@ -126,12 +144,12 @@ export default function Header() {
       <div 
         ref={headerRef}
         className={`fixed left-0 w-full bg-white/95 dark:bg-weprom-dark/95 backdrop-blur-sm z-[90] border-b border-weprom-gray-200 dark:border-weprom-gray-800 transition-all duration-300 ${
-          showTopBar ? 'top-[46px]' : 'top-0'
+          showTopBar ? 'top-[58px] md:top-[58px]' : 'top-0'
         }`}
-        style={{ top: showTopBar ? '46px' : '0' }}
+        style={{ top: showTopBar ? undefined : '0' }}
       >
         <header className={`w-full transition-all duration-500 ${
-          isScrolled ? 'py-3' : 'py-4'
+          isScrolled ? 'py-4 md:py-5' : 'py-6 md:py-6'
         }`}>
           <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
             {/* Logo */}
@@ -139,7 +157,7 @@ export default function Header() {
               <img 
                 src={isDarkMode ? Logo : LogoLight} 
                 alt="WeProm Marketing Logo" 
-                className="h-9 w-32 sm:h-11 sm:w-40 md:h-12 md:w-44 transition-all duration-300 group-hover:scale-105"
+                className="h-12 w-auto sm:h-14 md:h-16 lg:h-14 transition-all duration-300 group-hover:scale-105"
               />
             </a>
 
@@ -154,7 +172,7 @@ export default function Header() {
               ].map((item, i) => (
                 <a 
                   key={i} 
-                  href={`#${item.name.toLowerCase()}`} 
+                  href={getNavLink(item.name)} 
                   className="relative group px-4 py-2.5 rounded-lg transition-all duration-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800"
                 >
                   <div className="flex items-center gap-2">
@@ -175,8 +193,12 @@ export default function Header() {
                   <ChevronDown className="w-4 h-4 text-weprom-gray-500 dark:text-weprom-gray-400 group-hover:rotate-180 transition-transform duration-300 text-white " />
                 </button>
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-weprom-dark-gray rounded-xl shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                  {['Blog', 'Nosotros', 'Testimonios', 'FAQ'].map((item, i) => (
-                    <a key={i} href="#" className="block px-4 py-3 text-sm text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-700 hover:text-weprom-red transition-colors duration-300">
+                  {['Nosotros', 'Reseñas', 'Proceso de compra', 'FAQ'].map((item, i) => (
+                    <a 
+                      key={i} 
+                      href={getNavLink(item)} 
+                      className="block px-4 py-3 text-sm text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-700 hover:text-weprom-red transition-colors duration-300"
+                    >
                       {item}
                     </a>
                   ))}
@@ -186,9 +208,6 @@ export default function Header() {
 
             {/* Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Buscador mobile */}
-             
-              
               {/* Botón modo oscuro/claro */}
               <button
                 onClick={toggleDarkMode}
@@ -244,18 +263,18 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <nav
-        className={`fixed top-0 right-0 h-full w-full max-w-sm bg-white dark:bg-weprom-dark shadow-2xl z-[100] lg:hidden transform transition-transform duration-300 ease-out overflow-y-auto ${
+        className={`fixed top-1 right-0 h-full w-full max-w-sm bg-white dark:bg-weprom-dark shadow-2xl z-[100] lg:hidden transform transition-transform duration-300 ease-out overflow-y-auto ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="h-full flex flex-col min-h-screen">
+        <div className="h-full pt-4 flex flex-col min-h-screen">
           {/* Header del mobile menu */}
           <div className="p-6 border-b border-weprom-gray-200 dark:border-weprom-gray-800 bg-gradient-to-r from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray flex-shrink-0">
             <div className="flex items-center justify-between">
               <img 
                 src={isDarkMode ? Logo : LogoLight}
                 alt="WeProm Logo" 
-                className="h-10 w-auto"
+                className="h-12 w-auto"
               />
               <div className="flex items-center gap-2">
                 <button
@@ -291,13 +310,14 @@ export default function Header() {
                 { name: 'Proyectos', color: 'green'},
                 { name: 'Servicios', color: 'yellow'},
                 { name: 'Contacto', color: 'purple'},
-                { name: 'Blog', color: 'teal'},
-                { name: 'Nosotros', color: 'pink'},
-                { name: 'Testimonios', color: 'orange' }
+                { name: 'Nosotros', color: 'teal'},
+                { name: 'Reseñas', color: 'pink'},
+                { name: 'Proceso de compra', color: 'orange'},
+                { name: 'FAQ', color: 'indigo'}
               ].map((item, i) => (
                 <a
                   key={i}
-                  href={`#${item.name.toLowerCase()}`}
+                  href={getNavLink(item.name)}
                   onClick={handleNavClick}
                   className={`flex items-center gap-3 px-4 py-4 rounded-lg text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800 hover:text-weprom-${item.color} transition-all duration-300 group border-b border-weprom-gray-100 dark:border-weprom-gray-800 last:border-0`}
                 >
@@ -312,8 +332,39 @@ export default function Header() {
               ))}
             </div>
             
+            {/* Información de contacto en mobile */}
+            <div className="mt-6 p-4 bg-weprom-gray-50 dark:bg-weprom-gray-900 rounded-lg border border-weprom-gray-200 dark:border-weprom-gray-800">
+              <h3 className="text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">Contáctanos</h3>
+              <div className="space-y-3">
+                <a 
+                  href="tel:+573001234567"
+                  className="flex items-center gap-3 text-weprom-gray-600 dark:text-weprom-gray-400 hover:text-weprom-red transition-colors group"
+                >
+                  <div className="p-2 rounded-md bg-white dark:bg-weprom-gray-800 group-hover:bg-weprom-red/10">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                    </svg>
+                  </div>
+                  <span className="text-sm font-light">+57 300 123 4567</span>
+                </a>
+                
+                <a 
+                  href="mailto:hola@weprom.com"
+                  className="flex items-center gap-3 text-weprom-gray-600 dark:text-weprom-gray-400 hover:text-weprom-blue transition-colors group"
+                >
+                  <div className="p-2 rounded-md bg-white dark:bg-weprom-gray-800 group-hover:bg-weprom-blue/10">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                    </svg>
+                  </div>
+                  <span className="text-sm font-light">hola@weprom.com</span>
+                </a>
+              </div>
+            </div>
+            
             {/* CTA en mobile menu */}
-            <div className="mt-8 pb-8">
+            <div className="mt-6 pb-8">
               <a
                 href="#contacto"
                 onClick={handleNavClick}
@@ -322,10 +373,10 @@ export default function Header() {
                 Solicitar Cotización
               </a>
               <div className="flex gap-3">
-                <a href="#" className="flex-1 text-center py-2.5 rounded-lg border border-weprom-gray-300 dark:border-weprom-gray-700 text-weprom-gray-700 dark:text-weprom-gray-300 hover:border-weprom-blue hover:text-weprom-blue transition-colors">
+                <a href="https://www.instagram.com/weprommarketing?igsh=MTVrYmVjcjM3Z3N3Zg==" className="flex-1 text-center py-2.5 rounded-lg border border-weprom-gray-300 dark:border-weprom-gray-700 text-weprom-gray-700 dark:text-weprom-gray-300 hover:border-weprom-blue hover:text-weprom-blue transition-colors">
                   Instagram
                 </a>
-                <a href="#" className="flex-1 text-center py-2.5 rounded-lg border border-weprom-gray-300 dark:border-weprom-gray-700 text-weprom-gray-700 dark:text-weprom-gray-300 hover:border-weprom-red hover:text-weprom-red transition-colors">
+                <a href="https://www.instagram.com/weprommarketing?igsh=MTVrYmVjcjM3Z3N3Zg==" className="flex-1 text-center py-2.5 rounded-lg border border-weprom-gray-300 dark:border-weprom-gray-700 text-weprom-gray-700 dark:text-weprom-gray-300 hover:border-weprom-red hover:text-weprom-red transition-colors">
                   Facebook
                 </a>
               </div>

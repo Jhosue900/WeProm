@@ -27,13 +27,13 @@ export default function Hero() {
       <div className="absolute top-20 right-0 w-64 h-64 bg-weprom-red/5 dark:bg-weprom-red/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 left-0 w-64 h-64 bg-weprom-blue/5 dark:bg-weprom-blue/10 rounded-full blur-3xl"></div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-[5] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-20 lg:py-0">
+      <div className="container mx-auto px-4 sm:px-6 relative z-[5] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-30 lg:py-10">
         {/* CONTENIDO TEXTO */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="text-center lg:text-left space-y-6 sm:space-y-8"
+          className="text-center lg:text-left space-y-2 sm:space-y-2 "
         >
           {/* Badge superior */}
           <motion.span

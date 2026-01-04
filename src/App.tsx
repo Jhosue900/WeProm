@@ -11,6 +11,11 @@ import Footer from './components/Footer';
 import LoginForm from './components/dashboard/login';
 import Dashboard from './components/dashboard/Dashboard';
 import SplashScreen from "./components/SplashScreen";
+import AboutUs from './components/aboutUs';
+import GoogleReviews from './components/reviews';
+import Services from './components/services';
+import PurchaseProcess from './components/purchaseProcess';
+import FAQ from './components/frecuentQuestions';
 
 function HomePage() {
   return (
@@ -20,7 +25,11 @@ function HomePage() {
       <TrustedCompanies />
       <Campaigns />
       <Projects />
-      <Features />
+      <AboutUs />
+      <GoogleReviews/>
+      <Services />
+      <PurchaseProcess />
+      <FAQ />
       <Contact />
       <Footer />
     </div>
