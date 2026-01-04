@@ -1,19 +1,14 @@
-import { useEffect, useState } from 'react';
-import { ShoppingCart, Menu, X, Search } from 'lucide-react';
-import Logo from '../logo.jpg'
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from 'react';
+import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import Logo from '../logo.jpg';
+import LogoLight from '../logoToLight.jpg';
 
-
-interface HeaderProps {
-  cartCount: number;
-  onCartClick: () => void;
-}
-
-export default function Header({ cartCount, onCartClick }: HeaderProps) {
+export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartAnimation, setCartAnimation] = useState('');
   const [showTopBar, setShowTopBar] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,151 +21,214 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Efecto de animación cuando cambia el carrito
   useEffect(() => {
-    if (cartCount > 0) {
-      setCartAnimation('cart-bounce');
-      const timer = setTimeout(() => setCartAnimation(''), 800);
-      return () => clearTimeout(timer);
+    const handleResize = () => {
+      if (window.innerWidth >= 1024 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    const isDark = document.documentElement.classList.contains('dark');
+    setIsDarkMode(isDark);
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
-  }, [cartCount]);
+  };
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100vh';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    };
+  }, [isMobileMenuOpen]);
 
   const handleNavClick = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleCartButtonClick = () => {
-    console.log('Carrito clickeado, items:', cartCount);
-    onCartClick();
-  };
-
-
   return (
-    <motion.div
-      initial={{ y: -40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-    >
-      {/* Top Bar con gradiente sutil */}
+    <>
+      {/* Top Bar - Solo visible en desktop */}
       <div
-        className={`fixed top-0 left-0 w-full bg-gradient-to-r from-weprom-dark via-weprom-dark-gray to-weprom-dark z-[100] py-2.5 shadow-lg border-b border-weprom-gray-800 transition-transform duration-300 ${
+        className={`hidden md:flex fixed top-0 left-0 w-full bg-white dark:bg-weprom-dark z-[100] py-2.5 border-b border-weprom-gray-200 dark:border-weprom-gray-800 transition-transform duration-300 ${
           showTopBar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="container mx-auto px-4 flex flex-row justify-between items-center text-weprom-white">
-          {/* Información de contacto */}
-          <div className="flex items-center gap-3 sm:gap-4">
+        <div className="container mx-auto px-4 flex justify-between items-center text-weprom-gray-600 dark:text-weprom-gray-400">
+          <div className="flex items-center gap-6">
             <a 
-              href="tel:+11234567890"
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity group"
-              aria-label="Llamar al +1 (123) 456-7890"
-              title="+1 (123) 456-7890"
+              href="tel:+573001234567"
+              className="flex items-center gap-2 hover:text-weprom-red transition-colors group"
             >
-              <div className="bg-weprom-gray-900 p-2 rounded-full group-hover:bg-weprom-gray-800 transition-colors border border-weprom-gray-800">
+              <div className="p-1.5 rounded-md bg-weprom-gray-100 dark:bg-weprom-gray-900 group-hover:bg-weprom-red/10">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                 </svg>
               </div>
-              <span className="hidden md:inline text-sm font-light text-weprom-gray-300">+1 (123) 456-7890</span>
+              <span className="text-sm font-light">+57 300 123 4567</span>
             </a>
             
             <a 
-              href="mailto:contacto@weprom.com"
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity group"
-              aria-label="Enviar email a contacto@weprom.com"
-              title="contacto@weprom.com"
+              href="mailto:hola@weprom.com"
+              className="flex items-center gap-2 hover:text-weprom-blue transition-colors group"
             >
-              <div className="bg-weprom-gray-900 p-2 rounded-full group-hover:bg-weprom-gray-800 transition-colors border border-weprom-gray-800">
+              <div className="p-1.5 rounded-md bg-weprom-gray-100 dark:bg-weprom-gray-900 group-hover:bg-weprom-blue/10">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
                 </svg>
               </div>
-              <span className="hidden md:inline text-sm font-light text-weprom-gray-300">contacto@weprom.com</span>
+              <span className="text-sm font-light">hola@weprom.com</span>
             </a>
           </div>
 
-          {/* Buscador minimalista */}
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Buscar productos..."
-                className="pl-3 pr-10 py-1.5 rounded-full text-sm text-weprom-gray-900 bg-weprom-gray-100 focus:outline-none focus:ring-2 focus:ring-weprom-red focus:bg-weprom-white w-[200px] sm:w-[240px] md:w-[320px] transition-all placeholder:text-weprom-gray-500 font-light border border-weprom-gray-300"
-              />
-              <button className="absolute right-1 top-1/2 -translate-y-1/2 bg-gradient-to-r from-weprom-red to-weprom-yellow hover:from-weprom-red/90 hover:to-weprom-yellow/90 text-weprom-white p-1.5 rounded-full transition-all duration-300">
-                <Search className="w-3.5 h-3.5" />
-              </button>
-            </div>
+          {/* Redes sociales en top bar */}
+          <div className="flex items-center gap-3">
+            <a href="#" className="hover:text-weprom-red transition-colors">
+              <span className="text-sm font-light">Instagram</span>
+            </a>
+            <div className="h-4 w-px bg-weprom-gray-300 dark:bg-weprom-gray-700"></div>
+            <a href="#" className="hover:text-weprom-blue transition-colors">
+              <span className="text-sm font-light">Facebook</span>
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Header principal con Dark Effect */}
-      <div className={`fixed left-0 w-full bg-gradient-dark z-[90] shadow-lg border-b border-weprom-gray-800 transition-all duration-300 ${
-        showTopBar ? 'top-[46px]' : 'top-0'
-      }`}>
-        <header
-          className={`w-full transition-all duration-500 ${
-            isScrolled ? 'bg-gradient-dark/95 backdrop-blur-md py-2' : 'bg-transparent py-3'
-          }`}
-        >
-          <div className="container mx-auto px-5 sm:px-9 py-2 flex justify-between items-center">
-            {/* Logo con imagen */}
-            <a href="#" className="flex items-center gap-2 group z-[110] hover-lift">
-              {/* Logo image */}
-              <div className="relative">
-                <img 
-                  src={Logo} 
-                  alt="WeProm Marketing Logo" 
-                  className="h-10 w-36 sm:h-12 transition-all duration-300 group-hover:scale-105 group-hover:brightness-110"
-                  
-                />
-              </div>
+      {/* Header principal */}
+      <div 
+        ref={headerRef}
+        className={`fixed left-0 w-full bg-white/95 dark:bg-weprom-dark/95 backdrop-blur-sm z-[90] border-b border-weprom-gray-200 dark:border-weprom-gray-800 transition-all duration-300 ${
+          showTopBar ? 'top-[46px]' : 'top-0'
+        }`}
+        style={{ top: showTopBar ? '46px' : '0' }}
+      >
+        <header className={`w-full transition-all duration-500 ${
+          isScrolled ? 'py-3' : 'py-4'
+        }`}>
+          <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+            {/* Logo */}
+            <a href="#" className="flex items-center gap-3 group z-[110]">
+              <img 
+                src={isDarkMode ? Logo : LogoLight} 
+                alt="WeProm Marketing Logo" 
+                className="h-9 w-32 sm:h-11 sm:w-40 md:h-12 md:w-44 transition-all duration-300 group-hover:scale-105"
+              />
             </a>
 
-            {/* Desktop Navigation con colores de marca */}
-            <nav className="hidden lg:flex space-x-6 xl:space-x-8 font-lg">
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
               {[
                 { name: 'Inicio', color: 'red' },
                 { name: 'Campañas', color: 'blue' },
                 { name: 'Proyectos', color: 'green' },
-                { name: 'Contacto', color: 'yellow' }
+                { name: 'Servicios', color: 'yellow' },
+                { name: 'Contacto', color: 'purple' }
               ].map((item, i) => (
-                <a key={i} href={`#${item.name.toLowerCase()}`} className="relative group text-sm xl:text-base font-medium">
-                  <span className={`text-weprom-gray-300 hover:text-weprom-${item.color} transition-colors duration-300`}>
-                    {item.name}
-                  </span>
-                  <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-weprom-${item.color} to-weprom-${item.color}/50 group-hover:w-full transition-all duration-300`}></span>
+                <a 
+                  key={i} 
+                  href={`#${item.name.toLowerCase()}`} 
+                  className="relative group px-4 py-2.5 rounded-lg transition-all duration-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className={`font-semibold text-sm xl:text-base text-weprom-gray-700 dark:text-weprom-gray-300 group-hover:text-weprom-${item.color} transition-colors duration-300`}>
+                      {item.name}
+                    </span>
+                  </div>
+                  <span className={`absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-weprom-${item.color} to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`}></span>
                 </a>
               ))}
+              
+              <div className="h-6 w-px bg-weprom-gray-300 dark:bg-weprom-gray-700 mx-2"></div>
+              
+              {/* Menú desplegable "Más" */}
+              <div className="relative group">
+                <button className=" bg-gradient-to-r from-weprom-red to-weprom-yellow text-white flex items-center gap-1 px-4 py-2.5 rounded-lg transition-all duration-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800">
+                  <span className="font-semibold text-sm">Más</span>
+                  <ChevronDown className="w-4 h-4 text-weprom-gray-500 dark:text-weprom-gray-400 group-hover:rotate-180 transition-transform duration-300 text-white " />
+                </button>
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-weprom-dark-gray rounded-xl shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                  {['Blog', 'Nosotros', 'Testimonios', 'FAQ'].map((item, i) => (
+                    <a key={i} href="#" className="block px-4 py-3 text-sm text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-700 hover:text-weprom-red transition-colors duration-300">
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              </div>
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center space-x-3 sm:space-x-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Buscador mobile */}
+             
+              
+              {/* Botón modo oscuro/claro */}
               <button
-                onClick={handleCartButtonClick}
-                className={`relative transition-all duration-300 group z-[110] ${cartAnimation}`}
-                aria-label={`Carrito de compras (${cartCount} items)`}
+                onClick={toggleDarkMode}
+                className="p-2 rounded-lg bg-weprom-gray-100 dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-black transition-colors"
+                aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
               >
-                <div className="p-2 rounded-full bg-weprom-dark-gray border border-weprom-gray-800 group-hover:border-weprom-red transition-colors duration-300">
-                  <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 text-weprom-gray-400 group-hover:text-weprom-red group-hover:scale-110" />
-                </div>
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-gradient-to-br from-weprom-red to-weprom-yellow text-weprom-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse font-semibold border-2 border-weprom-dark">
-                    {cartCount}
-                  </span>
+                {isDarkMode ? (
+                  <svg className="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
                 )}
               </button>
 
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 rounded-full bg-weprom-dark-gray border border-weprom-gray-800 hover:border-weprom-red transition-colors z-[110]"
+                className="lg:hidden p-2.5 rounded-lg bg-weprom-gray-100 dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-red transition-colors z-[110] relative"
                 aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
               >
-                {isMobileMenuOpen ? <X className="w-5 h-5 text-weprom-red" /> : <Menu className="w-5 h-5 text-weprom-gray-400" />}
+                {isMobileMenuOpen ? (
+                  <X className="w-5 h-5 text-weprom-red" />
+                ) : (
+                  <Menu className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
+                )}
               </button>
+              
+              {/* Botón CTA en desktop */}
+              <a 
+                href="#contacto" 
+                className="hidden lg:inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+              >
+                <span>Cotizar Ahora</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
             </div>
           </div>
         </header>
@@ -179,60 +237,109 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-weprom-black/80 backdrop-blur-sm z-[80] lg:hidden animate-fade-in modal-overlay"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[95] lg:hidden animate-fade-in"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
-      {/* Mobile Menu con Dark Effect */}
+      {/* Mobile Menu */}
       <nav
-        className={`fixed top-0 right-0 h-full w-64 sm:w-80 bg-gradient-dark shadow-xl z-[80] lg:hidden transform transition-transform duration-300 border-l border-weprom-gray-800 ${
+        className={`fixed top-0 right-0 h-full w-full max-w-sm bg-white dark:bg-weprom-dark shadow-2xl z-[100] lg:hidden transform transition-transform duration-300 ease-out overflow-y-auto ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="pt-24 px-6 flex flex-col space-y-6">
-          {/* Logo en mobile menu */}
-          <div className="flex justify-center mb-4">
-            <a href="#" onClick={handleNavClick}>
+        <div className="h-full flex flex-col min-h-screen">
+          {/* Header del mobile menu */}
+          <div className="p-6 border-b border-weprom-gray-200 dark:border-weprom-gray-800 bg-gradient-to-r from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray flex-shrink-0">
+            <div className="flex items-center justify-between">
               <img 
-                src={Logo}
-                alt="WeProm Marketing Logo" 
-                className="h-12 w-auto"
-                
+                src={isDarkMode ? Logo : LogoLight}
+                alt="WeProm Logo" 
+                className="h-10 w-auto"
               />
-            </a>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleDarkMode}
+                  className="p-2 rounded-lg bg-white dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700"
+                >
+                  {isDarkMode ? (
+                    <svg className="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                  )}
+                </button>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 rounded-lg bg-white dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700"
+                >
+                  <X className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
+                </button>
+              </div>
+            </div>
           </div>
           
-          {[
-            { name: 'Inicio', color: 'red' },
-            { name: 'Campañas', color: 'blue' },
-            { name: 'Proyectos', color: 'green' },
-            { name: 'Contacto', color: 'yellow' }
-          ].map((item, i) => (
-            <a
-              key={i}
-              href={`#${item.name.toLowerCase()}`}
-              onClick={handleNavClick}
-              className={`text-lg font-semibold text-weprom-gray-300 hover:text-weprom-${item.color} transition-colors duration-300 py-2 border-b border-weprom-gray-800 hover-lift group`}
-            >
-              {item.name}
-              <span className={`block h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-weprom-${item.color} to-transparent transition-all duration-300 mt-1`}></span>
-            </a>
-          ))}
-          <div className="pt-4 border-t border-weprom-gray-800">
-            <p className="text-sm text-weprom-gray-500 font-light">Carrito: {cartCount} items</p>
-            <button
-              onClick={() => {
-                handleNavClick();
-                handleCartButtonClick();
-              }}
-              className="mt-2 w-full bg-gradient-to-r from-weprom-red to-weprom-yellow text-weprom-white py-2 rounded-lg font-semibold hover:shadow-xl transition-all duration-300 hover-lift shadow-lg"
-            >
-              Ver Carrito
-            </button>
+          {/* Navegación principal mobile */}
+          <div className="flex-1 overflow-y-auto p-6">
+            <div className="space-y-1">
+              {[
+                { name: 'Inicio', color: 'red'},
+                { name: 'Campañas', color: 'blue'},
+                { name: 'Proyectos', color: 'green'},
+                { name: 'Servicios', color: 'yellow'},
+                { name: 'Contacto', color: 'purple'},
+                { name: 'Blog', color: 'teal'},
+                { name: 'Nosotros', color: 'pink'},
+                { name: 'Testimonios', color: 'orange' }
+              ].map((item, i) => (
+                <a
+                  key={i}
+                  href={`#${item.name.toLowerCase()}`}
+                  onClick={handleNavClick}
+                  className={`flex items-center gap-3 px-4 py-4 rounded-lg text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800 hover:text-weprom-${item.color} transition-all duration-300 group border-b border-weprom-gray-100 dark:border-weprom-gray-800 last:border-0`}
+                >
+                  <div className={`p-2 rounded-lg bg-weprom-${item.color}/10 group-hover:bg-weprom-${item.color}/20 transition-colors`}>
+                    <span className="text-lg"></span>
+                  </div>
+                  <span className="font-semibold flex-1">{item.name}</span>
+                  <svg className="w-4 h-4 text-weprom-gray-400 group-hover:text-weprom-red transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              ))}
+            </div>
+            
+            {/* CTA en mobile menu */}
+            <div className="mt-8 pb-8">
+              <a
+                href="#contacto"
+                onClick={handleNavClick}
+                className="block w-full text-center bg-gradient-to-r from-weprom-red to-weprom-yellow text-white py-3.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mb-3"
+              >
+                Solicitar Cotización
+              </a>
+              <div className="flex gap-3">
+                <a href="#" className="flex-1 text-center py-2.5 rounded-lg border border-weprom-gray-300 dark:border-weprom-gray-700 text-weprom-gray-700 dark:text-weprom-gray-300 hover:border-weprom-blue hover:text-weprom-blue transition-colors">
+                  Instagram
+                </a>
+                <a href="#" className="flex-1 text-center py-2.5 rounded-lg border border-weprom-gray-300 dark:border-weprom-gray-700 text-weprom-gray-700 dark:text-weprom-gray-300 hover:border-weprom-red hover:text-weprom-red transition-colors">
+                  Facebook
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          {/* Footer del mobile menu */}
+          <div className="p-6 border-t border-weprom-gray-200 dark:border-weprom-gray-800 bg-weprom-gray-50 dark:bg-weprom-dark flex-shrink-0">
+            <div className="text-center text-xs text-weprom-gray-500 dark:text-weprom-gray-400">
+              © 2025 WeProm Marketing. Todos los derechos reservados.
+            </div>
           </div>
         </div>
       </nav>
-    </motion.div>
+    </>
   );
 }

@@ -8,87 +8,26 @@ import Projects from './components/Projects';
 import Features from './components/Features';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import CartModal from './components/CartModal';
-import SuccessModal from './components/SuccessModal';
 import LoginForm from './components/dashboard/login';
 import Dashboard from './components/dashboard/Dashboard';
 import SplashScreen from "./components/SplashScreen";
 
-interface CartItem {
-  name: string;
-  price: string;
-}
-
 function HomePage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [lastAddedItem, setLastAddedItem] = useState<CartItem | null>(null);
-
-  const handleAddToCart = (name: string, price: string) => {
-    const newItem = { name, price };
-    setCartItems([...cartItems, newItem]);
-    setLastAddedItem(newItem);
-    setIsSuccessModalOpen(true);
-    console.log('Producto agregado:', name, price);
-  };
-
-  const handleRemoveItem = (index: number) => {
-    setCartItems(cartItems.filter((_, i) => i !== index));
-  };
-
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-  };
-
-  const closeSuccessModal = () => {
-    setIsSuccessModalOpen(false);
-  };
-
-  const goToCart = () => {
-    setIsSuccessModalOpen(false);
-    setIsCartOpen(true);
-  };
-
-  const continueShopping = () => {
-    setIsSuccessModalOpen(false);
-    const proyectosSection = document.getElementById('proyectos');
-    if (proyectosSection) {
-      proyectosSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header cartCount={cartItems.length} onCartClick={toggleCart} />
+    <div className="min-h-screen bg-white dark:bg-weprom-dark transition-colors duration-300">
+      <Header />
       <Hero />
       <TrustedCompanies />
       <Campaigns />
-      <Projects onAddToCart={handleAddToCart} />
+      <Projects />
       <Features />
       <Contact />
       <Footer />
-
-      <CartModal
-        isOpen={isCartOpen}
-        onClose={toggleCart}
-        cartItems={cartItems}
-        onRemoveItem={handleRemoveItem}
-      />
-
-      <SuccessModal
-        isOpen={isSuccessModalOpen}
-        onClose={closeSuccessModal}
-        onGoToCart={goToCart}
-        onContinueShopping={continueShopping}
-        productName={lastAddedItem?.name || ''}
-      />
     </div>
   );
 }
 
 function App() {
-
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
@@ -97,6 +36,18 @@ function App() {
     }, 3000);
 
     return () => clearTimeout(timeout);
+  }, []);
+
+  // Verificar preferencia de modo oscuro al cargar
+  useEffect(() => {
+    const isDark = localStorage.getItem('theme') === 'dark' ||
+      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, []);
 
   return (

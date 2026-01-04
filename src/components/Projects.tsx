@@ -1,4 +1,4 @@
-import { ArrowRight, Plus } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 // Configuración de la API
@@ -12,11 +12,7 @@ interface Product {
   img: string;
 }
 
-interface ProjectsProps {
-  onAddToCart: (name: string, price: string) => void;
-}
-
-export default function Projects({ onAddToCart }: ProjectsProps) {
+export default function Projects() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -53,46 +49,25 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
     }
   };
 
-  const handleAddToCartClick = (e: React.MouseEvent<HTMLButtonElement>, name: string, price: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Feedback visual inmediato
-    const button = e.currentTarget;
-    const originalHTML = button.innerHTML;
-    const originalBg = button.style.backgroundImage;
-    
-    // Cambiar ícono a check
-    button.innerHTML = `
-      <svg class="w-5 h-5 animate-check" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-      </svg>
-    `;
-    button.style.backgroundImage = 'linear-gradient(135deg, #34C759 0%, #32D74B 100%)';
-    
-    // Llamar a la función de agregar al carrito
-    onAddToCart(name, price);
-    
-    // Restaurar después de 1 segundo
-    setTimeout(() => {
-      button.innerHTML = originalHTML;
-      button.style.backgroundImage = originalBg;
-    }, 1000);
-  };
-
   // Colores del Rainbow Effect para las cards
   const colors = ['red', 'blue', 'green', 'yellow'];
 
+  const handleProductClick = (productId: number) => {
+    // Aquí puedes agregar la lógica para mostrar más detalles del producto
+    // o redirigir a una página de producto específica
+    console.log('Producto clickeado:', productId);
+  };
+
   if (loading) {
     return (
-      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-gradient-dark">
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-weprom-light-bg dark:bg-gradient-dark">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
             <div className="w-full sm:w-auto">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-white mb-2 tracking-wide">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2 tracking-wide">
                 Proyectos Recientes
               </h2>
-              <p className="text-sm sm:text-base text-weprom-gray-400 font-light">Cargando productos...</p>
+              <p className="text-sm sm:text-base text-weprom-gray-600 dark:text-weprom-gray-400 font-light">Cargando productos...</p>
             </div>
           </div>
           <div className="flex justify-center items-center h-64">
@@ -105,17 +80,17 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
 
   if (error) {
     return (
-      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-gradient-dark">
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-weprom-light-bg dark:bg-gradient-dark">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
             <div className="w-full sm:w-auto">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-white mb-2 tracking-wide">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2 tracking-wide">
                 Proyectos Recientes
               </h2>
               <p className="text-sm sm:text-base text-weprom-red font-light">{error}</p>
               <button
                 onClick={loadProducts}
-                className="mt-4 px-6 py-2 bg-gradient-to-r from-weprom-red to-weprom-yellow text-weprom-white rounded-lg hover:shadow-xl transition-all duration-300 font-semibold transform hover:-translate-y-1"
+                className="mt-4 px-6 py-2 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white rounded-lg hover:shadow-xl transition-all duration-300 font-semibold transform hover:-translate-y-1"
               >
                 Reintentar
               </button>
@@ -128,14 +103,14 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
 
   if (products.length === 0) {
     return (
-      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-gradient-dark">
+      <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-weprom-light-bg dark:bg-gradient-dark">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 gap-4">
             <div className="w-full sm:w-auto">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-white mb-2 tracking-wide">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2 tracking-wide">
                 Proyectos Recientes
               </h2>
-              <p className="text-sm sm:text-base text-weprom-gray-400 font-light">No hay productos disponibles en este momento.</p>
+              <p className="text-sm sm:text-base text-weprom-gray-600 dark:text-weprom-gray-400 font-light">No hay productos disponibles en este momento.</p>
             </div>
           </div>
         </div>
@@ -144,37 +119,43 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
   }
 
   return (
-    <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-gradient-dark">
+    <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-weprom-light-bg dark:bg-gradient-dark">
       <div className="container mx-auto px-4 sm:px-6">
-        {/* Header con tipografía WeProm */}
+        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 sm:mb-10 lg:mb-12 animate-fade-in-up gap-4">
           <div className="w-full sm:w-auto">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-white mb-2 tracking-wide">
-              Proyectos Recientes
+            <div className="inline-flex items-center gap-2 mb-3">
+              <div className="h-0.5 w-6 bg-gradient-to-r from-weprom-red to-weprom-yellow"></div>
+              <span className="text-xs font-semibold text-weprom-red uppercase tracking-widest">
+                Portafolio
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2 tracking-wide">
+              Nuestros Proyectos
             </h2>
-            <p className="text-sm sm:text-base text-weprom-gray-400 font-light leading-relaxed">
-              Lo último en merchandising corporativo.
+            <p className="text-sm sm:text-base text-weprom-gray-600 dark:text-weprom-gray-400 font-light leading-relaxed">
+              Descubre nuestros trabajos más recientes en merchandising corporativo.
             </p>
           </div>
           <a
-            href="#"
-            className="flex items-center text-weprom-red font-semibold hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-weprom-red hover:to-weprom-yellow group text-sm sm:text-base hover-lift"
-            onClick={(e) => e.preventDefault()}
+            href="#contacto"
+            className="flex items-center text-weprom-red font-semibold hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-weprom-red hover:to-weprom-yellow group text-sm sm:text-base hover-lift px-4 py-2 bg-weprom-red/10 dark:bg-weprom-red/5 rounded-lg"
           >
-            Ver todos 
+            Ver portafolio completo
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
           </a>
         </div>
 
-        {/* Grid de productos con Dark Effect y Rainbow Effect */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        {/* Grid de productos */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {products.map((product, index) => {
             const color = colors[index % 4];
             
             return (
               <div
                 key={product.id}
-                className="bg-gradient-to-b from-weprom-dark-gray to-weprom-dark rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 border border-weprom-gray-800 group overflow-hidden animate-fade-in-up relative backdrop-blur-sm"
+                onClick={() => handleProductClick(product.id)}
+                className="bg-white dark:bg-weprom-dark-gray rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 border border-weprom-gray-200 dark:border-weprom-gray-800 group overflow-hidden animate-fade-in-up hover:-translate-y-1 cursor-pointer"
                 style={{ animationDelay: `${index * 100}ms` }}
                 onMouseEnter={() => setHoveredProduct(product.id)}
                 onMouseLeave={() => setHoveredProduct(null)}
@@ -182,12 +163,12 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
                 {/* Gradiente superior sutil */}
                 <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-weprom-${color} to-transparent`}></div>
                 
-                {/* Contenedor de imagen con Vintage Effect */}
-                <div className="relative h-48 sm:h-56 overflow-hidden bg-weprom-dark">
+                {/* Contenedor de imagen */}
+                <div className="relative h-48 sm:h-56 overflow-hidden bg-weprom-gray-100 dark:bg-weprom-dark">
                   <img
                     src={product.img}
                     alt={product.name}
-                    className={`w-full h-full object-cover transition-all duration-700 filter grayscale group-hover:grayscale-0 ${
+                    className={`w-full h-full object-cover transition-all duration-700 ${
                       hoveredProduct === product.id ? 'scale-110' : 'scale-100'
                     }`}
                     onError={(e) => {
@@ -195,40 +176,29 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
                     }}
                   />
                   
-                  {/* Botón de agregar al carrito */}
-                  <button
-                    onClick={(e) => handleAddToCartClick(e, product.name, product.price)}
-                    className={`absolute bottom-4 right-4 bg-gradient-to-r from-weprom-red to-weprom-yellow p-3 rounded-full shadow-lg text-weprom-white hover:shadow-xl transition-all duration-300 z-10 ${
-                      hoveredProduct === product.id ? 'scale-110 rotate-12' : 'scale-100'
-                    }`}
-                    aria-label={`Agregar ${product.name} al carrito`}
-                    title="Agregar al carrito"
-                    disabled={product.stock === 0}
-                  >
-                    {product.stock === 0 ? (
-                      <span className="text-xs font-bold">SIN STOCK</span>
-                    ) : (
-                      <Plus className="w-5 h-5" />
-                    )}
-                  </button>
-                  
                   {/* Indicador de stock */}
-                  {product.stock > 0 && product.stock <= 5 && (
-                    <div className="absolute top-4 left-4 bg-gradient-to-r from-weprom-yellow to-weprom-red text-weprom-black text-xs font-semibold px-2 py-1 rounded-full">
-                      ¡Últimas {product.stock} unidades!
+                  {product.stock <= 5 && product.stock > 0 && (
+                    <div className="absolute top-4 left-4 bg-gradient-to-r from-weprom-yellow to-weprom-red text-white text-xs font-semibold px-2 py-1 rounded-full">
+                      ¡Popular!
                     </div>
                   )}
                   
                   {product.stock === 0 && (
-                    <div className="absolute top-4 left-4 bg-gradient-to-r from-weprom-red to-weprom-red/80 text-weprom-white text-xs font-semibold px-2 py-1 rounded-full">
-                      AGOTADO
+                    <div className="absolute top-4 left-4 bg-gradient-to-r from-weprom-gray-600 to-weprom-gray-800 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                      Consultar
                     </div>
                   )}
                   
-                  {/* Overlay oscuro en hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-t from-weprom-dark via-transparent to-transparent transition-opacity duration-300 ${
-                    hoveredProduct === product.id ? 'opacity-80' : 'opacity-60'
-                  }`}></div>
+                  {/* Overlay con botón de ver más */}
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300 ${
+                    hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
+                  }`}>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <button className="w-full bg-white/90 hover:bg-white text-weprom-gray-900 py-2 rounded-lg font-semibold text-sm transition-all duration-300 transform hover:-translate-y-0.5">
+                        Ver detalles
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Información del producto */}
@@ -236,19 +206,18 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
                   <h4 className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
                     hoveredProduct === product.id 
                       ? 'text-transparent bg-clip-text bg-gradient-to-r from-weprom-red to-weprom-yellow' 
-                      : 'text-weprom-white'
+                      : 'text-weprom-gray-900 dark:text-weprom-white'
                   }`}>
                     {product.name}
                   </h4>
-                  <p className={`text-xl font-extrabold transition-all duration-300 inline-block bg-gradient-to-r from-weprom-gray-300 to-weprom-gray-400 bg-clip-text text-transparent ${
-                    hoveredProduct === product.id ? 'from-weprom-red to-weprom-yellow scale-105' : ''
-                  }`}>
-                    ${parseInt(product.price).toLocaleString()}
-                  </p>
-                  <p className="text-sm text-weprom-gray-400 font-light mt-2">
-                    {product.stock === 0 
-                      ? 'Producto temporalmente agotado' 
-                      : `Stock disponible: ${product.stock} unidades`}
+                  <div className="flex justify-between items-center">
+                    
+                    <span className={`text-xs px-2 py-1 rounded-full bg-weprom-${color}/10 text-weprom-${color} font-semibold`}>
+                      Personalizado
+                    </span>
+                  </div>
+                  <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 font-light mt-2">
+                    Producto promocional personalizable
                   </p>
                 </div>
                 
@@ -259,6 +228,20 @@ export default function Projects({ onAddToCart }: ProjectsProps) {
               </div>
             );
           })}
+        </div>
+
+        {/* CTA al final de la sección */}
+        <div className="text-center mt-12 animate-fade-in animation-delay-300">
+          <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm sm:text-base">
+            ¿Interesado en alguno de nuestros productos?
+          </p>
+          <a
+            href="#contacto"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+          >
+            Solicitar información detallada
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
+          </a>
         </div>
       </div>
     </section>
