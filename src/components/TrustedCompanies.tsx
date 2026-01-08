@@ -187,45 +187,7 @@ export default function TrustedCompanies() {
           ))}
         </motion.div>
 
-        {/* Stats Bar */}
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-3 gap-6 sm:gap-8 max-w-3xl mx-auto"
-        >
-          {[
-            { number: "1000+", label: "Clientes Satisfechos", color: "red" },
-            { number: "50K+", label: "Productos Entregados", color: "blue" },
-            { number: "98%", label: "Satisfacción", color: "green" }
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
-              className="text-center group cursor-pointer"
-            >
-              <div className={`
-                text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-2
-                text-transparent bg-clip-text bg-gradient-to-b from-weprom-${stat.color} to-weprom-${stat.color}/70
-                group-hover:scale-110 transition-transform duration-300
-              `}>
-                {stat.number}
-              </div>
-              <div className="text-xs sm:text-sm text-weprom-gray-600 dark:text-weprom-gray-400 font-medium">
-                {stat.label}
-              </div>
-              <div className={`
-                w-12 h-1 mx-auto mt-2 rounded-full
-                bg-gradient-to-r from-transparent via-weprom-${stat.color} to-transparent
-                transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500
-              `}></div>
-            </motion.div>
-          ))}
-        </motion.div>
+        
       </div>
 
       {/* Bottom accent */}
