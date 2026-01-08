@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-light dark:bg-gradient-dark"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-light dark:bg-gradient-dark py-20"
     >
       {/* Background con parallax */}
       <div
@@ -27,7 +27,7 @@ export default function Hero() {
       <div className="absolute top-20 right-0 w-64 h-64 bg-weprom-red/5 dark:bg-weprom-red/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 left-0 w-64 h-64 bg-weprom-blue/5 dark:bg-weprom-blue/10 rounded-full blur-3xl"></div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-[5] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-30 lg:py-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-[5] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-30 lg:py-10 mt-36">
         {/* CONTENIDO TEXTO */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -48,10 +48,10 @@ export default function Hero() {
 
           {/* Título principal */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-weprom-gray-900 dark:text-weprom-white leading-[1.1] tracking-tight">
-            Marca tu{" "}
-            <span className="relative inline-block">
+            Que tu Marca deje{" "}
+            <span className="relative inline-block mb-6">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue animate-gradient-x bg-[length:200%_auto]">
-                Estilo
+                Huella
               </span>
               <motion.div
                 className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue rounded-full"
@@ -63,9 +63,8 @@ export default function Hero() {
           </h1>
 
           {/* Descripción */}
-          <p className="text-base sm:text-lg md:text-xl text-weprom-gray-600 dark:text-weprom-gray-400 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
-            Artículos promocionales únicos para tu empresa. Calidad, diseño y
-            funcionalidad en cada producto.
+          <p className="text-lg sm:text-xl md:text-2xl text-weprom-gray-600           dark:text-weprom-gray-400 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+            Artículos Promocionales funcionales y de alto impacto para que tus clientes te vean           y recuerden todos los días.
           </p>
 
           {/* Botones CTA */}
@@ -102,41 +101,8 @@ export default function Hero() {
             transition={{ delay: 0.6, duration: 0.6 }}
             className="grid grid-cols-3 gap-6 pt-8 sm:pt-12"
           >
-            <div className="text-center space-y-2">
-              <div className="relative inline-block">
-                <div className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-weprom-red to-weprom-red/70">
-                  500+
-                </div>
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-transparent via-weprom-red to-transparent"></div>
-              </div>
-              <div className="text-xs sm:text-sm text-weprom-gray-600 dark:text-weprom-gray-400 font-medium">
-                Productos
-              </div>
-            </div>
+            
 
-            <div className="text-center space-y-2">
-              <div className="relative inline-block">
-                <div className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-weprom-blue to-weprom-blue/70">
-                  1000+
-                </div>
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-transparent via-weprom-blue to-transparent"></div>
-              </div>
-              <div className="text-xs sm:text-sm text-weprom-gray-600 dark:text-weprom-gray-400 font-medium">
-                Clientes
-              </div>
-            </div>
-
-            <div className="text-center space-y-2">
-              <div className="relative inline-block">
-                <div className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-weprom-green to-weprom-green/70">
-                  24/7
-                </div>
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-transparent via-weprom-green to-transparent"></div>
-              </div>
-              <div className="text-xs sm:text-sm text-weprom-gray-600 dark:text-weprom-gray-400 font-medium">
-                Soporte
-              </div>
-            </div>
           </motion.div>
         </motion.div>
 
@@ -157,9 +123,7 @@ export default function Hero() {
               className="rounded-3xl shadow-xl transform rotate-[-6deg] hover:rotate-0 hover:scale-105 transition-all duration-500 w-full max-w-lg mx-auto border-2 border-weprom-gray-200 dark:border-weprom-gray-800"
             />
 
-            <div className="absolute top-4 right-4 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse">
-              Nuevo
-            </div>
+            
           </div>
         </motion.div>
       </div>

@@ -130,12 +130,12 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
             Marketing Digital
           </motion.h2>
           <motion.p
-            className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 mt-2"
+            className="text-lg sm:text-xl font-bold text-weprom-gray-600 dark:text-weprom-gray-400 mt-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
-            Impulsamos tu marca al siguiente nivel
+            División de Artículos Promocionales
           </motion.p>
         </motion.div>
 

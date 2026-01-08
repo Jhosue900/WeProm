@@ -188,12 +188,12 @@ export default function Campaigns() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="inline-flex items-center gap-2 mb-6"
           >
-            <div className="flex items-center gap-3 bg-gradient-to-r from-weprom-red/10 via-weprom-yellow/10 to-weprom-blue/10 dark:from-weprom-red/20 dark:via-weprom-yellow/20 dark:to-weprom-blue/20 px-5 py-2.5 rounded-full border border-weprom-yellow/30">
+            {/* <div className="flex items-center gap-3 bg-gradient-to-r from-weprom-red/10 via-weprom-yellow/10 to-weprom-blue/10 dark:from-weprom-red/20 dark:via-weprom-yellow/20 dark:to-weprom-blue/20 px-5 py-2.5 rounded-full border border-weprom-yellow/30">
               <Sparkles className="w-5 h-5 text-weprom-yellow animate-pulse" />
               <span className="text-sm font-semibold bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue bg-clip-text text-transparent uppercase tracking-widest">
                 Campañas Destacadas
               </span>
-            </div>
+            </div> */}
           </motion.div>
 
           {/* Título */}
@@ -204,9 +204,9 @@ export default function Campaigns() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-4"
           >
-            Nuestras{" "}
+            Artículos de{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue">
-              Campañas
+              Temporada
             </span>
           </motion.h2>
 
@@ -218,7 +218,7 @@ export default function Campaigns() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="text-base sm:text-lg text-weprom-gray-600 dark:text-weprom-gray-400 font-light max-w-2xl mx-auto leading-relaxed"
           >
-            Descubre nuestras colecciones exclusivas de temporada, diseñadas para impulsar tu marca
+            Conoce nuestras colecciones exclusivas, diseñadas para impulsar y posicionar tu marca 
           </motion.p>
         </motion.div>
 
@@ -293,7 +293,7 @@ export default function Campaigns() {
                     transform hover:scale-105 transition-all duration-200
                     group/btn
                   `}>
-                    <span>Ver detalles</span>
+                    <span>Conocer más</span>
                     <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>

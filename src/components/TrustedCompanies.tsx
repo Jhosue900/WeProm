@@ -83,9 +83,9 @@ export default function TrustedCompanies() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-2xl sm:text-3xl lg:text-4xl font-bold text-weprom-gray-900 dark:text-weprom-white mb-3 sm:mb-4"
           >
-            Empresas que{" "}
+            Algunos de Nuestros{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue">
-              nos eligen
+              Clientes
             </span>
           </motion.h2>
 
@@ -95,9 +95,9 @@ export default function TrustedCompanies() {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-sm sm:text-base lg:text-lg text-weprom-gray-600 dark:text-weprom-gray-400 font-light max-w-2xl mx-auto"
+            className="text-base sm:text-base lg:text-lg text-weprom-gray-600 dark:text-weprom-gray-400 font-light max-w-2xl mx-auto"
           >
-            Más de <span className="font-semibold text-weprom-red">1,000 empresas</span> han confiado en nuestros servicios de personalización y marketing
+            Más de <span className="font-semibold text-weprom-red">500 empresas</span> han confiado en nuestro servicio, conoce algunas de ellas
           </motion.p>
         </motion.div>
 

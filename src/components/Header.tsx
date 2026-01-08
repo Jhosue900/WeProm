@@ -153,13 +153,17 @@ export default function Header() {
         }`}>
           <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
             {/* Logo */}
-            <a href="#" className="flex items-center gap-3 group z-[110]">
+            <a href="#" className="flex items-center gap-3 group z-[110] flex-col">
               <img 
                 src={isDarkMode ? Logo : LogoLight} 
                 alt="WeProm Marketing Logo" 
                 className="h-12 w-auto sm:h-14 md:h-16 lg:h-14 transition-all duration-300 group-hover:scale-105"
               />
+
+              <p className="text-sm font-bold text-weprom-gray-700 dark:text-weprom-gray-300">División Promocional</p>
             </a>
+
+            
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">

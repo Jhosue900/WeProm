@@ -126,24 +126,23 @@ export default function Projects() {
           <div className="w-full sm:w-auto">
             <div className="inline-flex items-center gap-2 mb-3">
               <div className="h-0.5 w-6 bg-gradient-to-r from-weprom-red to-weprom-yellow"></div>
-              <span className="text-xs font-semibold text-weprom-red uppercase tracking-widest">
-                Portafolio
-              </span>
+              
+
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2 tracking-wide">
-              Nuestros Proyectos
+              Proyectos Recientes
             </h2>
             <p className="text-sm sm:text-base text-weprom-gray-600 dark:text-weprom-gray-400 font-light leading-relaxed">
-              Descubre nuestros trabajos más recientes en merchandising corporativo.
+              Descubre nuestros trabajos más recientes en artículos promocionales.
             </p>
           </div>
-          <a
+          {/* <a
             href="#contacto"
             className="flex items-center text-weprom-red font-semibold hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-weprom-red hover:to-weprom-yellow group text-sm sm:text-base hover-lift px-4 py-2 bg-weprom-red/10 dark:bg-weprom-red/5 rounded-lg"
           >
             Ver portafolio completo
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-          </a>
+          </a> */}
         </div>
 
         {/* Grid de productos */}
@@ -239,7 +238,7 @@ export default function Projects() {
             href="#contacto"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
           >
-            Solicitar información detallada
+            Contactar a un asesor
             <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
           </a>
         </div>
