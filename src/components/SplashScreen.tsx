@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Logo from "../LOGOLISONEGRO.png";
 import LogoLight from "../LOGOLISOBLANCO.png";
+import LogoLightSolo from "../LogoBlanco2.png";
 
 interface SplashScreenProps {
   onFinish: () => void;
@@ -21,8 +22,8 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
       initial={{ y: 0 }}
       animate={{ y: "-100%" }}
       transition={{
-        delay: 2.2,
-        duration: 0.8,
+        delay: 1.8,
+        duration: 0.6,
         ease: [0.43, 0.13, 0.23, 0.96],
       }}
       onAnimationComplete={onFinish}
@@ -92,7 +93,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
             }}
           />
           <motion.img
-            src={isDarkMode ? Logo : LogoLight}
+            src={isDarkMode ? LogoLightSolo : LogoLight}
             alt="WeProm Logo"
             className="w-56 sm:w-64 md:w-72 relative z-10 drop-shadow-2xl"
             animate={{

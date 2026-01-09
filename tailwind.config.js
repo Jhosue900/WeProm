@@ -6,39 +6,23 @@ export default {
     extend: {
       colors: {
         weprom: {
-          // Colores principales (más vibrantes)
           red: '#FF3B30',
           blue: '#007AFF',
           green: '#34C759',
           yellow: '#FF9500',
-          
-          // Colores secundarios (para acentos)
           purple: '#AF52DE',
           teal: '#5AC8FA',
-          
-          // Colores para modo claro
           light: '#FFFFFF',
           'light-gray': '#F9FAFB',
           'light-bg': '#F8F9FA',
-          
-          // Colores para modo oscuro
           dark: '#0A0A0A',
           'dark-gray': '#1C1C1E',
-          
-          // Colores neutros
           black: '#000000',
           white: '#FFFFFF',
           gray: {
-            50: '#F8F9FA',
-            100: '#F1F3F5',
-            200: '#E9ECEF',
-            300: '#DEE2E6',
-            400: '#CED4DA',
-            500: '#ADB5BD',
-            600: '#6C757D',
-            700: '#495057',
-            800: '#343A40',
-            900: '#212529',
+            50: '#F8F9FA', 100: '#F1F3F5', 200: '#E9ECEF', 300: '#DEE2E6',
+            400: '#CED4DA', 500: '#ADB5BD', 600: '#6C757D', 700: '#495057',
+            800: '#343A40', 900: '#212529',
           }
         }
       },
@@ -62,12 +46,9 @@ export default {
         'loose': '1.6',
       },
       backgroundImage: {
-        // Gradientes para modo claro
         'gradient-light': 'linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 100%)',
         'gradient-light-red': 'linear-gradient(135deg, #FFF5F5 0%, #FFE5E5 100%)',
         'gradient-light-blue': 'linear-gradient(135deg, #F0F7FF 0%, #E6F2FF 100%)',
-        
-        // Gradientes originales
         'gradient-red': 'linear-gradient(135deg, #FF3B30 0%, #C5362E 100%)',
         'gradient-blue': 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
         'gradient-green': 'linear-gradient(135deg, #34C759 0%, #32D74B 100%)',
@@ -87,12 +68,13 @@ export default {
         'check': 'check 0.5s ease-in-out',
         'cart-bounce': 'cartBounce 0.8s ease',
         'vintage-fade': 'vintageFade 0.8s ease-out',
+        'slow-bounce': 'soft-bounce 2s infinite',
         'float': 'float 3s ease-in-out infinite',
       },
       keyframes: {
-        gradientX: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
+        'gradient-x': {
+          '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
+          '50%': { 'background-size': '200% 200%', 'background-position': 'right center' },
         },
         fadeIn: {
           '0%': { opacity: '0' },
@@ -113,6 +95,16 @@ export default {
         slideInRight: {
           '0%': { opacity: '0', transform: 'translateX(20px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        'soft-bounce': {
+          '0%, 100%': {
+            transform: 'translateY(-8%)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            transform: 'translateY(0)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+          },
         },
         check: {
           '0%': { transform: 'scale(0)' },
@@ -138,6 +130,7 @@ export default {
         'light': '0 4px 20px 0 rgba(0, 0, 0, 0.08)',
         'light-lg': '0 10px 40px 0 rgba(0, 0, 0, 0.12)',
         'card': '0 2px 12px 0 rgba(0, 0, 0, 0.05)',
+        'whatsapp': '0 10px 25px -5px rgba(37, 211, 102, 0.4)',
       }
     },
   },

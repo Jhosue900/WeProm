@@ -16,6 +16,7 @@ import GoogleReviews from './components/reviews';
 import Services from './components/services';
 import PurchaseProcess from './components/purchaseProcess';
 import FAQ from './components/frecuentQuestions';
+import WhatsAppButton from './components/WhatsAppButton';
 
 function HomePage() {
   return (
@@ -32,6 +33,7 @@ function HomePage() {
       <FAQ />
       <Contact />
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

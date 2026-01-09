@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import LogoLight from '../LOGOLISONEGRO.png';
 import Logo from '../LOGOLISOBLANCO.png';
+import LogoLight2 from '../LogoBlanco2.png';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -155,7 +156,7 @@ export default function Header() {
             {/* Logo */}
             <a href="#" className="flex items-center gap-3 group z-[110] flex-col">
               <img 
-                src={isDarkMode ? Logo : LogoLight} 
+                src={isDarkMode ? LogoLight2 : LogoLight} 
                 alt="WeProm Marketing Logo" 
                 className="h-12 w-auto sm:h-14 md:h-16 lg:h-14 transition-all duration-300 group-hover:scale-105"
               />
@@ -276,7 +277,7 @@ export default function Header() {
           <div className="p-6 border-b border-weprom-gray-200 dark:border-weprom-gray-800 bg-gradient-to-r from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray flex-shrink-0">
             <div className="flex items-center justify-between">
               <img 
-                src={isDarkMode ? Logo : LogoLight}
+                src={isDarkMode ? LogoLight2 : LogoLight}
                 alt="WeProm Logo" 
                 className="h-12 w-auto"
               />

@@ -1,6 +1,37 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion"; // Asegúrate de importar AnimatePresence
+import { useState, useEffect } from "react";
+
+
+import imagenBolsos from "../Bolsos.png"; 
+import imagenTextil from "../Textil.png"; // Usando los que vi en tu 'ls' anterior
+import imagenUSBs from "../USB's.png";
+
+// 2. Colócalas en el array
+const heroImages = [
+  imagenBolsos,
+  imagenTextil,
+  imagenUSBs
+];
 
 export default function Hero() {
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Funciones de navegación
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev === heroImages.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev === 0 ? heroImages.length - 1 : prev - 1));
+  };
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+
   return (
     <section
       id="inicio"
@@ -27,7 +58,7 @@ export default function Hero() {
       <div className="absolute top-20 right-0 w-64 h-64 bg-weprom-red/5 dark:bg-weprom-red/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 left-0 w-64 h-64 bg-weprom-blue/5 dark:bg-weprom-blue/10 rounded-full blur-3xl"></div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-[5] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-30 lg:py-10 mt-36">
+      <div className="container mx-auto px-4 sm:px-6 relative z-[5] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-30 lg:py-10 mt-28">
         {/* CONTENIDO TEXTO */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -73,9 +104,9 @@ export default function Hero() {
               href="#proyectos"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="relative overflow-hidden bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 text-center text-base group"
+              className="relative overflow-hidden bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 text-center text-base group font-bold"
             >
-              <span className="relative z-10 flex items-center justify-center gap-2">
+              <span className="relative z-10 flex items-center justify-center gap-2 font-bold">
                 Ver Catálogo
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -84,14 +115,15 @@ export default function Hero() {
               <div className="absolute inset-0 bg-gradient-to-r from-weprom-blue to-weprom-green opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </motion.a>
 
-            <motion.a
+            {/*<motion.a
               href="#contacto"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="bg-white dark:bg-weprom-dark-gray text-weprom-gray-700 dark:text-weprom-gray-300 border-2 border-weprom-gray-300 dark:border-weprom-gray-700 px-8 py-4 rounded-full font-semibold hover:border-weprom-blue hover:text-weprom-blue dark:hover:border-weprom-blue transition-all duration-300 text-center text-base hover:bg-weprom-gray-50 dark:hover:bg-weprom-gray-800"
             >
               Cotizar Ahora
-            </motion.a>
+            </motion.a>*/}
+
           </div>
 
           {/* Estadísticas */}
@@ -106,27 +138,64 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* IMAGEN HERO - Solo desktop */}
-        <motion.div
-          initial={{ x: 40, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.9, ease: "easeOut", delay: 0.5 }}
-          className="hidden lg:block relative"
-        >
-          <div className="relative group">
-            <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-red rounded-full opacity-30 blur-2xl"></div>
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-blue rounded-full opacity-30 blur-2xl"></div>
-
-            <img
-              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-              alt="Producto Hero"
-              className="rounded-3xl shadow-xl transform rotate-[-6deg] hover:rotate-0 hover:scale-105 transition-all duration-500 w-full max-w-lg mx-auto border-2 border-weprom-gray-200 dark:border-weprom-gray-800"
-            />
-
+        {/* IMAGEN HERO - Carrusel Interactivo y Responsivo */}
+        <div className="hidden lg:flex relative h-[450px] w-full items-center justify-center">
+          <div className="relative w-full max-w-sm mx-auto group"> {/* max-w-sm reduce el tamaño */}
             
+            {/* Luces decorativas detrás de la imagen */}
+            <div className="absolute -top-6 -left-6 w-24 h-24 bg-weprom-red/20 rounded-full blur-2xl"></div>
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-weprom-blue/20 rounded-full blur-2xl"></div>
+
+            {/* Contenedor Principal de la Imagen */}
+            <div className="relative overflow-hidden rounded-3xl shadow-2xl border-2 border-white/20 dark:border-weprom-gray-800 aspect-square flex items-center justify-center bg-white/5 backdrop-blur-sm transform transition-transform duration-500 group-hover:scale-[1.02]">
+              
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentIndex}
+                  src={heroImages[currentIndex]}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  alt="Producto WeProm"
+                />
+              </AnimatePresence>
+
+              {/* FLECHAS INTERACTIVAS (Solo se ven al pasar el mouse) */}
+              <button 
+                onClick={prevSlide}
+                className="absolute left-3 p-2 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 opacity-0 group-hover:opacity-100 transition-all hover:bg-weprom-red z-10"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+              </button>
+
+              <button 
+                onClick={nextSlide}
+                className="absolute right-3 p-2 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 opacity-0 group-hover:opacity-100 transition-all hover:bg-weprom-red z-10"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              </button>
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+            </div>
+
+            {/* Puntos indicadores inferiores */}
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+              {heroImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    currentIndex === index ? "w-8 bg-weprom-red" : "w-2 bg-weprom-gray-400"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
-        </motion.div>
-      </div>
+        </div>
+
+        </div>
 
       {/* Scroll indicator - Solo desktop */}
       <div className="hidden lg:block absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">

@@ -1,18 +1,45 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
+
+// 1. Importaciones de Logos (Rutas relativas desde src/components/...)
+// Ajusta los "../" dependiendo de si este archivo está en src/components/
+import logoCalaverandia from "../LogoClientes/Calaverandia.png";
+import logoCinepolis from "../LogoClientes/Cinepolis.png";
+import logoCollins from "../LogoClientes/GRUPO COLLINS.png";
+import logoCaliente from "../LogoClientes/Grupo_Caliente_Logo.png";
+import logoHeineken from "../LogoClientes/Heineken-Logo.png";
+import logoDriscolls from "../LogoClientes/Logo Driscolls.png";
+import logoFord from "../LogoClientes/Logo Ford.png";
+import logoHospitalJoya from "../LogoClientes/Logo Hospital Joya.png";
+import logoHospitalSanJavier from "../LogoClientes/Logo Hospital San Javier.webp";
+import logoInterceramic from "../LogoClientes/Logo interceramic.png";
+import logoKenworth from "../LogoClientes/Logo Kenworth.svg";
+import logoKia from "../LogoClientes/Logo KIA.webp";
+import logoMarisa from "../LogoClientes/Marisa.png";
+import logoMercedesBenz from "../LogoClientes/mercedes-benz_2025-logo_brandlogos.net_qwgk8.png";
+import logoVolkswagen from "../LogoClientes/Volkswagen_logopng.png";
+
+
 export default function TrustedCompanies() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const logos = [
-    { src: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", alt: "Google", color: "red" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", alt: "Amazon", color: "blue" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg", alt: "Microsoft", color: "green" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg", alt: "YouTube", color: "yellow" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg", alt: "Facebook", color: "purple" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg", alt: "Netflix", color: "red" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg", alt: "Apple", color: "blue" },
-    { src: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg", alt: "Microsoft", color: "green" }
+    { src: logoCalaverandia, alt: "Calaverandia", color: "red" },
+    { src: logoCinepolis, alt: "Cinépolis", color: "blue" },
+    { src: logoCollins, alt: "Grupo Collins", color: "yellow" },
+    { src: logoCaliente, alt: "Grupo Caliente", color: "red" },
+    { src: logoHeineken, alt: "Heineken", color: "green" },
+    { src: logoDriscolls, alt: "Driscoll's", color: "yellow" },
+    { src: logoFord, alt: "Ford", color: "blue" },
+    { src: logoHospitalJoya, alt: "Hospital Joya", color: "blue" },
+    { src: logoHospitalSanJavier, alt: "Hospital San Javier", color: "blue" },
+    { src: logoInterceramic, alt: "Interceramic", color: "gray" }, // Corregido nombre y color
+    { src: logoKenworth, alt: "Kenworth", color: "red" },           // Corregido nombre
+    { src: logoKia, alt: "KIA Motors", color: "red" },
+    { src: logoMarisa, alt: "Marisa", color: "red" },              // Corregido nombre
+    { src: logoMercedesBenz, alt: "Mercedes-Benz", color: "gray" }, // Corregido nombre
+    { src: logoVolkswagen, alt: "Volkswagen", color: "blue" },    // Corregido nombre
   ];
 
   const containerVariants = {
@@ -107,7 +134,7 @@ export default function TrustedCompanies() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto"
         >
           {logos.map((logo, index) => (
             <motion.div
