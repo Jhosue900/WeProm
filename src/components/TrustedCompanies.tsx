@@ -13,7 +13,7 @@ import logoDriscolls from "../LogoClientes/Logo Driscolls.png";
 import logoFord from "../LogoClientes/Logo Ford.png";
 import logoHospitalJoya from "../LogoClientes/Logo Hospital Joya.png";
 import logoHospitalSanJavier from "../LogoClientes/Logo Hospital San Javier.webp";
-import logoInterceramic from "../LogoClientes/Logo interceramic.png";
+import logoInterceramic from "../LogoClientes/logo interceramic.png";
 import logoKenworth from "../LogoClientes/Logo Kenworth.svg";
 import logoKia from "../LogoClientes/Logo KIA.webp";
 import logoMarisa from "../LogoClientes/Marisa.png";

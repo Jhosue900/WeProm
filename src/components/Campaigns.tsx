@@ -17,6 +17,8 @@ export default function Campaigns() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const WHATSAPP_NUMBER = "521234567890";
+
   // Cargar campañas desde el servidor
   useEffect(() => {
     loadCampaigns();
@@ -284,21 +286,32 @@ export default function Campaigns() {
                   {campaign.desc}
                 </p>
 
-                {/* Botón CTA */}
+                {/* Botón CTA - REEMPLAZA TU BOTÓN ACTUAL POR ESTE BLOQUE */}
                 <div className="pt-2">
-                  <button className={`
-                    inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold
-                    bg-gradient-to-r from-weprom-${rainbowColors[index % 4]} to-weprom-yellow
-                    text-white shadow-lg hover:shadow-xl
-                    transform hover:scale-105 transition-all duration-200
-                    group/btn
-                  `}>
+                  <motion.a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                      `Hola! visité su página y me interesa conocer su catálogo de promocionales para la campaña: ${campaign.title}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`
+                      inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold
+                      bg-gradient-to-r from-weprom-${rainbowColors[index % 4]} to-weprom-yellow
+                      text-white shadow-lg hover:shadow-xl
+                      transition-all duration-200
+                      group/btn
+                    `}
+                  >
                     <span>Conocer más</span>
                     <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
-                  </button>
+                  </motion.a>
                 </div>
+
+
               </div>
 
               {/* Barra inferior */}
