@@ -16,10 +16,10 @@ export default function Footer() {
             <div className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2">
               WeProm
             </div>
-            <p className="text-xs sm:text-sm font-light text-weprom-gray-600 dark:text-weprom-gray-400">
-              Marketing & Promociones Personalizadas
+            <p className="text-lg sm:text-lg font-light text-weprom-gray-600 dark:text-weprom-gray-400">
+              WeProm es una Unidad de Negocio de Grupo WeProm
             </p>
-            <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-500 mt-4">
+            <p className="text-md text-weprom-gray-500 dark:text-weprom-gray-500 mt-4">
               &copy; 2025 WeProm Marketing. Todos los derechos reservados.
             </p>
           </div>

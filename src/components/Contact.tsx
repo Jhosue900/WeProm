@@ -38,21 +38,21 @@ export default function Contact() {
                 {[
                   { 
                     icon: Mail, 
-                    text: 'hola@weprom.com', 
+                    text: 'contacto@grupoweprom.com', 
                     color: 'red',
                     title: 'Email',
-                    link: 'mailto:hola@weprom.com'
+                    link: 'mailto:contacto@grupoweprom.com'
                   },
                   { 
                     icon: Phone, 
-                    text: '+57 300 123 4567', 
+                    text: '+52 1 33 3459 0989', 
                     color: 'blue',
                     title: 'Teléfono',
-                    link: 'tel:+573001234567'
+                    link: 'tel:+5213334590989'
                   },
                   { 
                     icon: MapPin, 
-                    text: 'Cali, Colombia', 
+                    text: 'Corriente 3071 Colombos Providencia 44630', 
                     color: 'green',
                     title: 'Ubicación',
                     link: '#'
@@ -80,12 +80,12 @@ export default function Contact() {
               {/* Horarios de atención */}
               <div className="mt-6 p-4 rounded-lg bg-white/50 dark:bg-weprom-dark/50 border border-weprom-gray-200 dark:border-weprom-gray-800">
                 <p className="text-sm font-semibold text-weprom-gray-800 dark:text-weprom-white mb-1">Horarios de atención</p>
-                <p className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400">
-                  Lunes a Viernes: 8:00 AM - 6:00 PM
+                <p className="text-lg text-weprom-gray-600 dark:text-weprom-gray-400">
+                  Sólo de Lunes a Viernes
                 </p>
-                <p className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400">
+                {/*<p className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400">
                   Sábados: 9:00 AM - 1:00 PM
-                </p>
+                </p>*/}
               </div>
             </div>
           </div>
@@ -104,10 +104,22 @@ export default function Contact() {
                   required
                 />
               </div>
+
+              <div className="animate-fade-in animation-delay-100">
+                <label className="block text-sm font-semibold mb-2">
+                  Empresa
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-3 sm:px-4 py-3 bg-white dark:bg-weprom-dark-gray border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-lg focus:ring-2 focus:ring-weprom-red focus:border-transparent outline-none transition-all duration-300 hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-sm sm:text-base text-weprom-gray-900 dark:text-weprom-white font-light placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-600"
+                  placeholder="WeProm"
+                  
+                />
+              </div>
               
               <div className="animate-fade-in animation-delay-100">
                 <label className="block text-sm font-semibold mb-2">
-                  Email *
+                  Correo *
                 </label>
                 <input
                   type="email"
@@ -119,12 +131,13 @@ export default function Contact() {
               
               <div className="animate-fade-in animation-delay-200">
                 <label className="block text-sm font-semibold mb-2">
-                  Teléfono
+                  Teléfono *
                 </label>
                 <input
                   type="tel"
                   className="w-full px-3 sm:px-4 py-3 bg-white dark:bg-weprom-dark-gray border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-lg focus:ring-2 focus:ring-weprom-red focus:border-transparent outline-none transition-all duration-300 hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-sm sm:text-base text-weprom-gray-900 dark:text-weprom-white font-light placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-600"
                   placeholder="+57 300 123 4567"
+                  required
                 />
               </div>
               
