@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 // Configuración de la API
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -58,6 +59,17 @@ export default function Projects() {
     console.log('Producto clickeado:', productId);
   };
 
+
+  // Hechos y estadísticas
+  const stats = [
+    { number: '10+', label: 'Años de experiencia', color: 'red' },
+    { number: '1000+', label: 'Clientes satisfechos', color: 'blue' },
+    { number: '5000+', label: 'Proyectos completados', color: 'green' },
+    { number: '98%', label: 'Tasa de satisfacción', color: 'yellow' }
+  ];
+
+
+
   if (loading) {
     return (
       <section id="proyectos" className="py-12 sm:py-16 lg:py-20 bg-weprom-light-bg dark:bg-gradient-dark">
@@ -71,7 +83,7 @@ export default function Projects() {
             </div>
           </div>
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-transparent border-gradient-to-r from-weprom-red to-weprom-yellow"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-transparent border-t-weprom-red from-weprom-red to-weprom-yellow"></div>
           </div>
         </div>
       </section>
@@ -231,17 +243,18 @@ export default function Projects() {
 
         {/* CTA al final de la sección */}
         <div className="text-center mt-12 animate-fade-in animation-delay-300">
-          <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm sm:text-base">
+          <p className="text-gray-600 dark:text-gray-400 mb-4 text-xl sm:text-2xl">
             ¿Interesado en alguno de nuestros productos?
           </p>
           <a
             href="#contacto"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group font-bold text-2xl"
           >
             Contactar a un asesor
             <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
           </a>
         </div>
+
       </div>
     </section>
   );
