@@ -200,7 +200,7 @@ export default function GoogleReviews() {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-base sm:text-lg text-weprom-gray-600 dark:text-weprom-gray-400 font-light max-w-2xl mx-auto leading-relaxed"
+            className="text-md sm:text-xl md:text-2xl font-medium text-weprom-gray-600 dark:text-weprom-gray-400 font-light max-w-2xl mx-auto leading-relaxed italic"
           >
             Experiencias reales de empresas que han transformado su marca con nuestros servicios
           </motion.p>
