@@ -226,6 +226,13 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'campaign' | 'project') => {
     const file = e.target.files?.[0];
     if (file) {
+
+      if (file.size > 4.5 * 1024 * 1024) {
+        alert("La imagen es muy pesada. El límite es de 4.5MB debido a restricciones del servidor.");
+        e.target.value = ""; // Limpia el input
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
