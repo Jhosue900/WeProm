@@ -9,7 +9,8 @@ import {
   Sparkles, Grid, Settings, Bell, Search,
   Home, BarChart2, Users as UsersIcon, CreditCard,
   Sun, Moon, CheckCircle, AlertCircle,
-  Check, XCircle, Info, AlertTriangle
+  Check, XCircle, Info, AlertTriangle,
+  MessageSquare, Mail, Phone, Building, Clock, User, RefreshCw 
 } from 'lucide-react';
 
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -28,6 +29,17 @@ interface Project {
   category: string;
   description: string;
   img: string;
+}
+
+interface ContactMessage {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  company: string | null;
+  message: string;
+  status: 'unread' | 'read' | 'replied';
+  created_at: string;
 }
 
 interface CampaignForm {
@@ -130,21 +142,6 @@ const NotificationToast = ({
     }
   };
 
-  const getTextColor = () => {
-    switch (notification.type) {
-      case 'success':
-        return 'text-weprom-green';
-      case 'error':
-        return 'text-weprom-red';
-      case 'warning':
-        return 'text-weprom-yellow';
-      case 'info':
-        return 'text-weprom-blue';
-      default:
-        return 'text-weprom-gray-600';
-    }
-  };
-
   return (
     <div
       className={`fixed top-4 right-4 z-[100] w-96 max-w-[calc(100vw-2rem)] transform transition-all duration-300 ${isExiting ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100'
@@ -242,16 +239,13 @@ const ConfirmationModal = ({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      {/* Overlay */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="relative z-10 w-full max-w-md transform transition-all">
         <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl shadow-2xl overflow-hidden border border-weprom-gray-200 dark:border-weprom-gray-800">
-          {/* Header */}
           <div className="p-6 border-b border-weprom-gray-200 dark:border-weprom-gray-800">
             <div className="flex flex-col items-center text-center">
               <div className="mb-4">
@@ -266,7 +260,6 @@ const ConfirmationModal = ({
             </div>
           </div>
 
-          {/* Actions */}
           <div className="p-6 flex flex-col sm:flex-row gap-3">
             <button
               onClick={onClose}
@@ -290,18 +283,153 @@ const ConfirmationModal = ({
   );
 };
 
+// Modal para ver mensaje de contacto
+const ContactMessageModal = ({
+  isOpen,
+  onClose,
+  message
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  message: ContactMessage | null;
+}) => {
+  if (!isOpen || !message) return null;
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'unread':
+        return 'bg-weprom-red/10 text-weprom-red';
+      case 'read':
+        return 'bg-weprom-blue/10 text-weprom-blue';
+      case 'replied':
+        return 'bg-weprom-green/10 text-weprom-green';
+      default:
+        return 'bg-weprom-gray-100 text-weprom-gray-700';
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'unread':
+        return 'No leído';
+      case 'read':
+        return 'Leído';
+      case 'replied':
+        return 'Respondido';
+      default:
+        return status;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      <div className="relative z-10 w-full max-w-2xl transform transition-all">
+        <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl shadow-2xl overflow-hidden border border-weprom-gray-200 dark:border-weprom-gray-800">
+          <div className="p-6 border-b border-weprom-gray-200 dark:border-weprom-gray-800">
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <User className="w-5 h-5 text-weprom-blue" />
+                  <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                    {message.name}
+                  </h3>
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(message.status)}`}>
+                    {getStatusText(message.status)}
+                  </span>
+                </div>
+                <p className="text-sm text-weprom-gray-500 dark:text-weprom-gray-400">
+                  {formatDate(message.created_at)}
+                </p>
+              </div>
+              <button
+                onClick={onClose}
+                className="text-weprom-gray-400 hover:text-weprom-gray-600 dark:hover:text-weprom-gray-300 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-weprom-gray-500" />
+                  <div>
+                    <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">Email</p>
+                    <p className="font-medium text-weprom-gray-900 dark:text-weprom-white break-all">
+                      {message.email}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-weprom-gray-500" />
+                  <div>
+                    <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">Teléfono</p>
+                    <p className="font-medium text-weprom-gray-900 dark:text-weprom-white">
+                      {message.phone}
+                    </p>
+                  </div>
+                </div>
+
+                {message.company && (
+                  <div className="flex items-center gap-2">
+                    <Building className="w-4 h-4 text-weprom-gray-500" />
+                    <div>
+                      <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">Empresa</p>
+                      <p className="font-medium text-weprom-gray-900 dark:text-weprom-white">
+                        {message.company}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-weprom-gray-50 dark:bg-weprom-dark p-4 rounded-lg">
+                <p className="text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-2">Mensaje</p>
+                <p className="text-weprom-gray-600 dark:text-weprom-gray-400 whitespace-pre-wrap">
+                  {message.message}
+                </p>
+              </div>
+            </div>
+
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Utility Functions
 const sanitizeFileName = (name: string) => {
   return name
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // Remove accents
-    .replace(/\s+/g, '-')           // Replace spaces with hyphens
-    .replace(/[^a-zA-Z0-9.\-_]/g, ""); // Remove special characters
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, '-')
+    .replace(/[^a-zA-Z0-9.\-_]/g, "");
 };
 
 const getCompressionOptions = (fileType: string): CompressionOptions => {
   const commonOptions = {
-    maxSizeMB: 0.5, // Max 500KB
+    maxSizeMB: 0.5,
     useWebWorker: true,
     maxIteration: 10
   };
@@ -334,38 +462,20 @@ const getCompressionOptions = (fileType: string): CompressionOptions => {
 
 const compressImage = async (file: File, onProgress?: (percent: number) => void): Promise<File> => {
   try {
-    console.log('📤 Original file size:', (file.size / 1024 / 1024).toFixed(2), 'MB');
-
     const options = getCompressionOptions(file.type);
-
-    // Compress the image with progress tracking
     const compressedFile = await imageCompression(file, {
       ...options,
-      onProgress: (percent) => {
-        if (onProgress) onProgress(percent);
-      }
+      onProgress
     });
 
-    console.log('✅ Compressed file size:', (compressedFile.size / 1024).toFixed(2), 'KB');
-
-    // Create a new file with the compressed content
     return new File([compressedFile], file.name, {
       type: compressedFile.type,
       lastModified: Date.now()
     });
   } catch (error) {
-    console.error('❌ Error compressing image:', error);
-    // Return original file if compression fails
+    console.error('Error compressing image:', error);
     return file;
   }
-};
-
-const validateFileSize = (file: File, maxSizeMB = 5): boolean => {
-  const fileSizeMB = file.size / 1024 / 1024;
-  if (fileSizeMB > maxSizeMB) {
-    return false;
-  }
-  return true;
 };
 
 const validateFileType = (file: File): boolean => {
@@ -384,7 +494,7 @@ const compressImageWithRetry = async (
     try {
       const options = {
         ...getCompressionOptions(file.type),
-        maxSizeMB: 0.3 * (i + 1), // Progressive compression
+        maxSizeMB: 0.3 * (i + 1),
         maxWidthOrHeight: 1000 - (i * 200),
       };
 
@@ -393,13 +503,11 @@ const compressImageWithRetry = async (
         onProgress
       });
 
-      // If file is under 500KB, return it
       if (compressedFile.size < 500 * 1024) {
-        console.log(`✅ Compresión exitosa en intento ${i + 1}`);
         return compressedFile;
       }
     } catch (error) {
-      console.warn(`⚠️ Intento de compresión ${i + 1} falló:`, error);
+      console.warn(`Intento de compresión ${i + 1} falló:`, error);
     }
   }
 
@@ -453,11 +561,13 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [activeTab, setActiveTab] = useState('overview');
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [contacts, setContacts] = useState<ContactMessage[]>([]);
   const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [showCampaignForm, setShowCampaignForm] = useState(false);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingContacts, setLoadingContacts] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -470,6 +580,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   });
   const [compressionProgress, setCompressionProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState(false);
+  const [selectedContact, setSelectedContact] = useState<ContactMessage | null>(null);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   const [stats, setStats] = useState({
     activeCampaigns: 0,
@@ -482,7 +594,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [isLoadingStats, setIsLoadingStats] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Estados para notificaciones y modales
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [modalConfig, setModalConfig] = useState<{
@@ -495,12 +606,10 @@ export default function Dashboard({ onLogout }: DashboardProps) {
 
   const getToken = () => localStorage.getItem('token');
 
-  // Función para agregar notificaciones
   const addNotification = (notification: Omit<Notification, 'id'>) => {
     const id = Date.now();
     setNotifications(prev => [...prev, { ...notification, id }]);
 
-    // Auto-remove after duration
     if (notification.duration) {
       setTimeout(() => {
         removeNotification(id);
@@ -512,7 +621,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     setNotifications(prev => prev.filter(n => n.id !== id));
   };
 
-  // Función para mostrar confirmación modal
   const showConfirmation = (config: {
     title: string;
     message: string;
@@ -525,17 +633,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       type: config.type || 'warning'
     });
     setShowConfirmModal(true);
-  };
-
-  // Función para mostrar alerta de archivo grande
-  const showFileSizeWarning = (fileSizeMB: number, maxSizeMB: number) => {
-    showConfirmation({
-      title: '⚠️ Archivo muy grande',
-      message: `La imagen es muy grande (${fileSizeMB.toFixed(1)} MB). La compresión puede tardar. ¿Deseas continuar?`,
-      onConfirm: () => { }, // La lógica continúa después de la confirmación
-      type: 'warning',
-      confirmText: 'Continuar'
-    });
   };
 
   useEffect(() => {
@@ -589,6 +686,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     }
     loadCampaigns();
     loadProjects();
+    loadContacts();
   }, []);
 
   useEffect(() => {
@@ -664,6 +762,60 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     }
   };
 
+  const loadContacts = async () => {
+    try {
+      setLoadingContacts(true);
+      const token = getToken();
+      const response = await fetch(`${API_URL}/contacts`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const result = await response.json();
+      if (result.success) {
+        setContacts(result.data);
+      }
+    } catch (error) {
+      console.error('Error cargando contactos:', error);
+    } finally {
+      setLoadingContacts(false);
+    }
+  };
+
+  const updateContactStatus = async (id: number, status: 'unread' | 'read' | 'replied') => {
+    try {
+      const token = getToken();
+      const response = await fetch(`${API_URL}/contacts/${id}/status`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setContacts(prev => prev.map(contact =>
+          contact.id === id ? { ...contact, status } : contact
+        ));
+        
+        addNotification({
+          type: 'success',
+          title: 'Estado actualizado',
+          message: `El mensaje se marcó como ${status === 'read' ? 'leído' : 'respondido'}`,
+          duration: 3000
+        });
+      }
+    } catch (error) {
+      console.error('Error actualizando estado:', error);
+      addNotification({
+        type: 'error',
+        title: 'Error',
+        message: 'No se pudo actualizar el estado',
+        duration: 5000
+      });
+    }
+  };
+
   const loadDashboardStats = async () => {
     setIsLoadingStats(true);
     try {
@@ -695,11 +847,9 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Reset progress
     setCompressionProgress(0);
     setIsCompressing(true);
 
-    // Validate file type
     if (!validateFileType(file)) {
       addNotification({
         type: 'error',
@@ -707,12 +857,11 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         message: 'Por favor selecciona una imagen (JPEG, PNG, WebP, GIF).',
         duration: 5000
       });
-      e.target.value = ''; // Reset input
+      e.target.value = '';
       setIsCompressing(false);
       return;
     }
 
-    // Show original file preview immediately
     const tempReader = new FileReader();
     tempReader.onloadend = () => {
       setImagePreview(tempReader.result as string);
@@ -720,52 +869,24 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     tempReader.readAsDataURL(file);
 
     try {
-      // Compress the image with progress tracking
       const compressedFile = await compressImageWithRetry(
         file,
         2,
         (percent) => setCompressionProgress(percent)
       );
 
-      // Log compression results
-      const originalKB = file.size / 1024;
-      const compressedKB = compressedFile.size / 1024;
-      const compressionRatio = ((1 - compressedKB / originalKB) * 100).toFixed(1);
-
-      console.log(`Compresión: ${originalKB.toFixed(0)}KB → ${compressedKB.toFixed(0)}KB (${compressionRatio}% reducción)`);
-
-      // Update form state with compressed file
       if (type === 'campaign') {
         setCampaignForm({ ...campaignForm, image: compressedFile });
       } else {
         setProjectForm({ ...projectForm, image: compressedFile });
       }
 
-      // Update preview with compressed image
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
         setIsCompressing(false);
         setCompressionProgress(100);
 
-        // Show compression success message
-        if (compressedKB < 500) {
-          addNotification({
-            type: 'success',
-            title: 'Imagen comprimida',
-            message: 'La imagen se ha comprimido exitosamente.',
-            duration: 3000
-          });
-        } else {
-          addNotification({
-            type: 'warning',
-            title: 'Imagen grande',
-            message: 'La imagen sigue siendo grande. Se recomienda usar una imagen más pequeña.',
-            duration: 5000
-          });
-        }
-
-        // Reset progress after showing success
         setTimeout(() => setCompressionProgress(0), 1500);
       };
       reader.readAsDataURL(compressedFile);
@@ -887,7 +1008,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         body: formData,
       });
 
-      // Handle server errors
       if (!response.ok) {
         if (response.status === 413) {
           addNotification({
@@ -1020,7 +1140,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
             await loadProjects();
             addNotification({
               type: 'success',
-              title: '✅ Proyecto eliminado',
+              title: '✅ Proyecto eliminada',
               message: 'El proyecto se ha eliminado exitosamente.',
               duration: 3000
             });
@@ -1046,14 +1166,78 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     });
   };
 
+  const handleViewContact = (contact: ContactMessage) => {
+    setSelectedContact(contact);
+    setShowContactModal(true);
+    
+    if (contact.status === 'unread') {
+      updateContactStatus(contact.id, 'read');
+    }
+  };
+
   const handleMobileMenuItemClick = (tabId: string) => {
     setActiveTab(tabId);
     setIsMobileMenuOpen(false);
   };
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'unread':
+        return 'bg-weprom-red/10 text-weprom-red';
+      case 'read':
+        return 'bg-weprom-blue/10 text-weprom-blue';
+      case 'replied':
+        return 'bg-weprom-green/10 text-weprom-green';
+      default:
+        return 'bg-weprom-gray-100 text-weprom-gray-700';
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'unread':
+        return 'No leído';
+      case 'read':
+        return 'Leído';
+      case 'replied':
+        return 'Respondido';
+      default:
+        return status;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 60) {
+      return `Hace ${diffMins} min`;
+    } else if (diffHours < 24) {
+      return `Hace ${diffHours} h`;
+    } else if (diffDays === 1) {
+      return 'Ayer';
+    } else if (diffDays < 7) {
+      return `Hace ${diffDays} días`;
+    } else {
+      return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+    }
+  };
+
+  const unreadCount = contacts.filter(c => c.status === 'unread').length;
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-weprom-gray-50 via-white to-weprom-gray-50 dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark">
-      {/* Notificaciones */}
+      <style>{`
+        @keyframes shrink {
+          from { width: 100%; }
+          to { width: 0%; }
+        }
+      `}</style>
+
       {notifications.map(notification => (
         <NotificationToast
           key={notification.id}
@@ -1062,7 +1246,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         />
       ))}
 
-      {/* Modal de Confirmación */}
       {showConfirmModal && modalConfig && (
         <ConfirmationModal
           isOpen={showConfirmModal}
@@ -1075,11 +1258,17 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         />
       )}
 
-      {/* Header */}
+      {showContactModal && (
+        <ContactMessageModal
+          isOpen={showContactModal}
+          onClose={() => setShowContactModal(false)}
+          message={selectedContact}
+        />
+      )}
+
       <header className="sticky top-0 z-50 bg-white/95 dark:bg-weprom-dark/95 backdrop-blur-sm border-b border-weprom-gray-200 dark:border-weprom-gray-800">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between py-4">
-            {/* Logo */}
             <div className="flex items-center gap-3 group">
               <div className="w-10 h-10 bg-gradient-to-r from-weprom-red to-weprom-yellow rounded-xl flex items-center justify-center shadow-lg">
                 <span className="text-white font-extrabold">W</span>
@@ -1097,13 +1286,10 @@ export default function Dashboard({ onLogout }: DashboardProps) {
               </div>
             </div>
 
-            {/* Desktop Header Right */}
             <div className="hidden md:flex items-center gap-4">
-              {/* Theme Toggle */}
               <button
                 onClick={toggleDarkMode}
                 className="p-2 rounded-lg bg-weprom-gray-100 dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-yellow transition-colors"
-                aria-label={isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
               >
                 {isDarkMode ? (
                   <Sun className="w-5 h-5 text-weprom-yellow" />
@@ -1112,7 +1298,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                 )}
               </button>
 
-              {/* User */}
               {user && (
                 <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-weprom-gray-100 dark:bg-weprom-gray-900">
                   <div className="w-8 h-8 bg-gradient-to-r from-weprom-red to-weprom-yellow rounded-full flex items-center justify-center">
@@ -1127,7 +1312,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                 </div>
               )}
 
-              {/* Logout Button */}
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
@@ -1137,7 +1321,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
               </button>
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2.5 rounded-lg bg-weprom-gray-100 dark:bg-weprom-gray-900 border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-red transition-colors"
@@ -1148,12 +1331,10 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden" onClick={() => setIsMobileMenuOpen(false)} />
       )}
 
-      {/* Mobile Menu */}
       <div className={`fixed top-0 right-0 h-full w-72 bg-white dark:bg-weprom-dark-gray shadow-2xl z-50 transform transition-transform duration-300 ease-out md:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="h-full pt-4 flex flex-col">
           <div className="p-6 border-b border-weprom-gray-200 dark:border-weprom-gray-800 bg-gradient-to-r from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray">
@@ -1175,7 +1356,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
               </button>
             </div>
 
-            {/* Theme Toggle Mobile */}
             <div className="mb-6">
               <button
                 onClick={toggleDarkMode}
@@ -1197,7 +1377,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
               </button>
             </div>
 
-            {/* User Mobile */}
             {user && (
               <div className="flex items-center gap-3 p-3 rounded-xl bg-weprom-gray-100 dark:bg-weprom-gray-900">
                 <div className="w-10 h-10 bg-gradient-to-r from-weprom-red to-weprom-yellow rounded-full flex items-center justify-center">
@@ -1213,29 +1392,33 @@ export default function Dashboard({ onLogout }: DashboardProps) {
             )}
           </div>
 
-          {/* Mobile Navigation */}
           <div className="flex-1 overflow-y-auto p-4">
             <div className="space-y-1">
               {[
                 { id: 'overview', label: 'Resumen', icon: Home, color: 'red' },
                 { id: 'campaigns', label: 'Campañas', icon: Megaphone, color: 'blue' },
-                { id: 'projects', label: 'Proyectos', icon: Briefcase, color: 'green' }
+                { id: 'projects', label: 'Proyectos', icon: Briefcase, color: 'green' },
+                { id: 'messages', label: 'Mensajes', icon: MessageSquare, color: 'purple' }
               ].map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleMobileMenuItemClick(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl font-semibold transition-all duration-300 ${activeTab === item.id
+                  className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl font-semibold transition-all duration-300 relative ${activeTab === item.id
                     ? `bg-gradient-to-r from-weprom-${item.color} to-weprom-yellow text-white shadow-lg`
                     : 'text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800'
                     }`}
                 >
                   <item.icon className="w-5 h-5" />
                   {item.label}
+                  {item.id === 'messages' && unreadCount > 0 && (
+                    <span className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-weprom-red text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
 
-            {/* Logout Mobile */}
             <div className="mt-8">
               <button
                 onClick={handleLogout}
@@ -1249,34 +1432,41 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         </div>
       </div>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        {/* Desktop Navigation Tabs */}
         <div className="hidden md:flex gap-3 mb-8 overflow-x-auto pb-4">
           {[
             { id: 'overview', label: 'Resumen', icon: Home },
             { id: 'campaigns', label: 'Campañas', icon: Megaphone },
-            { id: 'projects', label: 'Proyectos', icon: Briefcase }
+            { id: 'projects', label: 'Proyectos', icon: Briefcase },
+            { 
+              id: 'messages', 
+              label: 'Mensajes', 
+              icon: MessageSquare,
+              badge: unreadCount > 0 ? unreadCount : undefined
+            }
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-3 px-5 py-3.5 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap ${activeTab === tab.id
+              className={`flex items-center gap-3 px-5 py-3.5 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap relative ${activeTab === tab.id
                 ? 'bg-gradient-to-r from-weprom-red to-weprom-yellow text-white shadow-lg'
                 : 'bg-white dark:bg-weprom-dark-gray text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800 shadow'
                 }`}
             >
               <tab.icon className="w-5 h-5" />
               {tab.label}
+              {tab.badge && tab.badge > 0 && (
+                <span className="absolute -top-2 -right-2 bg-weprom-red text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                  {tab.badge}
+                </span>
+              )}
             </button>
           ))}
         </div>
 
-        {/* Tab Content */}
         <div className="space-y-8">
           {activeTab === 'overview' && (
             <div className="space-y-8">
-              {/* Welcome Card */}
               <div className="relative overflow-hidden bg-gradient-to-br from-weprom-red/20 via-weprom-yellow/20 to-weprom-blue/20 dark:from-weprom-red/10 dark:via-weprom-yellow/10 dark:to-weprom-blue/10 rounded-2xl p-6 sm:p-8 border border-weprom-gray-200 dark:border-weprom-gray-800">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-rainbow"></div>
                 <div className="relative z-10">
@@ -1303,8 +1493,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                     </div>
                   </div>
 
-                  {/* Quick Stats */}
-                  <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-white/50 dark:bg-weprom-dark/50 backdrop-blur-sm rounded-xl p-4 border border-weprom-gray-200 dark:border-weprom-gray-800">
                       <div className="flex items-center justify-between mb-2">
                         <Target className="w-5 h-5 text-weprom-red" />
@@ -1322,14 +1511,22 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                       <p className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400">Proyectos</p>
                       <p className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mt-1">{stats.activeProjects}</p>
                     </div>
+
+                    <div className="bg-white/50 dark:bg-weprom-dark/50 backdrop-blur-sm rounded-xl p-4 border border-weprom-gray-200 dark:border-weprom-gray-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <MessageSquare className="w-5 h-5 text-weprom-green" />
+                        <span className="text-xs px-2 py-1 rounded-full bg-weprom-green/10 text-weprom-green">Mensajes</span>
+                      </div>
+                      <p className="text-xs text-weprom-gray-600 dark:text-weprom-gray-400">Nuevos</p>
+                      <p className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mt-1">{unreadCount}</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Quick Actions */}
               <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-800">
                 <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-6">Acciones Rápidas</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <button
                     onClick={() => { setActiveTab('campaigns'); setShowCampaignForm(true); }}
                     className="group p-5 rounded-xl border border-weprom-gray-200 dark:border-weprom-gray-800 hover:border-weprom-red transition-all duration-300 transform hover:-translate-y-1"
@@ -1367,6 +1564,27 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                       <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </button>
+
+                  <button
+                    onClick={() => setActiveTab('messages')}
+                    className="group p-5 rounded-xl border border-weprom-gray-200 dark:border-weprom-gray-800 hover:border-weprom-green transition-all duration-300 transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-weprom-green to-emerald-500 flex items-center justify-center">
+                        <MessageSquare className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-bold text-weprom-gray-900 dark:text-weprom-white">Ver Mensajes</h4>
+                        <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">{unreadCount} sin leer</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center text-weprom-green text-sm">
+                      <span>Revisar</span>
+                      <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </button>
+
+             
                 </div>
               </div>
             </div>
@@ -1409,7 +1627,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                     <div className="space-y-6">
                       <div>
                         <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">Título</label>
-
                         <input
                           type="text"
                           value={campaignForm.title}
@@ -1417,11 +1634,9 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                           className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-red focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-weprom-gray-900 dark:text-white placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-400"
                           placeholder="Nombre de la campaña"
                         />
-
                       </div>
                       <div>
                         <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">Descripción</label>
-
                         <textarea
                           value={campaignForm.description}
                           onChange={(e) => setCampaignForm({ ...campaignForm, description: e.target.value })}
@@ -1480,7 +1695,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                           </label>
                         </div>
 
-                        {/* Progress bar */}
                         {isCompressing && compressionProgress > 0 && (
                           <div className="mt-3">
                             <div className="flex justify-between text-xs text-weprom-gray-500 dark:text-weprom-gray-400 mb-1">
@@ -1496,10 +1710,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                           </div>
                         )}
 
-                        {/* File size info */}
                         {campaignForm.image && <FileSizeInfo file={campaignForm.image} />}
 
-                        {/* Image preview */}
                         {imagePreview && (
                           <div className="mt-4 relative">
                             <img
@@ -1618,7 +1830,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                       </button>
                     </div>
                     <div className="space-y-6">
-                      {/* Nombre del Proyecto */}
                       <div>
                         <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
                           Nombre del Proyecto
@@ -1632,7 +1843,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         />
                       </div>
 
-                      {/* Categoría */}
                       <div>
                         <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
                           Categoría
@@ -1646,7 +1856,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         />
                       </div>
 
-                      {/* Descripción */}
                       <div>
                         <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
                           Descripción
@@ -1660,7 +1869,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         />
                       </div>
 
-                      {/* Imagen (existing code remains the same) */}
                       <div>
                         <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
                           Imagen {projectForm.image && !isCompressing && (
@@ -1711,7 +1919,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                           </label>
                         </div>
 
-                        {/* Progress bar */}
                         {isCompressing && compressionProgress > 0 && (
                           <div className="mt-3">
                             <div className="flex justify-between text-xs text-weprom-gray-500 dark:text-weprom-gray-400 mb-1">
@@ -1727,10 +1934,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                           </div>
                         )}
 
-                        {/* File size info */}
                         {projectForm.image && <FileSizeInfo file={projectForm.image} />}
 
-                        {/* Image preview */}
                         {imagePreview && (
                           <div className="mt-4 relative">
                             <img
@@ -1756,7 +1961,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         </p>
                       </div>
 
-                      {/* Botones */}
                       <div className="flex flex-col sm:flex-row gap-3 pt-4">
                         <button
                           onClick={handleSaveProject}
@@ -1782,7 +1986,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         <div className="relative h-48 overflow-hidden">
                           <img src={project.img} alt={project.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                          {/* ADD THIS CATEGORY BADGE */}
                           <div className="absolute top-3 left-3">
                             <span className="px-3 py-1 bg-weprom-blue/90 text-white text-xs font-semibold rounded-full backdrop-blur-sm">
                               {project.category || 'General'}
@@ -1791,7 +1994,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         </div>
                         <div className="p-5">
                           <h3 className="font-extrabold text-lg text-weprom-gray-900 dark:text-weprom-white mb-2 truncate">{project.name}</h3>
-                          {/* ADD THIS DESCRIPTION */}
                           {project.description && (
                             <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 mb-4 line-clamp-2">
                               {project.description}
@@ -1820,16 +2022,178 @@ export default function Dashboard({ onLogout }: DashboardProps) {
               </div>
             </div>
           )}
+
+          {activeTab === 'messages' && (
+            <div>
+              <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-800">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                  <div>
+                    <div className="inline-flex items-center gap-2 mb-3">
+                      <div className="h-0.5 w-6 bg-gradient-to-r from-weprom-purple to-weprom-pink"></div>
+                      <span className="text-sm font-semibold text-weprom-purple uppercase tracking-widest">
+                        Mensajes de Contacto
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                      Gestión de Mensajes
+                    </h2>
+                    <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 mt-2">
+                      {unreadCount > 0 ? `${unreadCount} mensaje${unreadCount > 1 ? 's' : ''} sin leer` : 'Todos los mensajes han sido leídos'}
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={loadContacts}
+                      className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-weprom-gray-600 to-weprom-gray-800 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300"
+                    >
+                      <Loader2 className={`w-4 h-4 ${loadingContacts ? 'animate-spin' : ''}`} />
+                      {loadingContacts ? 'Cargando...' : 'Actualizar'}
+                    </button>
+                  </div>
+                </div>
+
+                {loadingContacts ? (
+                  <div className="flex justify-center items-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-t-weprom-purple border-transparent"></div>
+                  </div>
+                ) : contacts.length === 0 ? (
+                  <div className="text-center py-12">
+                    <MessageSquare className="w-16 h-16 text-weprom-gray-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-2">
+                      No hay mensajes
+                    </h3>
+                    <p className="text-weprom-gray-500 dark:text-weprom-gray-400">
+                      Aún no has recibido mensajes de contacto.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="overflow-hidden rounded-xl border border-weprom-gray-200 dark:border-weprom-gray-800">
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="bg-weprom-gray-50 dark:bg-weprom-dark border-b border-weprom-gray-200 dark:border-weprom-gray-800">
+                            <th className="text-left py-4 px-6 text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                              Nombre
+                            </th>
+                            <th className="text-left py-4 px-6 text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                              Email
+                            </th>
+                            <th className="text-left py-4 px-6 text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                              Teléfono
+                            </th>
+                            <th className="text-left py-4 px-6 text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                              Estado
+                            </th>
+                            <th className="text-left py-4 px-6 text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                              Fecha
+                            </th>
+                            <th className="text-left py-4 px-6 text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                              Acciones
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {contacts.map((contact) => (
+                            <tr 
+                              key={contact.id} 
+                              className={`border-b border-weprom-gray-100 dark:border-weprom-gray-800 hover:bg-weprom-gray-50 dark:hover:bg-weprom-dark/50 transition-colors ${contact.status === 'unread' ? 'bg-weprom-red/5 dark:bg-weprom-red/10' : ''}`}
+                            >
+                              <td className="py-4 px-6">
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-2 h-2 rounded-full ${contact.status === 'unread' ? 'bg-weprom-red' : 'bg-weprom-gray-400'}`}></div>
+                                  <div>
+                                    <p className="font-semibold text-weprom-gray-900 dark:text-weprom-white">
+                                      {contact.name}
+                                    </p>
+                                    {contact.company && (
+                                      <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">
+                                        {contact.company}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="py-4 px-6">
+                                <p className="text-weprom-gray-700 dark:text-weprom-gray-300">
+                                  {contact.email}
+                                </p>
+                              </td>
+                              <td className="py-4 px-6">
+                                <p className="text-weprom-gray-700 dark:text-weprom-gray-300">
+                                  {contact.phone}
+                                </p>
+                              </td>
+                              <td className="py-4 px-6">
+                                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(contact.status)}`}>
+                                  {getStatusText(contact.status)}
+                                </span>
+                              </td>
+                              <td className="py-4 px-6">
+                                <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">
+                                  {formatDate(contact.created_at)}
+                                </p>
+                              </td>
+                              <td className="py-4 px-6">
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() => handleViewContact(contact)}
+                                    className="flex items-center gap-2 px-3 py-1.5 bg-weprom-blue/10 text-weprom-blue rounded-lg hover:bg-weprom-blue/20 transition-colors text-sm"
+                                  >
+                                    <Eye className="w-4 h-4" />
+                                    Ver
+                                  </button>
+                                  {contact.status !== 'replied' && (
+                                    <button
+                                      onClick={() => updateContactStatus(contact.id, 'replied')}
+                                      className="flex items-center gap-2 px-3 py-1.5 bg-weprom-green/10 text-weprom-green rounded-lg hover:bg-weprom-green/20 transition-colors text-sm"
+                                    >
+                                      <Check className="w-4 h-4" />
+                                      Respondido
+                                    </button>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {contacts.length > 0 && (
+                  <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-weprom-gray-600 dark:text-weprom-gray-400">
+                    <div>
+                      Mostrando {contacts.length} mensaje{contacts.length > 1 ? 's' : ''}
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-weprom-red"></div>
+                        <span>No leído</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-weprom-blue"></div>
+                        <span>Leído</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-weprom-green"></div>
+                        <span>Respondido</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="mt-12 py-6 border-t border-weprom-gray-200 dark:border-weprom-gray-800">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
               <p className="text-sm font-light text-weprom-gray-600 dark:text-weprom-gray-400">
-                WeProm Dashboard v1.0
+                WeProm Dashboard v1.1
               </p>
               <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-500 mt-1">
                 &copy; 2025 WeProm Marketing. Panel administrativo.
@@ -1850,5 +2214,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         </div>
       </footer>
     </div>
-  );
+    
+
+);
+  
 }
