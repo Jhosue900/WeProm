@@ -93,7 +93,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
             }}
           />
           <motion.img
-            src={isDarkMode ? LogoLightSolo : LogoLight}
+            src={isDarkMode ? LogoLightSolo : LogoLightSolo}
             alt="WeProm Logo"
             className="w-56 sm:w-64 md:w-72 relative z-10 drop-shadow-2xl"
             animate={{
@@ -114,7 +114,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          <motion.h2
+          {/*<motion.h2
             className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue bg-clip-text text-transparent"
             animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
@@ -129,7 +129,7 @@ export default function SplashScreen({ onFinish }: SplashScreenProps) {
             }}
           >
             Marketing Digital
-          </motion.h2>
+          </motion.h2>*/}
           <motion.p
             className="text-lg sm:text-xl font-bold text-weprom-gray-600 dark:text-weprom-gray-400 mt-2"
             initial={{ opacity: 0 }}
