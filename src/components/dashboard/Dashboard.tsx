@@ -8,7 +8,8 @@ import {
   FileText, Image, Video, Megaphone, BarChart,
   Sparkles, Grid, Settings, Bell, Search,
   Home, BarChart2, Users as UsersIcon, CreditCard,
-  Sun, Moon, CheckCircle, AlertCircle
+  Sun, Moon, CheckCircle, AlertCircle,
+  Check, XCircle, Info, AlertTriangle
 } from 'lucide-react';
 
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -54,6 +55,240 @@ interface CompressionOptions {
   exifOrientation?: number;
   fileType?: string;
 }
+
+interface Notification {
+  id: number;
+  type: 'success' | 'error' | 'warning' | 'info';
+  title: string;
+  message: string;
+  duration?: number;
+}
+
+// Componente de Notificación
+const NotificationToast = ({
+  notification,
+  onClose
+}: {
+  notification: Notification;
+  onClose: () => void;
+}) => {
+  const [isExiting, setIsExiting] = useState(false);
+
+  useEffect(() => {
+    if (notification.duration) {
+      const timer = setTimeout(() => {
+        setIsExiting(true);
+        setTimeout(onClose, 300);
+      }, notification.duration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [notification.duration, onClose]);
+
+  const getIcon = () => {
+    switch (notification.type) {
+      case 'success':
+        return <CheckCircle className="w-6 h-6" />;
+      case 'error':
+        return <XCircle className="w-6 h-6" />;
+      case 'warning':
+        return <AlertTriangle className="w-6 h-6" />;
+      case 'info':
+        return <Info className="w-6 h-6" />;
+      default:
+        return <Info className="w-6 h-6" />;
+    }
+  };
+
+  const getBgColor = () => {
+    switch (notification.type) {
+      case 'success':
+        return 'bg-gradient-to-r from-weprom-green to-emerald-500';
+      case 'error':
+        return 'bg-gradient-to-r from-weprom-red to-rose-500';
+      case 'warning':
+        return 'bg-gradient-to-r from-weprom-yellow to-amber-500';
+      case 'info':
+        return 'bg-gradient-to-r from-weprom-blue to-cyan-500';
+      default:
+        return 'bg-gradient-to-r from-weprom-gray-600 to-weprom-gray-700';
+    }
+  };
+
+  const getBorderColor = () => {
+    switch (notification.type) {
+      case 'success':
+        return 'border-weprom-green/30';
+      case 'error':
+        return 'border-weprom-red/30';
+      case 'warning':
+        return 'border-weprom-yellow/30';
+      case 'info':
+        return 'border-weprom-blue/30';
+      default:
+        return 'border-weprom-gray-500/30';
+    }
+  };
+
+  const getTextColor = () => {
+    switch (notification.type) {
+      case 'success':
+        return 'text-weprom-green';
+      case 'error':
+        return 'text-weprom-red';
+      case 'warning':
+        return 'text-weprom-yellow';
+      case 'info':
+        return 'text-weprom-blue';
+      default:
+        return 'text-weprom-gray-600';
+    }
+  };
+
+  return (
+    <div
+      className={`fixed top-4 right-4 z-[100] w-96 max-w-[calc(100vw-2rem)] transform transition-all duration-300 ${isExiting ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100'
+        }`}
+    >
+      <div className={`rounded-xl shadow-2xl overflow-hidden backdrop-blur-sm bg-white/95 dark:bg-weprom-dark/95 border ${getBorderColor()}`}>
+        <div className="p-4">
+          <div className="flex items-start gap-3">
+            <div className={`p-2 rounded-lg ${getBgColor()} text-white`}>
+              {getIcon()}
+            </div>
+            <div className="flex-1">
+              <div className="flex justify-between items-start">
+                <h4 className="font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                  {notification.title}
+                </h4>
+                <button
+                  onClick={() => {
+                    setIsExiting(true);
+                    setTimeout(onClose, 300);
+                  }}
+                  className="text-weprom-gray-400 hover:text-weprom-gray-600 dark:hover:text-weprom-gray-300 transition-colors p-1"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 mt-1">
+                {notification.message}
+              </p>
+            </div>
+          </div>
+        </div>
+        {notification.duration && (
+          <div className="h-1 w-full bg-weprom-gray-200 dark:bg-weprom-gray-800 overflow-hidden">
+            <div
+              className={`h-full ${getBgColor()} transition-all duration-1000`}
+              style={{
+                animation: `shrink ${notification.duration}ms linear forwards`,
+              }}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Componente de Confirmación Modal
+const ConfirmationModal = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  confirmText = 'Confirmar',
+  cancelText = 'Cancelar',
+  type = 'warning'
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
+  type?: 'warning' | 'danger' | 'info';
+}) => {
+  if (!isOpen) return null;
+
+  const getIcon = () => {
+    switch (type) {
+      case 'danger':
+        return <AlertTriangle className="w-12 h-12 text-weprom-red" />;
+      case 'warning':
+        return <AlertTriangle className="w-12 h-12 text-weprom-yellow" />;
+      case 'info':
+        return <Info className="w-12 h-12 text-weprom-blue" />;
+      default:
+        return <Info className="w-12 h-12 text-weprom-blue" />;
+    }
+  };
+
+  const getConfirmButtonClass = () => {
+    switch (type) {
+      case 'danger':
+        return 'bg-gradient-to-r from-weprom-red to-rose-500 hover:shadow-red/30';
+      case 'warning':
+        return 'bg-gradient-to-r from-weprom-yellow to-amber-500 hover:shadow-yellow/30';
+      case 'info':
+        return 'bg-gradient-to-r from-weprom-blue to-cyan-500 hover:shadow-blue/30';
+      default:
+        return 'bg-gradient-to-r from-weprom-blue to-cyan-500 hover:shadow-blue/30';
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      {/* Overlay */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <div className="relative z-10 w-full max-w-md transform transition-all">
+        <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl shadow-2xl overflow-hidden border border-weprom-gray-200 dark:border-weprom-gray-800">
+          {/* Header */}
+          <div className="p-6 border-b border-weprom-gray-200 dark:border-weprom-gray-800">
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-4">
+                {getIcon()}
+              </div>
+              <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                {title}
+              </h3>
+              <p className="text-weprom-gray-600 dark:text-weprom-gray-400 mt-2">
+                {message}
+              </p>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="p-6 flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={onClose}
+              className="flex-1 px-4 py-3 bg-weprom-gray-100 dark:bg-weprom-gray-900 hover:bg-weprom-gray-200 dark:hover:bg-weprom-gray-800 text-weprom-gray-700 dark:text-weprom-gray-300 rounded-xl font-semibold transition-colors"
+            >
+              {cancelText}
+            </button>
+            <button
+              onClick={() => {
+                onConfirm();
+                onClose();
+              }}
+              className={`flex-1 px-4 py-3 ${getConfirmButtonClass()} text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300`}
+            >
+              {confirmText}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Utility Functions
 const sanitizeFileName = (name: string) => {
@@ -128,7 +363,6 @@ const compressImage = async (file: File, onProgress?: (percent: number) => void)
 const validateFileSize = (file: File, maxSizeMB = 5): boolean => {
   const fileSizeMB = file.size / 1024 / 1024;
   if (fileSizeMB > maxSizeMB) {
-    alert(`⚠️ El archivo es demasiado grande (${fileSizeMB.toFixed(2)} MB). Por favor selecciona una imagen menor a ${maxSizeMB} MB.`);
     return false;
   }
   return true;
@@ -136,11 +370,7 @@ const validateFileSize = (file: File, maxSizeMB = 5): boolean => {
 
 const validateFileType = (file: File): boolean => {
   const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
-  if (!validTypes.includes(file.type)) {
-    alert('❌ Formato de archivo no válido. Por favor selecciona una imagen (JPEG, PNG, WebP, GIF).');
-    return false;
-  }
-  return true;
+  return validTypes.includes(file.type);
 };
 
 const compressImageWithRetry = async (
@@ -216,6 +446,7 @@ const FileSizeInfo = ({ file, originalFile }: { file: File | null, originalFile?
     </div>
   );
 };
+
 // Main Dashboard Component
 export default function Dashboard({ onLogout }: DashboardProps) {
   const navigate = useNavigate();
@@ -251,7 +482,61 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [isLoadingStats, setIsLoadingStats] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // Estados para notificaciones y modales
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [modalConfig, setModalConfig] = useState<{
+    title: string;
+    message: string;
+    onConfirm: () => void;
+    type: 'warning' | 'danger' | 'info';
+    confirmText?: string;
+  } | null>(null);
+
   const getToken = () => localStorage.getItem('token');
+
+  // Función para agregar notificaciones
+  const addNotification = (notification: Omit<Notification, 'id'>) => {
+    const id = Date.now();
+    setNotifications(prev => [...prev, { ...notification, id }]);
+
+    // Auto-remove after duration
+    if (notification.duration) {
+      setTimeout(() => {
+        removeNotification(id);
+      }, notification.duration);
+    }
+  };
+
+  const removeNotification = (id: number) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  };
+
+  // Función para mostrar confirmación modal
+  const showConfirmation = (config: {
+    title: string;
+    message: string;
+    onConfirm: () => void;
+    type?: 'warning' | 'danger' | 'info';
+    confirmText?: string;
+  }) => {
+    setModalConfig({
+      ...config,
+      type: config.type || 'warning'
+    });
+    setShowConfirmModal(true);
+  };
+
+  // Función para mostrar alerta de archivo grande
+  const showFileSizeWarning = (fileSizeMB: number, maxSizeMB: number) => {
+    showConfirmation({
+      title: '⚠️ Archivo muy grande',
+      message: `La imagen es muy grande (${fileSizeMB.toFixed(1)} MB). La compresión puede tardar. ¿Deseas continuar?`,
+      onConfirm: () => { }, // La lógica continúa después de la confirmación
+      type: 'warning',
+      confirmText: 'Continuar'
+    });
+  };
 
   useEffect(() => {
     const token = getToken();
@@ -297,8 +582,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     }
   };
 
-
-
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -314,7 +597,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     }
   }, [campaigns, projects]);
 
-  // Toggle dark/light mode
   const toggleDarkMode = () => {
     const newDarkMode = !isDarkMode;
     setIsDarkMode(newDarkMode);
@@ -357,8 +639,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       }
     }
   };
-
-
 
   const loadCampaigns = async () => {
     try {
@@ -421,19 +701,15 @@ export default function Dashboard({ onLogout }: DashboardProps) {
 
     // Validate file type
     if (!validateFileType(file)) {
+      addNotification({
+        type: 'error',
+        title: 'Formato no válido',
+        message: 'Por favor selecciona una imagen (JPEG, PNG, WebP, GIF).',
+        duration: 5000
+      });
       e.target.value = ''; // Reset input
       setIsCompressing(false);
       return;
-    }
-
-    // Optional: Warn but don't block large files
-    const fileSizeMB = file.size / 1024 / 1024;
-    if (fileSizeMB > 10) { // 10MB warning
-      if (!confirm(`⚠️ La imagen es muy grande (${fileSizeMB.toFixed(1)} MB). La compresión puede tardar. ¿Continuar?`)) {
-        e.target.value = '';
-        setIsCompressing(false);
-        return;
-      }
     }
 
     // Show original file preview immediately
@@ -474,9 +750,19 @@ export default function Dashboard({ onLogout }: DashboardProps) {
 
         // Show compression success message
         if (compressedKB < 500) {
-          console.log('✅ Imagen comprimida exitosamente');
+          addNotification({
+            type: 'success',
+            title: 'Imagen comprimida',
+            message: 'La imagen se ha comprimido exitosamente.',
+            duration: 3000
+          });
         } else {
-          console.log('⚠️ Imagen comprimida pero aún grande:', compressedKB.toFixed(0), 'KB');
+          addNotification({
+            type: 'warning',
+            title: 'Imagen grande',
+            message: 'La imagen sigue siendo grande. Se recomienda usar una imagen más pequeña.',
+            duration: 5000
+          });
         }
 
         // Reset progress after showing success
@@ -486,21 +772,19 @@ export default function Dashboard({ onLogout }: DashboardProps) {
 
     } catch (error) {
       console.error('Error procesando imagen:', error);
-      alert('❌ Error al procesar la imagen. Intenta con otra imagen o un formato diferente.');
+      addNotification({
+        type: 'error',
+        title: 'Error al procesar imagen',
+        message: 'Intenta con otra imagen o un formato diferente.',
+        duration: 5000
+      });
       setIsCompressing(false);
       setCompressionProgress(0);
       e.target.value = '';
     }
   };
-  const handleSaveCampaign = async () => {
-    // REMOVE THIS CHECK - it's happening before compression completes
-    /*
-    if (campaignForm.image && campaignForm.image.size > 1 * 1024 * 1024) {
-      alert('⚠️ La imagen es demasiado grande después de la compresión. Por favor intenta con otra imagen.');
-      return;
-    }
-    */
 
+  const handleSaveCampaign = async () => {
     setLoading(true);
     try {
       const formData = new FormData();
@@ -518,12 +802,6 @@ export default function Dashboard({ onLogout }: DashboardProps) {
           }
         );
         formData.append('image', sanitizedFile);
-
-        // Optional: Add a post-compression validation (server-side)
-        if (campaignForm.image.size > 2 * 1024 * 1024) { // 2MB limit
-          console.warn('Image still large after compression:', campaignForm.image.size / 1024 / 1024, 'MB');
-          // Continue anyway - let server handle validation
-        }
       }
 
       const url = editingCampaign ? `${API_URL}/campaigns/${editingCampaign.id}` : `${API_URL}/campaigns`;
@@ -534,12 +812,16 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         body: formData,
       });
 
-      // Check server response for file size errors
       const result = await response.json();
 
       if (!response.ok) {
         if (response.status === 413) {
-          alert('⚠️ La imagen es demasiado grande. Por favor intenta con una imagen más pequeña o comprímela antes de subir.');
+          addNotification({
+            type: 'error',
+            title: 'Imagen demasiado grande',
+            message: 'Por favor intenta con una imagen más pequeña.',
+            duration: 5000
+          });
           return;
         }
       }
@@ -547,14 +829,29 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       if (result.success) {
         await loadCampaigns();
         resetCampaignForm();
-        alert(editingCampaign ? '✅ Campaña actualizada' : '✅ Campaña creada');
+        addNotification({
+          type: 'success',
+          title: editingCampaign ? '✅ Campaña actualizada' : '✅ Campaña creada',
+          message: editingCampaign ? 'La campaña se ha actualizado exitosamente.' : 'La campaña se ha creado exitosamente.',
+          duration: 3000
+        });
       } else if (response.status === 401 || response.status === 403) {
-        alert('⚠️ Sesión expirada. Por favor inicia sesión nuevamente.');
+        addNotification({
+          type: 'warning',
+          title: 'Sesión expirada',
+          message: 'Por favor inicia sesión nuevamente.',
+          duration: 5000
+        });
         handleLogout();
       }
     } catch (error) {
       console.error('Error guardando campaña:', error);
-      alert('❌ Error al guardar la campaña');
+      addNotification({
+        type: 'error',
+        title: 'Error al guardar',
+        message: 'No se pudo guardar la campaña. Intenta nuevamente.',
+        duration: 5000
+      });
     } finally {
       setLoading(false);
     }
@@ -593,7 +890,12 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       // Handle server errors
       if (!response.ok) {
         if (response.status === 413) {
-          alert('⚠️ La imagen es demasiado grande. Por favor intenta con una imagen más pequeña.');
+          addNotification({
+            type: 'error',
+            title: 'Imagen demasiado grande',
+            message: 'Por favor intenta con una imagen más pequeña.',
+            duration: 5000
+          });
           return;
         }
       }
@@ -602,19 +904,33 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       if (result.success) {
         await loadProjects();
         resetProjectForm();
-        alert(editingProject ? '✅ Proyecto actualizado' : '✅ Proyecto creado');
+        addNotification({
+          type: 'success',
+          title: editingProject ? '✅ Proyecto actualizado' : '✅ Proyecto creado',
+          message: editingProject ? 'El proyecto se ha actualizado exitosamente.' : 'El proyecto se ha creado exitosamente.',
+          duration: 3000
+        });
       } else if (response.status === 401 || response.status === 403) {
-        alert('⚠️ Sesión expirada. Por favor inicia sesión nuevamente.');
+        addNotification({
+          type: 'warning',
+          title: 'Sesión expirada',
+          message: 'Por favor inicia sesión nuevamente.',
+          duration: 5000
+        });
         handleLogout();
       }
     } catch (error) {
       console.error('Error guardando proyecto:', error);
-      alert('❌ Error al guardar el proyecto');
+      addNotification({
+        type: 'error',
+        title: 'Error al guardar',
+        message: 'No se pudo guardar el proyecto. Intenta nuevamente.',
+        duration: 5000
+      });
     } finally {
       setLoading(false);
     }
   };
-
 
   const resetProjectForm = () => {
     setProjectForm({ name: '', category: '', description: '', image: null });
@@ -643,46 +959,91 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     setImagePreview(project.img);
     setShowProjectForm(true);
   };
-  const handleDeleteCampaign = async (id: number) => {
-    if (!confirm('¿Estás seguro de eliminar esta campaña?')) return;
-    try {
-      const response = await fetch(`${API_URL}/campaigns/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${getToken()}` }
-      });
-      const result = await response.json();
-      if (result.success) {
-        await loadCampaigns();
-        alert('✅ Campaña eliminada');
-      } else if (response.status === 401 || response.status === 403) {
-        alert('⚠️ Sesión expirada. Por favor inicia sesión nuevamente.');
-        handleLogout();
+
+  const handleDeleteCampaign = (id: number) => {
+    showConfirmation({
+      title: '¿Eliminar campaña?',
+      message: 'Esta acción eliminará permanentemente la campaña. ¿Estás seguro?',
+      type: 'danger',
+      confirmText: 'Eliminar',
+      onConfirm: async () => {
+        try {
+          const response = await fetch(`${API_URL}/campaigns/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${getToken()}` }
+          });
+          const result = await response.json();
+          if (result.success) {
+            await loadCampaigns();
+            addNotification({
+              type: 'success',
+              title: '✅ Campaña eliminada',
+              message: 'La campaña se ha eliminado exitosamente.',
+              duration: 3000
+            });
+          } else if (response.status === 401 || response.status === 403) {
+            addNotification({
+              type: 'warning',
+              title: 'Sesión expirada',
+              message: 'Por favor inicia sesión nuevamente.',
+              duration: 5000
+            });
+            handleLogout();
+          }
+        } catch (error) {
+          console.error('Error eliminando campaña:', error);
+          addNotification({
+            type: 'error',
+            title: 'Error al eliminar',
+            message: 'No se pudo eliminar la campaña. Intenta nuevamente.',
+            duration: 5000
+          });
+        }
       }
-    } catch (error) {
-      console.error('Error eliminando campaña:', error);
-      alert('❌ Error al eliminar la campaña');
-    }
+    });
   };
 
-  const handleDeleteProject = async (id: number) => {
-    if (!confirm('¿Estás seguro de eliminar este proyecto?')) return;
-    try {
-      const response = await fetch(`${API_URL}/products/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${getToken()}` }
-      });
-      const result = await response.json();
-      if (result.success) {
-        await loadProjects();
-        alert('✅ Proyecto eliminado');
-      } else if (response.status === 401 || response.status === 403) {
-        alert('⚠️ Sesión expirada. Por favor inicia sesión nuevamente.');
-        handleLogout();
+  const handleDeleteProject = (id: number) => {
+    showConfirmation({
+      title: '¿Eliminar proyecto?',
+      message: 'Esta acción eliminará permanentemente el proyecto. ¿Estás seguro?',
+      type: 'danger',
+      confirmText: 'Eliminar',
+      onConfirm: async () => {
+        try {
+          const response = await fetch(`${API_URL}/products/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${getToken()}` }
+          });
+          const result = await response.json();
+          if (result.success) {
+            await loadProjects();
+            addNotification({
+              type: 'success',
+              title: '✅ Proyecto eliminado',
+              message: 'El proyecto se ha eliminado exitosamente.',
+              duration: 3000
+            });
+          } else if (response.status === 401 || response.status === 403) {
+            addNotification({
+              type: 'warning',
+              title: 'Sesión expirada',
+              message: 'Por favor inicia sesión nuevamente.',
+              duration: 5000
+            });
+            handleLogout();
+          }
+        } catch (error) {
+          console.error('Error eliminando proyecto:', error);
+          addNotification({
+            type: 'error',
+            title: 'Error al eliminar',
+            message: 'No se pudo eliminar el proyecto. Intenta nuevamente.',
+            duration: 5000
+          });
+        }
       }
-    } catch (error) {
-      console.error('Error eliminando proyecto:', error);
-      alert('❌ Error al eliminar el proyecto');
-    }
+    });
   };
 
   const handleMobileMenuItemClick = (tabId: string) => {
@@ -692,6 +1053,28 @@ export default function Dashboard({ onLogout }: DashboardProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-weprom-gray-50 via-white to-weprom-gray-50 dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark">
+      {/* Notificaciones */}
+      {notifications.map(notification => (
+        <NotificationToast
+          key={notification.id}
+          notification={notification}
+          onClose={() => removeNotification(notification.id)}
+        />
+      ))}
+
+      {/* Modal de Confirmación */}
+      {showConfirmModal && modalConfig && (
+        <ConfirmationModal
+          isOpen={showConfirmModal}
+          onClose={() => setShowConfirmModal(false)}
+          onConfirm={modalConfig.onConfirm}
+          title={modalConfig.title}
+          message={modalConfig.message}
+          type={modalConfig.type}
+          confirmText={modalConfig.confirmText}
+        />
+      )}
+
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/95 dark:bg-weprom-dark/95 backdrop-blur-sm border-b border-weprom-gray-200 dark:border-weprom-gray-800">
         <div className="container mx-auto px-4 sm:px-6">
@@ -1254,21 +1637,13 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
                           Categoría
                         </label>
-                        <select
+                        <input
+                          type="text"
                           value={projectForm.category}
                           onChange={(e) => setProjectForm({ ...projectForm, category: e.target.value })}
-                          className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-blue focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-weprom-gray-900 dark:text-white"
-                        >
-                          <option value="">Seleccionar categoría</option>
-                          <option value="Diseño Gráfico">Diseño Gráfico</option>
-                          <option value="Marketing Digital">Marketing Digital</option>
-                          <option value="Desarrollo Web">Desarrollo Web</option>
-                          <option value="Redes Sociales">Redes Sociales</option>
-                          <option value="Branding">Branding</option>
-                          <option value="Fotografía">Fotografía</option>
-                          <option value="Video">Video</option>
-                          <option value="Otro">Otro</option>
-                        </select>
+                          className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-blue focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-weprom-gray-900 dark:text-white placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-400"
+                          placeholder="Ej: Diseño Gráfico, Marketing Digital, Desarrollo Web..."
+                        />
                       </div>
 
                       {/* Descripción */}

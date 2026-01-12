@@ -1,6 +1,5 @@
 import { ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 // Configuración de la API
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -8,9 +7,11 @@ const API_URL = 'https://we-prom-backend.vercel.app';
 interface Product {
   id: number;
   name: string;
-  price: string;
-  stock: number;
+  category: string;
+  description: string;
   img: string;
+  price?: string;
+  stock?: number;
 }
 
 export default function Projects() {
@@ -54,21 +55,8 @@ export default function Projects() {
   const colors = ['red', 'blue', 'green', 'yellow'];
 
   const handleProductClick = (productId: number) => {
-    // Aquí puedes agregar la lógica para mostrar más detalles del producto
-    // o redirigir a una página de producto específica
     console.log('Producto clickeado:', productId);
   };
-
-
-  // Hechos y estadísticas
-  const stats = [
-    { number: '10+', label: 'Años de experiencia', color: 'red' },
-    { number: '1000+', label: 'Clientes satisfechos', color: 'blue' },
-    { number: '5000+', label: 'Proyectos completados', color: 'green' },
-    { number: '98%', label: 'Tasa de satisfacción', color: 'yellow' }
-  ];
-
-
 
   if (loading) {
     return (
@@ -83,7 +71,7 @@ export default function Projects() {
             </div>
           </div>
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-transparent border-t-weprom-red from-weprom-red to-weprom-yellow"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-t-weprom-red border-transparent"></div>
           </div>
         </div>
       </section>
@@ -138,8 +126,9 @@ export default function Projects() {
           <div className="w-full sm:w-auto">
             <div className="inline-flex items-center gap-2 mb-3">
               <div className="h-0.5 w-6 bg-gradient-to-r from-weprom-red to-weprom-yellow"></div>
-              
-
+              <span className="text-sm font-semibold text-weprom-red uppercase tracking-widest">
+                Portafolio
+              </span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2 tracking-wide">
               Proyectos Recientes
@@ -148,13 +137,6 @@ export default function Projects() {
               Descubre nuestros trabajos más recientes en artículos promocionales.
             </p>
           </div>
-          {/* <a
-            href="#contacto"
-            className="flex items-center text-weprom-red font-semibold hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-weprom-red hover:to-weprom-yellow group text-sm sm:text-base hover-lift px-4 py-2 bg-weprom-red/10 dark:bg-weprom-red/5 rounded-lg"
-          >
-            Ver portafolio completo
-            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-          </a> */}
         </div>
 
         {/* Grid de productos */}
@@ -188,13 +170,13 @@ export default function Projects() {
                   />
                   
                   {/* Indicador de stock */}
-                  {product.stock <= 5 && product.stock > 0 && (
+                  {product.stock !== undefined && product.stock <= 5 && product.stock > 0 && (
                     <div className="absolute top-4 left-4 bg-gradient-to-r from-weprom-yellow to-weprom-red text-white text-xs font-semibold px-2 py-1 rounded-full">
                       ¡Popular!
                     </div>
                   )}
                   
-                  {product.stock === 0 && (
+                  {product.stock !== undefined && product.stock === 0 && (
                     <div className="absolute top-4 left-4 bg-gradient-to-r from-weprom-gray-600 to-weprom-gray-800 text-white text-xs font-semibold px-2 py-1 rounded-full">
                       Consultar
                     </div>
@@ -221,15 +203,29 @@ export default function Projects() {
                   }`}>
                     {product.name}
                   </h4>
-                  <div className="flex justify-between items-center">
-                    
+                  
+                  {/* CATEGORÍA - Manteniendo el diseño original */}
+                  <div className="flex justify-between items-center mb-2">
                     <span className={`text-xs px-2 py-1 rounded-full bg-weprom-${color}/10 text-weprom-${color} font-semibold`}>
-                      Personalizado
+                      {product.category || 'General'}
                     </span>
+                    {product.price && (
+                      <span className="font-semibold text-weprom-green text-sm">
+                        {product.price}
+                      </span>
+                    )}
                   </div>
-                  <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 font-light mt-2">
-                    Producto promocional personalizable
-                  </p>
+                  
+                  {/* DESCRIPCIÓN - Manteniendo diseño responsive */}
+                  {product.description ? (
+                    <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 font-light line-clamp-2 min-h-[40px]">
+                      {product.description}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400 font-light italic min-h-[40px]">
+                      Producto promocional personalizable
+                    </p>
+                  )}
                 </div>
                 
                 {/* Indicador de hover con color de marca */}

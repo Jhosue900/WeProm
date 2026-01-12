@@ -220,3 +220,8 @@ h1, h2, h3, h4 {
 .text-gradient-secondary {
   @apply from-weprom-blue to-weprom-green;
 }
+
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
