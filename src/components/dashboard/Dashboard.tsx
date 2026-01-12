@@ -40,6 +40,17 @@ interface DashboardProps {
   onLogout?: () => void;
 }
 
+
+const sanitizeFileName = (name: string) => {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Quita tildes
+    .replace(/\s+/g, '-')           // Cambia espacios por guiones
+    .replace(/[^a-zA-Z0-9.\-_]/g, ""); // Quita caracteres especiales (ñ, @, etc)
+};
+
+
+
 export default function Dashboard({ onLogout }: DashboardProps) {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
@@ -234,9 +245,14 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       const formData = new FormData();
       formData.append('title', campaignForm.title);
       formData.append('description', campaignForm.description);
+
+      
       if (campaignForm.image) {
-        formData.append('image', campaignForm.image);
+        const cleanName = sanitizeFileName(campaignForm.image.name);
+        const sanitizedFile = new File([campaignForm.image], cleanName, { type: campaignForm.image.type });
+        formData.append('image', sanitizedFile);
       }
+
       const url = editingCampaign ? `${API_URL}/campaigns/${editingCampaign.id}` : `${API_URL}/campaigns`;
       const method = editingCampaign ? 'PUT' : 'POST';
       const response = await fetch(url, {
@@ -266,9 +282,13 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     try {
       const formData = new FormData();
       formData.append('name', projectForm.name);
+
       if (projectForm.image) {
-        formData.append('image', projectForm.image);
+        const cleanName = sanitizeFileName(projectForm.image.name);
+        const sanitizedFile = new File([projectForm.image], cleanName, { type: projectForm.image.type });
+        formData.append('image', sanitizedFile);
       }
+
       const url = editingProject ? `${API_URL}/products/${editingProject.id}` : `${API_URL}/products`;
       const method = editingProject ? 'PUT' : 'POST';
       const response = await fetch(url, {
