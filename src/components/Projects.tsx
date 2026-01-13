@@ -186,11 +186,6 @@ export default function Projects() {
                   <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300 ${
                     hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
                   }`}>
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <button className="w-full bg-white/90 hover:bg-white text-weprom-gray-900 py-2 rounded-lg font-semibold text-sm transition-all duration-300 transform hover:-translate-y-0.5">
-                        Ver detalles
-                      </button>
-                    </div>
                   </div>
                 </div>
                 

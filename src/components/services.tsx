@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-import { Award, Package, Zap, Target } from 'lucide-react';
+import { Award, Package, Zap, Target, TrendingUp } from 'lucide-react';
 
 import BebidasImg from '../Productos/Bebidas.png';
 import TecnologiaImg from '../Productos/Tecnologia.png';
@@ -128,8 +128,8 @@ export default function Services() {
             >
               {/* Contenedor de Imagen de Fondo */}
               <div className="absolute inset-0 z-0">
-                <img 
-                  src={category.image} 
+                <img
+                  src={category.image}
                   alt={category.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:blur-[2px]"
                 />
@@ -153,7 +153,7 @@ export default function Services() {
                   </h4>
                   <div className={`w-full h-0.5 opacity-30 ${category.color === 'green' ? 'bg-green-600' : `bg-weprom-${category.color}`}`} />
                 </div>
-      
+
                 <p className="text-weprom-gray-600 dark:text-weprom-gray-400 text-sm mb-6 leading-tight font-medium">
                   {category.description}
                 </p>
@@ -173,7 +173,7 @@ export default function Services() {
                     ))}
                   </ul>
                 </div>
-      
+
                 {/* Acento decorativo inferior en el panel */}
                 <div className={`absolute bottom-0 left-0 right-0 h-1.5 ${category.color === 'green' ? 'bg-green-500' : `bg-weprom-${category.color}`}`} />
               </div>
@@ -181,7 +181,151 @@ export default function Services() {
           ))}
         </div>
 
-        
+        {/* Sección de diferenciadores - Estilo visual */}
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative overflow-hidden rounded-2xl p-6 sm:p-8 border border-weprom-gray-200 dark:border-weprom-gray-800 mb-12 bg-gradient-to-br from-white to-weprom-gray-50 dark:from-weprom-dark-gray dark:to-weprom-dark"
+        >
+          {/* Fondo decorativo */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-weprom-red/5 to-weprom-blue/5 rounded-full -translate-y-32 translate-x-32"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-weprom-yellow/5 to-weprom-green/5 rounded-full translate-y-32 -translate-x-32"></div>
+
+          {/* Título */}
+          <div className="text-center mb-10 relative z-10">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-4">
+              ¿Por qué elegir nuestros{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue">
+                productos promocionales
+              </span>
+              ?
+            </h3>
+          </div>
+
+          {/* Grid de ventajas */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10"
+          >
+            {/* Excelentes tiempos de entrega */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="bg-gradient-to-br from-white to-white dark:from-weprom-dark-gray dark:to-weprom-dark-gray rounded-xl p-11 border border-weprom-gray-100 dark:border-weprom-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2"
+            >
+              <div className="flex flex-col items-center text-center">
+                {/* Icono grande */}
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-gradient-to-r from-weprom-green/20 to-weprom-blue/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500"></div>
+                  <div className="relative p-4 rounded-full bg-gradient-to-r from-weprom-green to-weprom-blue shadow-lg">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Contenido */}
+                <h4 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-3">
+                  Excelentes tiempos de entrega
+                </h4>
+                <div className="w-12 h-1 bg-gradient-to-r from-weprom-green to-weprom-blue rounded-full mb-4"></div>
+              </div>
+            </motion.div>
+
+            {/* Mejoramos cualquier precio */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="bg-gradient-to-br from-white to-white dark:from-weprom-dark-gray dark:to-weprom-dark-gray rounded-xl p-11 border border-weprom-gray-100 dark:border-weprom-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2"
+            >
+              <div className="flex flex-col items-center text-center">
+                {/* Icono grande */}
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-gradient-to-r from-weprom-yellow/20 to-weprom-red/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500"></div>
+                  <div className="relative p-4 rounded-full bg-gradient-to-r from-weprom-yellow to-weprom-red shadow-lg">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Contenido */}
+                <h4 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-3">
+                  Mejoramos cualquier precio
+                </h4>
+                <div className="w-12 h-1 bg-gradient-to-r from-weprom-yellow to-weprom-red rounded-full mb-4"></div>
+
+              </div>
+            </motion.div>
+
+            {/* Alcance Nacional */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="bg-gradient-to-br from-white to-white dark:from-weprom-dark-gray dark:to-weprom-dark-gray rounded-xl p-11 border border-weprom-gray-100 dark:border-weprom-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2"
+            >
+              <div className="flex flex-col items-center text-center">
+                {/* Icono grande */}
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-gradient-to-r from-weprom-blue/20 to-weprom-purple/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500"></div>
+                  <div className="relative p-4 rounded-full bg-gradient-to-r from-weprom-blue to-weprom-purple shadow-lg">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Contenido */}
+                <h4 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-3">
+                  Alcance Nacional
+                </h4>
+                <div className="w-12 h-1 bg-gradient-to-r from-weprom-blue to-weprom-purple rounded-full mb-4"></div>
+               
+              </div>
+            </motion.div>
+
+            {/* Stock actualizado 24/7 */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="bg-gradient-to-br from-white to-white dark:from-weprom-dark-gray dark:to-weprom-dark-gray rounded-xl p-11 border border-weprom-gray-100 dark:border-weprom-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2"
+            >
+              <div className="flex flex-col items-center text-center">
+                {/* Icono grande */}
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-gradient-to-r from-weprom-orange/20 to-weprom-pink/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500"></div>
+                  <div className="relative p-4 rounded-full bg-gradient-to-r from-weprom-orange to-weprom-pink shadow-lg">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Contenido */}
+                <h4 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-3">
+                  Stock actualizado 24/7
+                </h4>
+                <div className="w-12 h-1 bg-gradient-to-r from-weprom-orange to-weprom-pink rounded-full mb-4"></div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+
+
+
 
         {/* CTA Final */}
         <motion.div
@@ -191,17 +335,15 @@ export default function Services() {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="text-center mt-16"
         >
-          <p className="text-lg text-weprom-gray-600 dark:text-weprom-gray-400 mb-8">
-            ¿Necesitas un producto específico que no encuentras en nuestro catálogo?
+          <p className="text-3xl text-weprom-gray-600 dark:text-weprom-gray-400 mb-6 font-bold">
+            ¿Listo para llevar tu marca al siguiente nivel?
           </p>
           <a
             href="#contacto"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-10 py-5 rounded-full font-bold shadow-xl hover:shadow-weprom-red/20 transition-all duration-300 transform hover:scale-105 group"
+            className="text-2xl inline-flex items-center gap-3 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group"
           >
-            <span>Te lo conseguimos sin costo adicional</span>
-            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            <span>Contactar Ahora</span>
+            <TrendingUp className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
           </a>
         </motion.div>
       </div>

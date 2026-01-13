@@ -127,17 +127,6 @@ export default function Header() {
               <span className="text-sm font-light hidden sm:inline">hola@weprom.com</span>
             </a>
           </div>
-
-          {/* Redes sociales en top bar */}
-          <div className="flex items-center gap-2 md:gap-3">
-            <a href="https://www.instagram.com/weprommarketing?igsh=MTVrYmVjcjM3Z3N3Zg==" className="hover:text-weprom-red transition-colors p-1.5 md:p-0">
-              <span className="text-xs md:text-sm font-light">Instagram</span>
-            </a>
-            <div className="h-3 md:h-4 w-px bg-weprom-gray-300 dark:bg-weprom-gray-700"></div>
-            <a href="https://www.instagram.com/weprommarketing?igsh=MTVrYmVjcjM3Z3N3Zg==" className="hover:text-weprom-blue transition-colors p-1.5 md:p-0">
-              <span className="text-xs md:text-sm font-light">Facebook</span>
-            </a>
-          </div>
         </div>
       </div>
 
@@ -165,51 +154,6 @@ export default function Header() {
             </a>
 
             
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-              {[
-                { name: 'Inicio', color: 'red' },
-                { name: 'Campañas', color: 'blue' },
-                { name: 'Proyectos', color: 'green' },
-                { name: 'Servicios', color: 'yellow' },
-                { name: 'Contacto', color: 'purple' }
-              ].map((item, i) => (
-                <a 
-                  key={i} 
-                  href={getNavLink(item.name)} 
-                  className="relative group px-4 py-2.5 rounded-lg transition-all duration-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className={`font-semibold text-sm xl:text-base text-weprom-gray-700 dark:text-weprom-gray-300 group-hover:text-weprom-${item.color} transition-colors duration-300`}>
-                      {item.name}
-                    </span>
-                  </div>
-                  <span className={`absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-weprom-${item.color} to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`}></span>
-                </a>
-              ))}
-              
-              <div className="h-6 w-px bg-weprom-gray-300 dark:bg-weprom-gray-700 mx-2"></div>
-              
-              {/* Menú desplegable "Más" */}
-              <div className="relative group">
-                <button className=" bg-gradient-to-r from-weprom-red to-weprom-yellow text-white flex items-center gap-1 px-4 py-2.5 rounded-lg transition-all duration-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-800">
-                  <span className="font-semibold text-sm">Más</span>
-                  <ChevronDown className="w-4 h-4 text-weprom-gray-500 dark:text-weprom-gray-400 group-hover:rotate-180 transition-transform duration-300 text-white " />
-                </button>
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-weprom-dark-gray rounded-xl shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                  {['Nosotros', 'Reseñas', 'Proceso de compra', 'FAQ'].map((item, i) => (
-                    <a 
-                      key={i} 
-                      href={getNavLink(item)} 
-                      className="block px-4 py-3 text-sm text-weprom-gray-700 dark:text-weprom-gray-300 hover:bg-weprom-gray-100 dark:hover:bg-weprom-gray-700 hover:text-weprom-red transition-colors duration-300"
-                    >
-                      {item}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </nav>
 
             {/* Actions */}
             <div className="flex items-center gap-2 sm:gap-3">

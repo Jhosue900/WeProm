@@ -23,7 +23,6 @@ export default function TrustedCompanies() {
 
   const logos = [
     { src: logoCalaverandia, alt: "Calaverandia", color: "red" },
-    { src: logoCinepolis, alt: "Cinépolis", color: "blue" },
     { src: logoCollins, alt: "Grupo Collins", color: "yellow" },
     { src: logoCaliente, alt: "Grupo Caliente", color: "red" },
     { src: logoHeineken, alt: "Heineken", color: "green" },
@@ -37,6 +36,14 @@ export default function TrustedCompanies() {
     { src: logoMarisa, alt: "Marisa", color: "red" },
     { src: logoMercedesBenz, alt: "Mercedes-Benz", color: "gray" },
     { src: logoVolkswagen, alt: "Volkswagen", color: "blue" },
+  ];
+
+  // Hechos y estadísticas
+  const stats = [
+    { number: '35+', label: 'Años de experiencia', color: 'red' },
+    { number: '1.000+', label: 'Clientes satisfechos', color: 'blue' },
+    { number: '12.000+', label: 'Proyectos completados', color: 'green' },
+    { number: '100%', label: 'Tasa de satisfacción', color: 'yellow' }
   ];
 
   // Duplicamos los logos para el efecto infinito
@@ -53,7 +60,7 @@ export default function TrustedCompanies() {
       <div className="absolute top-1/2 right-0 w-96 h-96 bg-weprom-red/5 dark:bg-weprom-red/10 rounded-full blur-3xl -translate-y-1/2"></div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        {/* Header Section (Sin cambios en textos/badge) */}
+        {/* Header Section */}
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -87,7 +94,7 @@ export default function TrustedCompanies() {
 
         {/* --- CONTENEDOR DEL SLIDER INFINITO --- */}
         <div className="relative mt-5">
-          {/* Máscara de desvanecimiento para bordes (Efecto Moderno) */}
+          {/* Máscara de desvanecimiento para bordes */}
           <div className="absolute inset-y-0 left-0 w-20 sm:w-40 z-20 bg-gradient-to-r from-white dark:from-weprom-dark to-transparent pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-20 sm:w-40 z-20 bg-gradient-to-l from-white dark:from-weprom-dark to-transparent pointer-events-none"></div>
 
@@ -98,10 +105,9 @@ export default function TrustedCompanies() {
               animate={{ x: ["0%", "-50%"] }}
               transition={{
                 ease: "linear",
-                duration: 40, // Ajusta la velocidad aquí
+                duration: 40,
                 repeat: Infinity,
               }}
-              // Pausa al pasar el mouse para usabilidad profesional
               whileHover={{ animationPlayState: "paused" }}
             >
               {infiniteLogos.map((logo, index) => (
@@ -117,17 +123,14 @@ export default function TrustedCompanies() {
                     border-2 transition-all duration-500
                     ${hoveredIndex === index 
                       ? `border-weprom-${logo.color} shadow-xl scale-105` 
-                      : 'border-weprom-gray-100 dark:border-weprom-gray-800 opacity-80'
+                      : 'border-weprom-gray-100 dark:border-weprom-gray-800'
                     }
                     flex items-center justify-center h-24 sm:h-32
                   `}>
                     <img
                       src={logo.src}
                       alt={logo.alt}
-                      className={`
-                        h-full w-auto max-w-full object-contain transition-all duration-500
-                        ${hoveredIndex === index ? 'grayscale-0' : 'grayscale brightness-90 dark:brightness-110'}
-                      `}
+                      className="h-full w-auto max-w-full object-contain transition-all duration-500"
                     />
                     
                     {/* Tooltip moderno al hacer hover */}
@@ -147,6 +150,37 @@ export default function TrustedCompanies() {
           </div>
         </div>
         {/* --- FIN DEL SLIDER --- */}
+
+        {/* Estadísticas */}
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-gradient-to-br from-weprom-red/5 via-weprom-yellow/5 to-weprom-blue/5 dark:from-weprom-red/10 dark:via-weprom-yellow/10 dark:to-weprom-blue/10 rounded-2xl p-8 sm:p-12 border border-weprom-gray-200 dark:border-weprom-gray-800 mb-12 mt-12"
+        >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ scale: 0.8, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="text-center group"
+              >
+                <div className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-b from-weprom-${stat.color} to-weprom-${stat.color}/70 group-hover:scale-110 transition-transform duration-300`}>
+                  {stat.number}
+                </div>
+                <div className="text-sm sm:text-base text-weprom-gray-600 dark:text-weprom-gray-400 font-medium">
+                  {stat.label}
+                </div>
+                <div className={`w-12 h-1 mx-auto mt-3 rounded-full bg-gradient-to-r from-transparent via-weprom-${stat.color} to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+        
       </div>
     </section>
   );
