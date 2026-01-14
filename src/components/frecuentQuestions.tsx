@@ -26,28 +26,28 @@ export default function FAQ() {
     {
       id: 1,
       question: '¿Cuál es el tiempo de entrega estimado?',
-      answer: 'El tiempo de entrega varía según la personalización. Los productos estándar toman 5-10 días hábiles, mientras que los personalizados 10-15 días. Contamos con opciones express para pedidos urgentes.',
+      answer: 'Los productos estándar (de línea o stock) toman entre 5 a 10 días hábiles en producción, mientras que los proyectos especiales varían según especificaciones.',
       category: 'envios',
       icon: Clock
     },
     {
       id: 2,
-      question: '¿Cómo funciona el proceso de personalización?',
-      answer: 'Incluye: Consulta inicial, diseño conceptual, aprobación, producción y control de calidad. Te asignamos un diseñador experto para asegurar que tu marca luzca impecable.',
+      question: '¿Qué tipo de acabados o personalización manejan?',
+      answer: 'Dependiendo el material o tipo de producto, manejamos impresión en serigrafía, full color UV, grabado láser, sublimación, bordado, gota de resina, vinil, entre otras.',
       category: 'productos',
       icon: Zap
     },
     {
       id: 3,
-      question: '¿Tienen garantía en sus productos?',
-      answer: 'Sí, cubrimos defectos de fabricación: textiles (6 meses), tecnología (12 meses) y generales (3 meses). Tu inversión está protegida con estándares de calidad premium.',
+      question: '¿Hacen envíos a toda la república mexicana?',
+      answer: '¡Así es! Podemos enviar tu pedido a cualquier ciudad del país, ya sea exprés (2 días hábiles) o regular (3-5 días hábiles). El costo de envío varía según volumen y código postal.',
       category: 'productos',
       icon: Shield
     },
     {
       id: 4,
-      question: '¿Cómo puedo solicitar una cotización?',
-      answer: 'Vía formulario web, llamada o email. Nuestro equipo experto analiza tu proyecto y te responde con una propuesta detallada en menos de 24 horas hábiles.',
+      question: '¿Tienen garantía en sus productos?',
+      answer: 'Si, cubrimos defectos de fabricación, funcionamiento e impresión, durante un periodo máximo de 15 días después de entregado.',
       category: 'general',
       icon: MessageSquare
     }
