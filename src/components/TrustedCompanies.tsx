@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 // Importaciones (Mantenidas igual)
 import logoCalaverandia from "../LogoClientes/Calaverandia.png";
@@ -13,7 +13,7 @@ import logoHospitalJoya from "../LogoClientes/Logo Hospital Joya.png";
 import logoHospitalSanJavier from "../LogoClientes/Logo Hospital San Javier.webp";
 import logoInterceramic from "../LogoClientes/logo interceramic.png";
 import logoKenworth from "../LogoClientes/Logo Kenworth.svg";
-import logoKia from "../LogoClientes/Logo KIA.webp";
+import logoKia from "../LogoClientes/Logo KIA.jpg";
 import logoMarisa from "../LogoClientes/Marisa.png";
 import logoMercedesBenz from "../LogoClientes/mercedes-benz_2025-logo_brandlogos.net_qwgk8.png";
 import logoVolkswagen from "../LogoClientes/Volkswagen_logopng.png";
@@ -25,17 +25,17 @@ export default function TrustedCompanies() {
     { src: logoCalaverandia, alt: "Calaverandia", color: "red" },
     { src: logoCollins, alt: "Grupo Collins", color: "yellow" },
     { src: logoCaliente, alt: "Grupo Caliente", color: "red" },
-    { src: logoHeineken, alt: "Heineken", color: "green" },
+    { src: logoHeineken, alt: "Heineken", color: "green", scale: "scale-150" },
     { src: logoDriscolls, alt: "Driscoll's", color: "yellow" },
     { src: logoFord, alt: "Ford", color: "blue" },
     { src: logoHospitalJoya, alt: "Hospital Joya", color: "blue" },
-    { src: logoHospitalSanJavier, alt: "Hospital San Javier", color: "blue" },
+    { src: logoHospitalSanJavier, alt: "Hospital San Javier", color: "blue", scale: "scale-150" },
     { src: logoInterceramic, alt: "Interceramic", color: "gray" },
     { src: logoKenworth, alt: "Kenworth", color: "red" },
     { src: logoKia, alt: "KIA Motors", color: "red" },
     { src: logoMarisa, alt: "Marisa", color: "red" },
-    { src: logoMercedesBenz, alt: "Mercedes-Benz", color: "gray" },
-    { src: logoVolkswagen, alt: "Volkswagen", color: "blue" },
+    { src: logoMercedesBenz, alt: "Mercedes-Benz", color: "gray", scale: "scale-150" },
+    { src: logoVolkswagen, alt: "Volkswagen", color: "blue", scale: "scale-150" },
   ];
 
   // Hechos y estadísticas
@@ -47,7 +47,7 @@ export default function TrustedCompanies() {
   ];
 
   // Duplicamos los logos para el efecto infinito
-  const infiniteLogos = [...logos, ...logos];
+  
 
   return (
     <section className="relative py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white via-weprom-gray-50 to-white dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark overflow-hidden">
@@ -92,48 +92,60 @@ export default function TrustedCompanies() {
           </p>
         </motion.div>
 
-        {/* --- CONTENEDOR DEL SLIDER INFINITO --- */}
+        {/* --- CONTENEDOR DEL SLIDER INFINITO E INTERACTIVO --- */}
         <div className="relative mt-5">
-          {/* Máscara de desvanecimiento para bordes */}
+          {/* Máscaras de degradado */}
           <div className="absolute inset-y-0 left-0 w-20 sm:w-40 z-20 bg-gradient-to-r from-white dark:from-weprom-dark to-transparent pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-20 sm:w-40 z-20 bg-gradient-to-l from-white dark:from-weprom-dark to-transparent pointer-events-none"></div>
 
-          {/* Wrapper de la animación */}
-          <div className="flex overflow-hidden h-[180px] sm:h-[220px] items-center">
-            <motion.div
-              className="flex gap-4 sm:gap-8 pr-4 sm:pr-8"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                ease: "linear",
-                duration: 40,
-                repeat: Infinity,
-              }}
-              whileHover={{ animationPlayState: "paused" }}
-            >
-              {infiniteLogos.map((logo, index) => (
+          {/* Contenedor con Scroll Manual NATIVO (Permite arrastrar en móviles y Shift+Scroll en PC) */}
+          <div className="overflow-hidden h-[180px] sm:h-[230px] flex items-center group">
+            
+          <motion.div
+            className="flex gap-4 sm:gap-8 pr-4 sm:pr-8 cursor-grab active:cursor-grabbing"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              ease: "linear",
+              duration: 80, // Velocidad elegante
+              repeat: Infinity,
+            }}
+            drag="x"
+            // Aumentamos el constraints para que te deje arrastrar mucho hacia la izquierda
+            dragConstraints={{ left: -10000, right: 0 }} 
+            dragElastic={0.05}
+            // Estas dos líneas son el truco para que no se rompa la animación al soltar
+            whileHover={{ animationPlayState: "paused" }}
+            whileTap={{ animationPlayState: "paused" }}
+          >
+              
+              {/* Renderizamos los logos (Duplicados para el loop infinito) */}
+              {[...logos, ...logos, ...logos, ...logos].map((logo, index) => (
                 <div
                   key={index}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  className="relative flex-shrink-0 w-40 sm:w-52 lg:w-64"
+                  className="relative flex-shrink-0 w-40 sm:w-52 lg:w-64 select-none"
                 >
-                  <div className={`
-                    relative p-6 sm:p-8 rounded-2xl 
-                    bg-white dark:bg-weprom-dark-gray
-                    border-2 transition-all duration-500
-                    ${hoveredIndex === index 
-                      ? `border-weprom-${logo.color} shadow-xl scale-105` 
-                      : 'border-weprom-gray-100 dark:border-weprom-gray-800'
-                    }
-                    flex items-center justify-center h-24 sm:h-32
-                  `}>
+                  <motion.div 
+                    whileHover={{ scale: 1.05 }}
+                    className={`
+                      relative p-6 sm:p-8 rounded-2xl 
+                      bg-white dark:bg-weprom-dark-gray
+                      border-2 transition-all duration-500
+                      ${hoveredIndex === index 
+                        ? `border-weprom-${logo.color} shadow-xl` 
+                        : 'border-weprom-gray-100 dark:border-weprom-gray-800'
+                      }
+                      flex items-center justify-center h-24 sm:h-32
+                    `}
+                  >
                     <img
                       src={logo.src}
                       alt={logo.alt}
-                      className="h-full w-auto max-w-full object-contain transition-all duration-500"
+                      draggable="false"
+                      className={`h-full w-auto max-w-full object-contain pointer-events-none ${logo.scale || 'scale-100'}`}
                     />
                     
-                    {/* Tooltip moderno al hacer hover */}
                     {hoveredIndex === index && (
                       <motion.div 
                         initial={{ opacity: 0, y: 10 }}
@@ -143,10 +155,14 @@ export default function TrustedCompanies() {
                         {logo.alt}
                       </motion.div>
                     )}
-                  </div>
+                  </motion.div>
                 </div>
               ))}
+
             </motion.div>
+
+
+
           </div>
         </div>
         {/* --- FIN DEL SLIDER --- */}
@@ -185,3 +201,5 @@ export default function TrustedCompanies() {
     </section>
   );
 }
+
+
