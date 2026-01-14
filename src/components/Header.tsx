@@ -115,7 +115,7 @@ export default function Header() {
             </a>
             
             <a 
-              href="mailto:hola@weprom.com"
+              href="mailto:comunicacion.weprom@gmail.com"
               className="flex items-center gap-2 hover:text-weprom-blue transition-colors group"
             >
               <div className="p-1.5 rounded-md bg-weprom-gray-100 dark:bg-weprom-gray-900 group-hover:bg-weprom-blue/10">
@@ -124,7 +124,7 @@ export default function Header() {
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
                 </svg>
               </div>
-              <span className="text-sm font-light hidden sm:inline">hola@weprom.com</span>
+              <span className="text-sm font-light hidden sm:inline">comunicacion.weprom@gmail.com</span>
             </a>
           </div>
         </div>

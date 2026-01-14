@@ -13,6 +13,8 @@ export default {
           orange: '#FF8C00',
           purple: '#AF52DE',
           teal: '#5AC8FA',
+          aquamarine: '#7FFFD4', 
+          pink: '#FF2D55',
           light: '#FFFFFF',
           'light-gray': '#F9FAFB',
           'light-bg': '#F8F9FA',

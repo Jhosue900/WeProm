@@ -32,88 +32,69 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-light dark:bg-gradient-dark py-20"
     >
-      {/* FONDO ANIMADO CONCEPTUAL - Video + Partículas */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-gray-100 dark:bg-gray-900">
-        {/* Video de fondo abstracto/conceptual */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-30 dark:opacity-20"
-        >
-          <source 
-            src="https://cdn.coverr.co/videos/coverr-abstract-colorful-shapes-5049/1080p.mp4" 
-            type="video/mp4" 
-          />
-          {/* Video alternativo si el primero falla */}
-          <source 
-            src="https://assets.mixkit.co/videos/preview/mixkit-geometric-abstract-animation-41562-large.mp4" 
-            type="video/mp4" 
-          />
-        </video>
+
+      {/* FONDO ANIMADO CONCEPTUAL - Abstract Colorful Gradient */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-slate-50 dark:bg-weprom-dark transition-colors duration-500">
         
-        {/* Partículas animadas flotantes */}
-        <div className="absolute inset-0">
-          {/* Círculos de colores animados */}
-          {[...Array(12)].map((_, i) => (
-            <motion.div
-              key={`particle-${i}`}
-              className="absolute rounded-full blur-3xl"
-              style={{
-                background: `radial-gradient(circle, ${
-                  i % 3 === 0 ? 'rgba(239, 68, 68, 0.15)' : 
-                  i % 3 === 1 ? 'rgba(59, 130, 246, 0.15)' : 
-                  'rgba(245, 158, 11, 0.15)'
-                })`,
-                width: `${Math.random() * 300 + 100}px`,
-                height: `${Math.random() * 300 + 100}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                x: [0, (Math.random() - 0.5) * 200],
-                y: [0, (Math.random() - 0.5) * 200],
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 15 + Math.random() * 20,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-          
-          {/* Líneas sutiles animadas */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={`line-${i}`}
-              className="absolute h-px bg-gradient-to-r from-transparent via-weprom-red/30 to-transparent"
-              style={{
-                width: '50%',
-                top: `${15 + i * 15}%`,
-                left: '-20%',
-                transform: `rotate(${i * 30}deg)`,
-                filter: 'blur(1px)',
-              }}
-              animate={{
-                x: [0, window.innerWidth],
-                opacity: [0, 0.4, 0],
-              }}
-              transition={{
-                duration: 20 + i * 5,
-                repeat: Infinity,
-                ease: "linear",
-                delay: i * 2,
-              }}
-            />
-          ))}
+        {/* Capa de Color Base Dinámica */}
+        <div className="absolute inset-0 opacity-50 dark:opacity-80">
+          {/* Círculo Rojo */}
+        <motion.div
+          animate={{
+            x: [0, 80, -80, 0],
+            y: [0, -40, 40, 0],
+            scale: [1, 1.2, 0.9, 1],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[-5%] left-[-5%] w-[50%] h-[50%] rounded-full bg-weprom-red/30 dark:bg-weprom-red/40 blur-[80px] dark:blur-[100px]"
+        />
+        
+        {/* Círculo Azul */}
+        <motion.div
+          animate={{
+            x: [0, -100, 100, 0],
+            y: [0, 80, -80, 0],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-[-5%] right-[-5%] w-[50%] h-[50%] rounded-full bg-weprom-blue/20 dark:bg-weprom-blue/40 blur-[80px] dark:blur-[100px]"
+        />
+    
+        {/* Círculo Verde */}
+        <motion.div
+          animate={{
+            scale: [0.8, 1.1, 0.8],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[20%] right-[10%] w-[35%] h-[35%] rounded-full bg-weprom-green/20 dark:bg-weprom-green/30 blur-[90px]"
+          />
+      
+          {/* Círculo Amarillo */}
+          <motion.div
+            animate={{
+              y: [-60, 60, -60],
+              x: [40, -40, 40],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[10%] left-[15%] w-[40%] h-[30%] rounded-full bg-weprom-yellow/20 dark:bg-weprom-yellow/30 blur-[80px]"
+          />
         </div>
-        
-        {/* Overlay de gradiente para mejor legibilidad */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/75 to-white/85 dark:from-gray-900/85 dark:via-gray-900/75 dark:to-gray-900/90"></div>
+      
+        {/* Capa Geométrica - Grid adaptable */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.08] dark:opacity-30" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid-hero" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-900 dark:text-white" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid-hero)" />
+        </svg>
+      
+        {/* Overlay de Textura (Noise) */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] dark:opacity-20 mix-blend-overlay"></div>
+      
+        {/* Gradiente de Legibilidad Superior - Evita que el fondo sea blanco puro arriba */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/80 dark:from-transparent dark:to-weprom-dark/90"></div>
       </div>
 
       {/* Barra de colores superior */}
@@ -144,7 +125,8 @@ export default function Hero() {
           </motion.span>
 
           {/* Título principal */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-weprom-gray-900 dark:text-weprom-white leading-[1.1] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white leading-[1.1] tracking-tight">
+
             Que tu Marca deje{" "}
             <span className="relative inline-block mb-6">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue animate-gradient-x bg-[length:200%_auto]">
@@ -160,7 +142,8 @@ export default function Hero() {
           </h1>
 
           {/* Descripción */}
-          <p className="text-lg sm:text-xl md:text-2xl text-weprom-gray-600 dark:text-weprom-gray-400 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-800 dark:text-weprom-gray-400 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+
             Artículos Promocionales funcionales y de alto impacto para que tus clientes te vean y recuerden todos los días.
           </p>
 

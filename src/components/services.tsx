@@ -17,14 +17,14 @@ export default function Services() {
       title: 'Bebidas',
       image: BebidasImg,
       description: 'Vasos, termos, botellas y accesorios de bebida personalizados con tu marca.',
-      color: 'red',
+      color: 'aquamarine',
       items: ['Termos Metálicos', 'Cilindros', 'Tazas', 'Vasos Térmicos']
     },
     {
       title: 'Tecnología',
       image: TecnologiaImg,
       description: 'Accesorios tecnológicos de alta calidad para potenciar tu imagen corporativa.',
-      color: 'blue',
+      color: 'purple',
       items: ['Memorias USB', 'Accesorios para Celular/Tablet', 'Power Banks', 'Audífonos y Bocinas']
     },
     {
@@ -38,7 +38,7 @@ export default function Services() {
       title: 'Textiles',
       image: TextilesImg,
       description: 'Ropa corporativa de calidad premium para uniformar a tu equipo.',
-      color: 'yellow',
+      color: 'pink',
       items: ['Gorras y Sombreros', 'Bolsas y Mochilas', 'Playeras', 'Uniformes Corporativos']
     },
     {
