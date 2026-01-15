@@ -124,7 +124,7 @@ export default function Services() {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="group relative h-[400px] overflow-hidden rounded-2xl bg-weprom-dark border border-weprom-gray-200 dark:border-weprom-gray-800 shadow-lg cursor-pointer"
+              className="group relative h-[400px] overflow-hidden rounded-2xl bg-weprom-dark border border-weprom-gray-200 dark:border-weprom-gray-800 shadow-lg cursor-default"
             >
               {/* Contenedor de Imagen de Fondo */}
               <div className="absolute inset-0 z-0">
@@ -190,8 +190,31 @@ export default function Services() {
           className="relative overflow-hidden rounded-2xl p-6 sm:p-8 border border-weprom-gray-200 dark:border-weprom-gray-800 mb-12 bg-gradient-to-br from-white to-weprom-gray-50 dark:from-weprom-dark-gray dark:to-weprom-dark"
         >
           {/* Fondo decorativo */}
+        
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-weprom-red/5 to-weprom-blue/5 rounded-full -translate-y-32 translate-x-32"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-weprom-yellow/5 to-weprom-green/5 rounded-full translate-y-32 -translate-x-32"></div>
+
+
+        {/* CTA Final */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="text-center mt-8 mb-20"
+        >
+          <p className="text-3xl text-weprom-gray-600 dark:text-weprom-gray-400 mb-6 font-bold">
+            ¿Listo para llevar tu marca al siguiente nivel?
+          </p>
+          <a
+            href="#contacto"
+            className="text-2xl inline-flex items-center gap-3 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group"
+          >
+            <span>Solicitar Catálogo</span>
+            <TrendingUp className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+          </a>
+        </motion.div>
+
 
           {/* Título */}
           <div className="text-center mb-10 relative z-10">
@@ -324,28 +347,6 @@ export default function Services() {
           </motion.div>
         </motion.div>
 
-
-
-
-        {/* CTA Final */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="text-center mt-16"
-        >
-          <p className="text-3xl text-weprom-gray-600 dark:text-weprom-gray-400 mb-6 font-bold">
-            ¿Listo para llevar tu marca al siguiente nivel?
-          </p>
-          <a
-            href="#contacto"
-            className="text-2xl inline-flex items-center gap-3 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group"
-          >
-            <span>Contactar Ahora</span>
-            <TrendingUp className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </a>
-        </motion.div>
       </div>
 
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-rainbow"></div>

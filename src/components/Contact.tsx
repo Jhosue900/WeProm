@@ -140,24 +140,24 @@ export default function Contact() {
                 <h3 className="text-xl sm:text-2xl font-extrabold mb-3 sm:mb-4 animate-slide-in tracking-wide">
                   Hablemos de tu proyecto
                 </h3>
-                <p className="mb-5 sm:mb-6 text-weprom-gray-600 dark:text-weprom-gray-400 text-sm sm:text-base font-light animate-fade-in animation-delay-300 leading-relaxed">
+                <p className="mb-5 sm:mb-6 text-white text-sm sm:text-base font-light animate-fade-in animation-delay-300 leading-relaxed opacity-90">
                   ¿Tienes una idea en mente? Escríbenos y te ayudamos a hacerla realidad con nuestros servicios de personalización.
                 </p>
                 <div className="space-y-3 sm:space-y-4">
                   {[
                     { 
                       icon: Mail, 
-                      text: 'contacto@grupoweprom.com', 
+                      text: 'info@weprommexico.com', 
                       color: 'red',
                       title: 'Email',
-                      link: 'mailto:contacto@grupoweprom.com'
+                      link: 'mailto:info@weprommexico.com'
                     },
                     { 
                       icon: Phone, 
-                      text: '+52 1 33 3459 0989', 
+                      text: '+52 333 459 0989', 
                       color: 'blue',
                       title: 'Teléfono',
-                      link: 'tel:+5213334590989'
+                      link: 'tel:+523334590989'
                     },
                     { 
                       icon: MapPin, 
@@ -177,8 +177,8 @@ export default function Contact() {
                         <item.icon className={`w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform duration-300 flex-shrink-0 text-weprom-${item.color}`} />
                       </div>
                       <div>
-                        <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400 font-light">{item.title}</p>
-                        <p className="text-sm sm:text-base font-semibold break-all text-weprom-gray-800 dark:text-weprom-gray-300 group-hover:text-weprom-gray-900 dark:group-hover:text-weprom-white transition-colors">
+                        <p className="text-xs text-white/70 font-medium uppercase tracking-wider">{item.title}</p>
+                        <p className="text-sm sm:text-base font-semibold break-all text-white group-hover:text-white transition-colors">
                           {item.text}
                         </p>
                       </div>
@@ -187,9 +187,9 @@ export default function Contact() {
                 </div>
                 
                 <div className="mt-6 p-4 rounded-lg bg-white/50 dark:bg-weprom-dark/50 border border-weprom-gray-200 dark:border-weprom-gray-800">
-                  <p className="text-sm font-semibold text-weprom-gray-800 dark:text-weprom-white mb-1">Horarios de atención</p>
-                  <p className="text-lg text-weprom-gray-600 dark:text-weprom-gray-400">
-                    Sólo de Lunes a Viernes
+                  <p className="text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white mb-1">Horarios de atención</p>
+                  <p className="text-lg text-weprom-gray-600 text-black font-bold dark:text-weprom-gray-200">
+                    Lunes a Viernes de 9:00am a 6:00pm
                   </p>
                 </div>
               </div>
