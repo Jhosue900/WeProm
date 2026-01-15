@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import imagenBolsos from "../Bolsos.png";
 import imagenTextil from "../Textil.png";
@@ -11,8 +11,21 @@ const heroImages = [
   imagenUSBs
 ];
 
+// VIDEO DE FONDO LOCAL
+// 1. Descarga un video y guárdalo en tu carpeta /src o /public
+// 2. Si lo guardas en /public: usa "/nombre-del-video.mp4"
+// 3. Si lo guardas en /src: usa import videoFondo from "./nombre-del-video.mp4"
+
+// Opción 1: Video en carpeta /public (recomendado para videos grandes)
+
+// Opción 2: Video importado desde /src (descomenta si prefieres esta opción)
+import videoFondo from "../videobackground.mp4";
+// const BACKGROUND_VIDEO = videoFondo;
+
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev === heroImages.length - 1 ? 0 : prev + 1));
@@ -27,69 +40,66 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, []);
 
+  // Manejar carga del video
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleCanPlay = () => {
+      setIsVideoLoaded(true);
+      video.play().catch(() => {
+        // Silenciosamente manejar errores de autoplay
+      });
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+    return () => video.removeEventListener('canplay', handleCanPlay);
+  }, []);
+
   return (
     <section
       id="inicio"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-50 dark:bg-weprom-dark transition-colors duration-500 py-20"
     >
-      {/* NUEVO FONDO ANIMADO CONCEPTUAL - Reemplaza el anterior por completo */}
-      {/* Genera un efecto de "video conceptual" con formas y colores en movimiento */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-slate-50 dark:bg-weprom-dark transition-colors duration-500">
-
-        {/* Círculo de color Rojo/Naranja grande y difuminado */}
-        <motion.div
-          animate={{
-            x: ["-10%", "10%", "-10%", "0%", "5%", "-5%", "0%"],
-            y: ["-10%", "0%", "10%", "-5%", "5%", "-10%", "0%"],
-            scale: [1, 1.2, 0.9, 1.1, 0.95, 1],
-            rotate: [0, 15, -15, 5, -5, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-0 left-0 w-[80%] h-[80%] rounded-full bg-weprom-red/30 dark:bg-weprom-red/40 blur-[150px] dark:blur-[200px]"
-        />
-
-        {/* Círculo de color Azul/Púrpura grande y difuminado */}
-        <motion.div
-          animate={{
-            x: ["5%", "-10%", "0%", "-5%", "10%", "0%", "5%"],
-            y: ["5%", "10%", "-10%", "0%", "-5%", "10%", "5%"],
-            scale: [1, 0.9, 1.1, 1.05, 0.9, 1],
-            rotate: [0, -10, 10, -5, 5, 0],
-          }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: 5 }}
-          className="absolute bottom-0 right-0 w-[70%] h-[70%] rounded-full bg-weprom-blue/25 dark:bg-weprom-blue/40 blur-[160px] dark:blur-[220px]"
-        />
-
-        {/* Círculo de color Verde/Amarillo mediano y difuminado (para mezcla) */}
-        <motion.div
-          animate={{
-            x: ["0%", "15%", "-15%", "0%"],
-            y: ["10%", "-10%", "0%", "10%"],
-            scale: [1, 0.8, 1.2, 1],
-            opacity: [0.4, 0.7, 0.5, 0.4],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 10 }}
-          className="absolute top-[30%] left-[20%] w-[60%] h-[60%] rounded-full bg-weprom-yellow/20 dark:bg-weprom-yellow/30 blur-[180px] dark:blur-[250px]"
-        />
-
-        {/* Overlay de Textura (Noise) para un efecto más orgánico como el video */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.2] dark:opacity-30 mix-blend-overlay"></div>
-
-        {/* Gradiente de Legibilidad Superior e Inferior */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/70 dark:from-transparent dark:to-weprom-dark/90"></div>
+      {/* VIDEO DE FONDO - Abstracto profesional */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover opacity-25 dark:opacity-20 scale-105"
+        >
+          <source src={videoFondo} type="video/mp4" />
+        </video>
+        
+        {/* Overlay con colores de marca */}
+        <div className="absolute inset-0 bg-gradient-to-br from-weprom-red/10 via-weprom-yellow/5 to-weprom-blue/10 dark:from-weprom-red/20 dark:via-weprom-yellow/10 dark:to-weprom-blue/20 mix-blend-overlay"></div>
+        
+        {/* Gradiente para legibilidad */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-transparent to-white/30 dark:from-weprom-dark/50 dark:via-transparent dark:to-weprom-dark/50"></div>
+        
+        {/* Efecto de viñeta sutil */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.1)_100%)] dark:bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.3)_100%)]"></div>
+        
+        {/* Indicador de carga */}
+        {!isVideoLoaded && (
+          <div className="absolute inset-0 bg-gradient-to-br from-weprom-red/5 via-weprom-yellow/3 to-weprom-blue/5 animate-pulse"></div>
+        )}
       </div>
 
-      {/* Barra de colores superior (se mantiene) */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-rainbow z-10"></div>
-
-      {/* El resto de tu contenido (texto y carrusel de imágenes) */}
+      {/* Barra de colores superior */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue z-10"></div>
+      
       <div className="container mx-auto px-4 sm:px-6 relative z-[5] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-30 lg:py-10 mt-28">
         {/* CONTENIDO TEXTO */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="text-center lg:text-left space-y-2 sm:space-y-2 "
+          className="text-center lg:text-left space-y-2 sm:space-y-2"
         >
           {/* Badge superior */}
           <motion.span
@@ -142,11 +152,9 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* IMAGEN HERO - Carrusel Interactivo con IMAGEN REDONDEADA */}
+        {/* IMAGEN HERO - Carrusel Interactivo */}
         <div className="hidden lg:flex relative h-[450px] w-full items-center justify-center">
           <div className="relative w-full max-w-2xl aspect-[16/10] group">
-
-            {/* Contenedor con redondeado y overflow-hidden para la imagen */}
             <div className="absolute inset-0 rounded-[2rem] overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.img
@@ -158,6 +166,8 @@ export default function Hero() {
                   transition={{ duration: 0.6 }}
                   className="w-full h-full object-cover"
                   alt="Producto WeProm"
+                  loading="eager"
+                  decoding="async"
                 />
               </AnimatePresence>
             </div>
@@ -177,7 +187,7 @@ export default function Hero() {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </button>
 
-            {/* Puntos indicadores inferiores */}
+            {/* Puntos indicadores */}
             <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-10">
               {heroImages.map((_, index) => (
                 <button
@@ -193,7 +203,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator - Solo desktop */}
+      {/* Scroll indicator */}
       <div className="hidden lg:block absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
         <div className="w-6 h-10 border-2 border-weprom-gray-300 dark:border-weprom-gray-700 rounded-full flex items-start justify-center p-2 bg-white/80 dark:bg-weprom-dark-gray/50 backdrop-blur-sm">
           <div className="w-1.5 h-3 bg-gradient-to-b from-weprom-red to-weprom-yellow rounded-full animate-pulse"></div>
