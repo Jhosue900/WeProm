@@ -11,6 +11,12 @@ import EspecialesImg from '../Productos/Especiales.png';
 
 
 export default function Services() {
+
+  const WHATSAPP_NUMBER = "523334590989";
+  const WHATSAPP_MESSAGE = encodeURIComponent("¡Hola! Me gustaría solicitar su catálogo completo de artículos promocionales y recibir más información.");
+  const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
+
+
   // Categorías de servicios
   const categories = [
     {
@@ -206,8 +212,11 @@ export default function Services() {
           <p className="text-3xl text-weprom-gray-600 dark:text-weprom-gray-400 mb-6 font-bold">
             ¿Listo para llevar tu marca al siguiente nivel?
           </p>
+          
           <a
-            href="#contacto"
+            href={WHATSAPP_LINK} // Cambiado de "#contacto" a la variable de WhatsApp
+            target="_blank"      // Para abrir en pestaña nueva
+            rel="noopener noreferrer"
             className="text-2xl inline-flex items-center gap-3 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group"
           >
             <span>Solicitar Catálogo</span>

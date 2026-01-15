@@ -11,6 +11,10 @@ export default function Header() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
+  const WHATSAPP_NUMBER = "523334590989";
+  const WHATSAPP_MESSAGE = encodeURIComponent("¡Hola! Me gustaría solicitar una cotización para artículos promocionales.");
+  const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -189,7 +193,9 @@ export default function Header() {
               
               {/* Botón CTA en desktop */}
               <a 
-                href="#contacto" 
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hidden lg:inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
               >
                 <span>Cotizar Ahora</span>
@@ -315,7 +321,9 @@ export default function Header() {
             {/* CTA en mobile menu */}
             <div className="mt-6 pb-8">
               <a
-                href="#contacto"
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={handleNavClick}
                 className="block w-full text-center bg-gradient-to-r from-weprom-red to-weprom-yellow text-white py-3.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mb-3"
               >
