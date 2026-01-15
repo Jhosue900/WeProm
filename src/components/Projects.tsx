@@ -148,7 +148,7 @@ export default function Projects() {
               <div
                 key={product.id}
                 onClick={() => handleProductClick(product.id)}
-                className="bg-white dark:bg-weprom-dark-gray rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 border border-weprom-gray-200 dark:border-weprom-gray-800 group overflow-hidden animate-fade-in-up hover:-translate-y-1 cursor-pointer"
+                className="bg-white dark:bg-weprom-dark-gray rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 border border-weprom-gray-200 dark:border-weprom-gray-800 group overflow-hidden animate-fade-in-up hover:-translate-y-1 cursor-default"
                 style={{ animationDelay: `${index * 100}ms` }}
                 onMouseEnter={() => setHoveredProduct(product.id)}
                 onMouseLeave={() => setHoveredProduct(null)}
