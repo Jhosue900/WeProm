@@ -161,7 +161,7 @@ export default function Contact() {
                     },
                     { 
                       icon: MapPin, 
-                      text: 'Corriente 3071 Colombos Providencia 44630', 
+                      text: 'Corriente 3071 Colombos Providencia 44630, México', 
                       color: 'green',
                       title: 'Ubicación',
                       link: '#'
@@ -252,7 +252,7 @@ export default function Contact() {
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full px-3 sm:px-4 py-3 bg-white dark:bg-weprom-dark-gray border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-lg focus:ring-2 focus:ring-weprom-red focus:border-transparent outline-none transition-all duration-300 hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-sm sm:text-base text-weprom-gray-900 dark:text-weprom-white font-light placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-600"
-                    placeholder="+57 300 123 4567"
+                    placeholder="+52 300 123 4567"
                     required
                   />
                 </div>
