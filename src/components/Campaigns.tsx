@@ -17,7 +17,7 @@ export default function Campaigns() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const WHATSAPP_NUMBER = "521234567890";
+  const WHATSAPP_NUMBER = "523334590989";
 
   // Cargar campañas desde el servidor
   useEffect(() => {

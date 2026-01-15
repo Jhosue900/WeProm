@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 // Configuración de la API
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -19,6 +20,8 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
+
+  const WHATSAPP_NUMBER = "523334590989";
 
   // Cargar productos desde el servidor
   useEffect(() => {
@@ -237,13 +240,20 @@ export default function Projects() {
           <p className="text-gray-600 dark:text-gray-400 mb-4 text-xl sm:text-2xl">
             ¿Interesado en alguno de nuestros productos?
           </p>
-          <a
-            href="#contacto"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group font-bold text-2xl"
+        
+          <motion.a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+              "¡Hola! Visité su página web y me interesa conocer más sobre sus artículos promocionales."
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group text-xl sm:text-2xl"
           >
             Contactar a un asesor
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-          </a>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
+          </motion.a>
         </div>
 
       </div>
