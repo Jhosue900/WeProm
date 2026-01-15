@@ -147,17 +147,17 @@ export default function Contact() {
                   {[
                     { 
                       icon: Mail, 
-                      text: 'contacto@grupoweprom.com', 
+                      text: 'info@weprommexico.com', 
                       color: 'red',
                       title: 'Email',
-                      link: 'mailto:contacto@grupoweprom.com'
+                      link: 'mailto:info@weprommexico.com'
                     },
                     { 
                       icon: Phone, 
-                      text: '+52 1 33 3459 0989', 
+                      text: '+52 333 459 0989', 
                       color: 'blue',
                       title: 'Teléfono',
-                      link: 'tel:+5213334590989'
+                      link: 'tel:+523334590989'
                     },
                     { 
                       icon: MapPin, 
