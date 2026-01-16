@@ -161,7 +161,7 @@ export default function Contact() {
                     },
                     { 
                       icon: MapPin, 
-                      text: 'Corriente 3071 Colombos Providencia 44630, México', 
+                      text: 'Corrientes 3071, Col. Providencia, Guadalajara, Jalisco.', 
                       color: 'green',
                       title: 'Ubicación',
                       link: '#'
@@ -187,8 +187,8 @@ export default function Contact() {
                 </div>
                 
                 <div className="mt-6 p-4 rounded-lg bg-white/50 dark:bg-weprom-dark/50 border border-weprom-gray-200 dark:border-weprom-gray-800">
-                  <p className="text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white mb-1">Horarios de atención</p>
-                  <p className="text-lg text-weprom-gray-600 text-black font-bold dark:text-weprom-gray-200">
+                  <p className="text-sm font-semibold text-weprom-gray-900 dark:text-weprom-white mb-1">Horarios de atención:</p>
+                  <p className="text-lg text-weprom-gray-900 text-black font-bold dark:text-weprom-gray-200">
                     Lunes a Viernes de 9:00am a 6:00pm
                   </p>
                 </div>

@@ -102,7 +102,7 @@ export default function TrustedCompanies() {
           <div className="overflow-hidden h-[180px] sm:h-[230px] flex items-center group">
             
           <motion.div
-            className="flex gap-4 sm:gap-8 pr-4 sm:pr-8 cursor-grab active:cursor-grabbing"
+            className="flex gap-4 sm:gap-8 pr-4 sm:pr-8 cursor-default"
             animate={{ x: ["0%", "-50%"] }}
             transition={{
               ease: "linear",
