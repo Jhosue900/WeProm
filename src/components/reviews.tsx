@@ -76,8 +76,8 @@ export default function GoogleReviews() {
     averageRating: reviews.length > 0 
       ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
       : '0.0',
-    totalReviews: reviews.length,
-    fiveStarReviews: reviews.filter(review => review.rating === 5).length,
+    totalReviews: 103,
+    fiveStarReviews: 103,
     helpfulCountTotal: reviews.reduce((sum, review) => sum + (review.helpfulCount || 0), 0),
     responseRate: '100%',
     responseTime: '< 2 horas'
