@@ -82,7 +82,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-weprom-gray-50 to-white dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark overflow-hidden">
+    <section id="faq" className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-weprom-gray-50 to-white dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark overflow-hidden cursor-default">
       {/* Fondos Decorativos */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-rainbow"></div>
       <div className="absolute top-20 right-0 w-96 h-96 bg-weprom-blue/5 dark:bg-weprom-blue/10 rounded-full blur-3xl"></div>
@@ -125,7 +125,7 @@ export default function FAQ() {
                 <motion.div key={faq.id} variants={itemVariants} className="group">
                   <button
                     onClick={() => toggleFaq(faq.id)}
-                    className={`w-full text-left p-6 bg-white dark:bg-weprom-dark-gray rounded-2xl border-2 transition-all duration-300 ${
+                    className={`w-full text-left p-6 cursor-default bg-white dark:bg-weprom-dark-gray rounded-2xl border-2 transition-all duration-300 ${
                       isOpen ? 'border-weprom-yellow shadow-xl' : 'border-weprom-gray-200 dark:border-weprom-gray-800 hover:border-weprom-red/50'
                     }`}
                   >

@@ -144,7 +144,7 @@ export default function GoogleReviews() {
   };
 
   return (
-    <section id="reseñas" className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-weprom-gray-50 via-white to-weprom-gray-50 dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark overflow-hidden">
+    <section id="reseñas" className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-weprom-gray-50 via-white to-weprom-gray-50 dark:from-weprom-dark dark:via-weprom-dark-gray dark:to-weprom-dark overflow-hidden cursor-default">
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-rainbow"></div>
       <div className="absolute top-20 right-0 w-96 h-96 bg-weprom-blue/5 dark:bg-weprom-blue/10 rounded-full blur-3xl"></div>
@@ -215,7 +215,7 @@ export default function GoogleReviews() {
           className="mb-12"
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 border border-weprom-gray-200 dark:border-weprom-gray-800 text-center group hover:shadow-xl transition-all duration-300">
+            <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 border border-weprom-gray-200 dark:border-weprom-gray-800 text-center group hover:shadow-xl transition-all duration-300 cursor-default">
               <div className="flex items-center justify-center gap-2 mb-3">
                 <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-weprom-red to-weprom-yellow">
                   {stats.averageRating}
@@ -232,7 +232,7 @@ export default function GoogleReviews() {
             </div>
 
             <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 border border-weprom-gray-200 dark:border-weprom-gray-800 text-center group hover:shadow-xl transition-all duration-300">
-              <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-weprom-blue to-weprom-green mb-3">
+              <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-weprom-blue to-weprom-green mb-3 cursor-default">
                 {stats.totalReviews}+
               </div>
               <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">Reseñas verificadas</p>
@@ -267,7 +267,7 @@ export default function GoogleReviews() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-br from-white to-weprom-gray-50 dark:from-weprom-dark-gray dark:to-weprom-dark rounded-2xl p-6 sm:p-8 border-2 border-weprom-gray-200 dark:border-weprom-gray-800"
+              className="bg-gradient-to-br from-white to-weprom-gray-50 dark:from-weprom-dark-gray dark:to-weprom-dark rounded-2xl p-6 sm:p-8 border-2 border-weprom-gray-200 dark:border-weprom-gray-800 cursor-default"
             >
               <div className="flex flex-col lg:flex-row gap-8">
                 {/* Columna izquierda - Reseña principal */}
@@ -333,7 +333,7 @@ export default function GoogleReviews() {
                       {reviews.slice(0, 3).map((review, index) => (
                         <div 
                           key={review.id} 
-                          className={`p-3 rounded-lg cursor-pointer transition-all duration-300 ${index === 0 ? 'bg-white dark:bg-weprom-dark-gray border border-weprom-gray-200 dark:border-weprom-gray-800' : 'hover:bg-white/50 dark:hover:bg-weprom-dark-gray/50'}`}
+                          className={`p-3 rounded-lg cursor-default transition-all duration-300 ${index === 0 ? 'bg-white dark:bg-weprom-dark-gray border border-weprom-gray-200 dark:border-weprom-gray-800' : 'hover:bg-white/50 dark:hover:bg-weprom-dark-gray/50'}`}
                           onClick={() => setCurrentIndex(index)}
                         >
                           <div className="flex items-center gap-3">
@@ -365,7 +365,7 @@ export default function GoogleReviews() {
           <div className="flex justify-center items-center gap-4 mt-8">
             <button
               onClick={prevReview}
-              className="p-3 rounded-full bg-white dark:bg-weprom-dark-gray border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-red transition-all duration-300 transform hover:scale-105"
+              className="p-3 rounded-full cursor-default bg-white dark:bg-weprom-dark-gray border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-red transition-all duration-300 transform hover:scale-105"
               aria-label="Reseña anterior"
             >
               <ChevronLeft className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
@@ -387,7 +387,7 @@ export default function GoogleReviews() {
 
             <button
               onClick={nextReview}
-              className="p-3 rounded-full bg-white dark:bg-weprom-dark-gray border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-blue transition-all duration-300 transform hover:scale-105"
+              className="p-3 rounded-full cursor-default bg-white dark:bg-weprom-dark-gray border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-blue transition-all duration-300 transform hover:scale-105"
               aria-label="Siguiente reseña"
             >
               <ChevronRight className="w-5 h-5 text-weprom-gray-600 dark:text-weprom-gray-400" />
