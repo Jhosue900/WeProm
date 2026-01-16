@@ -444,75 +444,9 @@ export default function GoogleReviews() {
           </div>
         )}
 
-        {/* Botón para ver todas las reseñas */}
-        {reviews.length > 0 && (
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mt-12"
-          >
-            <div className="inline-flex flex-col items-center gap-6">
-              <p className="text-weprom-gray-600 dark:text-weprom-gray-400">
-                Descubre más experiencias reales de nuestros clientes satisfechos
-              </p>
-              <a 
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  // Aquí podrías implementar una modal con todas las reseñas
-                  alert(`Mostrando todas las ${reviews.length} reseñas`);
-                }}
-                className="group inline-flex items-center gap-3 bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                <Star className="w-5 h-5" />
-                Ver todas las reseñas ({reviews.length})
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
-          </motion.div>
-        )}
+        
 
-        {/* Sección de confianza */}
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-16"
-        >
-          <div className="bg-gradient-to-br from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray rounded-2xl p-8 border border-weprom-gray-200 dark:border-weprom-gray-800">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="flex-1">
-                <h3 className="text-2xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-3">
-                  ¿Listo para unirte a nuestros clientes satisfechos?
-                </h3>
-                <p className="text-weprom-gray-600 dark:text-weprom-gray-400">
-                  Miles de empresas ya han transformado su marca con WeProm. 
-                  Descubre por qué somos la opción preferida para el marketing y branding.
-                </p>
               </div>
-              <div className="flex gap-4">
-                <a 
-                  href="#contacto"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-weprom-blue to-weprom-green text-white px-6 py-3 rounded-xl font-semibold hover:shadow-xl transition-all"
-                >
-                  <Award className="w-5 h-5" />
-                  Contáctanos
-                </a>
-                <a 
-                  href="#servicios"
-                  className="inline-flex items-center gap-2 bg-white dark:bg-weprom-dark-gray text-weprom-gray-900 dark:text-weprom-white px-6 py-3 rounded-xl font-semibold border border-weprom-gray-300 dark:border-weprom-gray-700 hover:border-weprom-yellow transition-all"
-                >
-                  <Sparkles className="w-5 h-5" />
-                  Ver servicios
-                </a>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
 
       {/* Bottom accent */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-rainbow"></div>

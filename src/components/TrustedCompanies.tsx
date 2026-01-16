@@ -130,11 +130,11 @@ export default function TrustedCompanies() {
                     whileHover={{ scale: 1.05 }}
                     className={`
                       relative p-6 sm:p-8 rounded-2xl 
-                      bg-white dark:bg-weprom-dark-gray
+                      bg-white
                       border-2 transition-all duration-500
                       ${hoveredIndex === index 
                         ? `border-weprom-${logo.color} shadow-xl` 
-                        : 'border-weprom-gray-100 dark:border-weprom-gray-800'
+                        : 'border-weprom-gray-100 dark:border-weprom-gray-700'
                       }
                       flex items-center justify-center h-24 sm:h-32
                     `}
@@ -201,5 +201,3 @@ export default function TrustedCompanies() {
     </section>
   );
 }
-
-
