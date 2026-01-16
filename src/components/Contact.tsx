@@ -161,7 +161,7 @@ export default function Contact() {
                     },
                     { 
                       icon: MapPin, 
-                      text: 'Corrientes 3071, Col. Providencia, Guadalajara, Jalisco.', 
+                      text: ['Corrientes 3071, Col. Providencia,', 'Guadalajara, Jalisco.'],
                       color: 'green',
                       title: 'Ubicación',
                       link: '#'
@@ -178,9 +178,17 @@ export default function Contact() {
                       </div>
                       <div>
                         <p className="text-xs text-white/70 font-medium uppercase tracking-wider">{item.title}</p>
+
                         <p className="text-sm sm:text-base font-semibold break-all text-white group-hover:text-white transition-colors">
-                          {item.text}
+                          {Array.isArray(item.text) ? (
+                            item.text.map((line, i) => (
+                              <span key={i} className="block">{line}</span>
+                            ))
+                          ) : (
+                            item.text
+                          )}
                         </p>
+
                       </div>
                     </a>
                   ))}
