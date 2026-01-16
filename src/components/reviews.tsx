@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Star, ChevronLeft, ChevronRight, Quote, MapPin, 
   Calendar, ThumbsUp, User, Filter, Sparkles,
-  CheckCircle, Award, Shield, Loader2
+  CheckCircle, Award, Shield, Loader2, Users
 } from 'lucide-react';
 
 // Interface actualizada para coincidir con el backend
@@ -15,6 +15,7 @@ interface Review {
   location: string;
   created_at: string;
   status?: 'published' | 'pending';
+  helpfulCount: number; // Añadir helpfulCount
 }
 
 export default function GoogleReviews() {
@@ -23,6 +24,7 @@ export default function GoogleReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [likedReviews, setLikedReviews] = useState<number[]>([]);
 
   // Colores para avatares (se generan basados en el nombre)
   const avatarColors = ['red', 'blue', 'green', 'yellow', 'purple', 'teal', 'pink', 'indigo', 'orange', 'cyan'];
@@ -76,6 +78,7 @@ export default function GoogleReviews() {
       : '0.0',
     totalReviews: reviews.length,
     fiveStarReviews: reviews.filter(review => review.rating === 5).length,
+    helpfulCountTotal: reviews.reduce((sum, review) => sum + (review.helpfulCount || 0), 0),
     responseRate: '100%',
     responseTime: '< 2 horas'
   };
@@ -121,6 +124,29 @@ export default function GoogleReviews() {
     return avatarColors[charCode % avatarColors.length];
   };
 
+  // Manejar like en reseña
+  const handleLikeReview = (reviewId: number) => {
+    if (likedReviews.includes(reviewId)) {
+      // Quitar like
+      setLikedReviews(prev => prev.filter(id => id !== reviewId));
+      // Actualizar contador localmente (simulación)
+      setReviews(prev => prev.map(review => 
+        review.id === reviewId 
+          ? { ...review, helpfulCount: Math.max(0, review.helpfulCount - 1) }
+          : review
+      ));
+    } else {
+      // Agregar like
+      setLikedReviews(prev => [...prev, reviewId]);
+      // Actualizar contador localmente (simulación)
+      setReviews(prev => prev.map(review => 
+        review.id === reviewId 
+          ? { ...review, helpfulCount: (review.helpfulCount || 0) + 1 }
+          : review
+      ));
+    }
+  };
+
   // Renderizar estrellas
   const renderStars = (rating: number) => {
     return (
@@ -132,6 +158,50 @@ export default function GoogleReviews() {
           />
         ))}
       </div>
+    );
+  };
+
+  // Componente para mostrar el contador de "útil"
+  const renderHelpfulCount = (review: Review) => {
+    const isLiked = likedReviews.includes(review.id);
+    const count = review.helpfulCount || 0;
+
+    if (count > 0) {
+      return (
+        <div className="flex items-center gap-2 mt-3">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleLikeReview(review.id);
+            }}
+            className={`flex items-center gap-1 px-3 py-1 rounded-lg transition-all duration-200 ${isLiked 
+              ? 'bg-weprom-green/20 text-weprom-green border border-weprom-green/30' 
+              : 'bg-weprom-gray-100 dark:bg-weprom-dark hover:bg-weprom-gray-200 dark:hover:bg-weprom-dark-gray text-weprom-gray-600 dark:text-weprom-gray-400'
+            }`}
+          >
+            <ThumbsUp className={`w-4 h-4 ${isLiked ? 'fill-weprom-green' : ''}`} />
+            <span className="text-sm font-semibold">
+              {isLiked ? 'Te pareció útil' : 'A '} ({count}) personas les pareció útil.
+            </span>
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleLikeReview(review.id);
+        }}
+        className={`flex items-center gap-1 px-3 py-1 rounded-lg mt-3 transition-all duration-200 ${isLiked 
+          ? 'bg-weprom-green/20 text-weprom-green border border-weprom-green/30' 
+          : 'bg-weprom-gray-100 dark:bg-weprom-dark hover:bg-weprom-gray-200 dark:hover:bg-weprom-dark-gray text-weprom-gray-600 dark:text-weprom-gray-400'
+        }`}
+      >
+        <ThumbsUp className={`w-4 h-4 ${isLiked ? 'fill-weprom-green' : ''}`} />
+        <span className="text-sm">¿Te pareció útil?</span>
+      </button>
     );
   };
 
@@ -239,7 +309,7 @@ export default function GoogleReviews() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
             <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 border border-weprom-gray-200 dark:border-weprom-gray-800 text-center group hover:shadow-xl transition-all duration-300">
               <div className="flex items-center justify-center gap-2 mb-3">
                 <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-weprom-red to-weprom-yellow">
@@ -268,6 +338,18 @@ export default function GoogleReviews() {
                 {stats.fiveStarReviews}
               </div>
               <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">Reseñas 5 estrellas</p>
+            </div>
+
+            <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 border border-weprom-gray-200 dark:border-weprom-gray-800 text-center group hover:shadow-xl transition-all duration-300">
+              <div className="flex flex-col items-center justify-center gap-1 mb-3">
+                <div className="flex items-center gap-2">
+                  <ThumbsUp className="w-6 h-6 text-weprom-blue" />
+                  <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-weprom-red to-weprom-yellow">
+                    {stats.helpfulCountTotal}+
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">Personas encontraron útil</p>
             </div>
 
             <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 border border-weprom-gray-200 dark:border-weprom-gray-800 text-center group hover:shadow-xl transition-all duration-300">
@@ -329,7 +411,10 @@ export default function GoogleReviews() {
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap gap-4">
+                    {/* Sección de "¿Te pareció útil?" */}
+                    {renderHelpfulCount(reviews[currentIndex])}
+
+                    <div className="flex flex-wrap gap-4 mt-4">
                       {reviews[currentIndex].location && (
                         <div className="flex items-center gap-2 text-sm text-weprom-gray-600 dark:text-weprom-gray-400">
                           <MapPin className="w-4 h-4" />
@@ -371,6 +456,16 @@ export default function GoogleReviews() {
                                 <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400 truncate">
                                   {review.review.substring(0, 50)}...
                                 </p>
+                                
+                                {/* Contador de "útil" en miniatura */}
+                                {review.helpfulCount > 0 && (
+                                  <div className="flex items-center gap-1 mt-1">
+                                    <ThumbsUp className="w-3 h-3 text-weprom-blue" />
+                                    <span className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">
+                                      {review.helpfulCount} persona{review.helpfulCount > 1 ? 's' : ''} le{review.helpfulCount > 1 ? 's' : ''} resulto útil
+                                    </span>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -445,8 +540,7 @@ export default function GoogleReviews() {
         )}
 
         
-
-              </div>
+      </div>
 
       {/* Bottom accent */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-rainbow"></div>
