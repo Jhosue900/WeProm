@@ -13,9 +13,15 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Logo y copyright */}
           <div className="text-center md:text-left">
-            <div className="text-lg font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2">
-              WeProm - División de Artículos Promocionales y Uniformes Empresariales
+
+            
+            <div className="text-lg font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-2 leading-tight">
+              WeProm
+              <span className="block text-base font-bold opacity-90 mt-4">
+                División de Artículos Promocionales y Uniformes Empresariales
+              </span>
             </div>
+
             <p className="text-lg sm:text-lg font-medium text-weprom-gray-600 dark:text-weprom-gray-400">
               WeProm es una Unidad de Negocio de Grupo WeProm
             </p>
