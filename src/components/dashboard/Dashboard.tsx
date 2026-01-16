@@ -15,40 +15,40 @@ import {
 } from 'lucide-react';
 
 // Reemplaza el componente StarIcon actual por este:
-const StarIcon = ({ 
-  filled, 
-  half = false, 
-  className = "w-5 h-5" 
-}: { 
-  filled: boolean; 
+const StarIcon = ({
+  filled,
+  half = false,
+  className = "w-5 h-5"
+}: {
+  filled: boolean;
   half?: boolean;
   className?: string;
 }) => {
   if (half) {
     return (
       <div className="relative">
-        <svg 
-          className={`${className} text-weprom-gray-300 dark:text-weprom-gray-600`} 
+        <svg
+          className={`${className} text-weprom-gray-300 dark:text-weprom-gray-600`}
           viewBox="0 0 24 24"
           stroke="currentColor"
           fill="none"
         >
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" 
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
           />
         </svg>
         <div className="absolute top-0 left-0 overflow-hidden" style={{ width: '50%' }}>
-          <svg 
-            className={`${className} text-weprom-yellow fill-current`} 
+          <svg
+            className={`${className} text-weprom-yellow fill-current`}
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" 
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
             />
           </svg>
         </div>
@@ -57,15 +57,15 @@ const StarIcon = ({
   }
 
   return (
-    <svg 
-      className={`${className} ${filled ? 'text-weprom-yellow fill-current' : 'text-weprom-gray-300 dark:text-weprom-gray-600'}`} 
+    <svg
+      className={`${className} ${filled ? 'text-weprom-yellow fill-current' : 'text-weprom-gray-300 dark:text-weprom-gray-600'}`}
       viewBox="0 0 24 24"
       stroke="currentColor"
     >
-      <path 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" 
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
       />
     </svg>
   );
@@ -142,13 +142,16 @@ interface Review {
   location: string;
   created_at: string;
   status?: 'published' | 'pending';
+  helpfulCount: number; // ← Añade este campo
 }
+
 
 interface ReviewForm {
   name: string;
   rating: number;
   review: string;
   location: string;
+  helpfulCount: number; // ← Añade este campo
 }
 
 // Componente de Notificación
@@ -686,7 +689,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     name: '',
     rating: 5,
     review: '',
-    location: ''
+    location: '',
+    helpfulCount: 0 // ← Añade este valor inicial
   });
   const [compressionProgress, setCompressionProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -842,7 +846,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       name: '',
       rating: 5,
       review: '',
-      location: ''
+      location: '',
+      helpfulCount: 0 // ← Añade este campo
     });
     setEditingReview(null);
     setShowReviewForm(false);
@@ -1202,7 +1207,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         name: reviewForm.name,
         rating: reviewForm.rating,
         review: reviewForm.review,
-        location: reviewForm.location
+        location: reviewForm.location,
+        helpfulCount: reviewForm.helpfulCount // ← Añade este campo
       };
 
       const url = editingReview ? `${API_URL}/reviews/${editingReview.id}` : `${API_URL}/reviews`;
@@ -1274,7 +1280,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       name: review.name,
       rating: review.rating,
       review: review.review,
-      location: review.location
+      location: review.location,
+      helpfulCount: review.helpfulCount || 0 // ← Añade este campo
     });
     setShowReviewForm(true);
   };
@@ -2537,6 +2544,34 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         />
                       </div>
 
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
+                          ¿A cuántas personas les ha sido útil esta reseña?
+                        </label>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          <input
+                            type="number"
+                            value={reviewForm.helpfulCount}
+                            onChange={(e) => setReviewForm({
+                              ...reviewForm,
+                              helpfulCount: Math.max(0, parseInt(e.target.value) || 0)
+                            })}
+                            required
+                            min="0"
+                            className="w-full sm:w-auto px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-yellow focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-weprom-gray-900 dark:text-white placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-400"
+                            placeholder="Número de personas"
+                          />
+                          <div className="flex items-center gap-2 text-sm text-weprom-gray-600 dark:text-weprom-gray-400">
+                            <UsersIcon className="w-4 h-4" />
+                            <span>Personas encontraron útil esta reseña</span>
+                          </div>
+                        </div>
+                        <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400 mt-2">
+                          Ingresa el número de personas que han encontrado útil esta reseña
+                        </p>
+                      </div>
+
+
                       <div className="flex flex-col sm:flex-row gap-3 pt-4">
                         <button
                           onClick={handleSaveReview}
@@ -2575,6 +2610,17 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                             <StarRating rating={review.rating} />
                           </div>
                         </div>
+
+                        {review.helpfulCount > 0 && (
+                          <div className="flex items-center gap-2 mb-4">
+                            <div className="px-3 py-1 bg-weprom-green/10 text-weprom-green rounded-lg flex items-center gap-1 text-sm">
+                              <UsersIcon className="w-3 h-3" />
+                              <span>{review.helpfulCount} persona{review.helpfulCount > 1 ? 's' : ''} encontró útil</span>
+                            </div>
+                          </div>
+                        )}
+
+
 
                         <div className="mb-6">
                           <p className="text-weprom-gray-600 dark:text-weprom-gray-400 italic line-clamp-3">
