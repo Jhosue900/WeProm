@@ -10,8 +10,66 @@ import {
   Home, BarChart2, Users as UsersIcon, CreditCard,
   Sun, Moon, CheckCircle, AlertCircle,
   Check, XCircle, Info, AlertTriangle,
-  MessageSquare, Mail, Phone, Building, Clock, User, RefreshCw 
+  MessageSquare, Mail, Phone, Building, Clock, User, RefreshCw,
+  Star
 } from 'lucide-react';
+
+// Reemplaza el componente StarIcon actual por este:
+const StarIcon = ({
+  filled,
+  half = false,
+  className = "w-5 h-5"
+}: {
+  filled: boolean;
+  half?: boolean;
+  className?: string;
+}) => {
+  if (half) {
+    return (
+      <div className="relative">
+        <svg
+          className={`${className} text-weprom-gray-300 dark:text-weprom-gray-600`}
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          fill="none"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+          />
+        </svg>
+        <div className="absolute top-0 left-0 overflow-hidden" style={{ width: '50%' }}>
+          <svg
+            className={`${className} text-weprom-yellow fill-current`}
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+            />
+          </svg>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <svg
+      className={`${className} ${filled ? 'text-weprom-yellow fill-current' : 'text-weprom-gray-300 dark:text-weprom-gray-600'}`}
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+      />
+    </svg>
+  );
+};
 
 const API_URL = 'https://we-prom-backend.vercel.app';
 
@@ -74,6 +132,26 @@ interface Notification {
   title: string;
   message: string;
   duration?: number;
+}
+
+interface Review {
+  id: number;
+  name: string;
+  rating: number;
+  review: string;
+  location: string;
+  created_at: string;
+  status?: 'published' | 'pending';
+  helpfulCount: number; // ← Añade este campo
+}
+
+
+interface ReviewForm {
+  name: string;
+  rating: number;
+  review: string;
+  location: string;
+  helpfulCount: number; // ← Añade este campo
 }
 
 // Componente de Notificación
@@ -409,8 +487,6 @@ const ContactMessageModal = ({
                 </p>
               </div>
             </div>
-
-           
           </div>
         </div>
       </div>
@@ -555,6 +631,34 @@ const FileSizeInfo = ({ file, originalFile }: { file: File | null, originalFile?
   );
 };
 
+// Componente para mostrar estrellas
+const StarRating = ({ rating, onChange, editable = false }: {
+  rating: number;
+  onChange?: (rating: number) => void;
+  editable?: boolean;
+}) => {
+  return (
+    <div className="flex gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <button
+          key={star}
+          type="button"
+          onClick={() => editable && onChange && onChange(star)}
+          disabled={!editable}
+          className={`${editable ? 'cursor-pointer hover:scale-110 transition-transform' : 'cursor-default'}`}
+        >
+          <StarIcon filled={star <= rating} className="w-6 h-6" />
+        </button>
+      ))}
+      {!editable && (
+        <span className="ml-2 text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300">
+          {rating.toFixed(1)}/5
+        </span>
+      )}
+    </div>
+  );
+};
+
 // Main Dashboard Component
 export default function Dashboard({ onLogout }: DashboardProps) {
   const navigate = useNavigate();
@@ -562,10 +666,13 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [contacts, setContacts] = useState<ContactMessage[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [editingReview, setEditingReview] = useState<Review | null>(null);
   const [showCampaignForm, setShowCampaignForm] = useState(false);
   const [showProjectForm, setShowProjectForm] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingContacts, setLoadingContacts] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -577,6 +684,13 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     category: '',
     description: '',
     image: null
+  });
+  const [reviewForm, setReviewForm] = useState<ReviewForm>({
+    name: '',
+    rating: 5,
+    review: '',
+    location: '',
+    helpfulCount: 0 // ← Añade este valor inicial
   });
   const [compressionProgress, setCompressionProgress] = useState<number>(0);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -687,6 +801,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     loadCampaigns();
     loadProjects();
     loadContacts();
+    loadReviews();
   }, []);
 
   useEffect(() => {
@@ -715,6 +830,27 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     setImagePreview(null);
     setCompressionProgress(0);
     setIsCompressing(false);
+  };
+
+  const resetProjectForm = () => {
+    setProjectForm({ name: '', category: '', description: '', image: null });
+    setEditingProject(null);
+    setShowProjectForm(false);
+    setImagePreview(null);
+    setCompressionProgress(0);
+    setIsCompressing(false);
+  };
+
+  const resetReviewForm = () => {
+    setReviewForm({
+      name: '',
+      rating: 5,
+      review: '',
+      location: '',
+      helpfulCount: 0 // ← Añade este campo
+    });
+    setEditingReview(null);
+    setShowReviewForm(false);
   };
 
   const handleLogout = async () => {
@@ -780,6 +916,18 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     }
   };
 
+  const loadReviews = async () => {
+    try {
+      const response = await fetch(`${API_URL}/reviews`);
+      const result = await response.json();
+      if (result.success) {
+        setReviews(result.data);
+      }
+    } catch (error) {
+      console.error('Error cargando reseñas:', error);
+    }
+  };
+
   const updateContactStatus = async (id: number, status: 'unread' | 'read' | 'replied') => {
     try {
       const token = getToken();
@@ -797,7 +945,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         setContacts(prev => prev.map(contact =>
           contact.id === id ? { ...contact, status } : contact
         ));
-        
+
         addNotification({
           type: 'success',
           title: 'Estado actualizado',
@@ -1052,13 +1200,59 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     }
   };
 
-  const resetProjectForm = () => {
-    setProjectForm({ name: '', category: '', description: '', image: null });
-    setEditingProject(null);
-    setShowProjectForm(false);
-    setImagePreview(null);
-    setCompressionProgress(0);
-    setIsCompressing(false);
+  const handleSaveReview = async () => {
+    setLoading(true);
+    try {
+      const reviewData = {
+        name: reviewForm.name,
+        rating: reviewForm.rating,
+        review: reviewForm.review,
+        location: reviewForm.location,
+        helpfulCount: reviewForm.helpfulCount // ← Añade este campo
+      };
+
+      const url = editingReview ? `${API_URL}/reviews/${editingReview.id}` : `${API_URL}/reviews`;
+      const method = editingReview ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Authorization': `Bearer ${getToken()}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reviewData)
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        await loadReviews();
+        resetReviewForm();
+        addNotification({
+          type: 'success',
+          title: editingReview ? '✅ Reseña actualizada' : '✅ Reseña creada',
+          message: editingReview ? 'La reseña se ha actualizado exitosamente.' : 'La reseña se ha creado exitosamente.',
+          duration: 3000
+        });
+      } else if (response.status === 401 || response.status === 403) {
+        addNotification({
+          type: 'warning',
+          title: 'Sesión expirada',
+          message: 'Por favor inicia sesión nuevamente.',
+          duration: 5000
+        });
+        handleLogout();
+      }
+    } catch (error) {
+      console.error('Error guardando reseña:', error);
+      addNotification({
+        type: 'error',
+        title: 'Error al guardar',
+        message: 'No se pudo guardar la reseña. Intenta nuevamente.',
+        duration: 5000
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleEditCampaign = (campaign: Campaign) => {
@@ -1078,6 +1272,18 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     });
     setImagePreview(project.img);
     setShowProjectForm(true);
+  };
+
+  const handleEditReview = (review: Review) => {
+    setEditingReview(review);
+    setReviewForm({
+      name: review.name,
+      rating: review.rating,
+      review: review.review,
+      location: review.location,
+      helpfulCount: review.helpfulCount || 0 // ← Añade este campo
+    });
+    setShowReviewForm(true);
   };
 
   const handleDeleteCampaign = (id: number) => {
@@ -1166,10 +1372,53 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     });
   };
 
+  const handleDeleteReview = (id: number) => {
+    showConfirmation({
+      title: '¿Eliminar reseña?',
+      message: 'Esta acción eliminará permanentemente la reseña. ¿Estás seguro?',
+      type: 'danger',
+      confirmText: 'Eliminar',
+      onConfirm: async () => {
+        try {
+          const response = await fetch(`${API_URL}/reviews/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${getToken()}` }
+          });
+          const result = await response.json();
+          if (result.success) {
+            await loadReviews();
+            addNotification({
+              type: 'success',
+              title: '✅ Reseña eliminada',
+              message: 'La reseña se ha eliminado exitosamente.',
+              duration: 3000
+            });
+          } else if (response.status === 401 || response.status === 403) {
+            addNotification({
+              type: 'warning',
+              title: 'Sesión expirada',
+              message: 'Por favor inicia sesión nuevamente.',
+              duration: 5000
+            });
+            handleLogout();
+          }
+        } catch (error) {
+          console.error('Error eliminando reseña:', error);
+          addNotification({
+            type: 'error',
+            title: 'Error al eliminar',
+            message: 'No se pudo eliminar la reseña. Intenta nuevamente.',
+            duration: 5000
+          });
+        }
+      }
+    });
+  };
+
   const handleViewContact = (contact: ContactMessage) => {
     setSelectedContact(contact);
     setShowContactModal(true);
-    
+
     if (contact.status === 'unread') {
       updateContactStatus(contact.id, 'read');
     }
@@ -1398,7 +1647,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                 { id: 'overview', label: 'Resumen', icon: Home, color: 'red' },
                 { id: 'campaigns', label: 'Campañas', icon: Megaphone, color: 'blue' },
                 { id: 'projects', label: 'Proyectos', icon: Briefcase, color: 'green' },
-                { id: 'messages', label: 'Mensajes', icon: MessageSquare, color: 'purple' }
+                { id: 'messages', label: 'Mensajes', icon: MessageSquare, color: 'purple' },
+                { id: 'reviews', label: 'Reseñas', icon: Star, color: 'yellow' }
               ].map((item) => (
                 <button
                   key={item.id}
@@ -1438,12 +1688,13 @@ export default function Dashboard({ onLogout }: DashboardProps) {
             { id: 'overview', label: 'Resumen', icon: Home },
             { id: 'campaigns', label: 'Campañas', icon: Megaphone },
             { id: 'projects', label: 'Proyectos', icon: Briefcase },
-            { 
-              id: 'messages', 
-              label: 'Mensajes', 
+            {
+              id: 'messages',
+              label: 'Mensajes',
               icon: MessageSquare,
               badge: unreadCount > 0 ? unreadCount : undefined
-            }
+            },
+            { id: 'reviews', label: 'Reseñas', icon: Star }
           ].map((tab) => (
             <button
               key={tab.id}
@@ -1584,7 +1835,24 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                     </div>
                   </button>
 
-             
+                  <button
+                    onClick={() => { setActiveTab('reviews'); setShowReviewForm(true); }}
+                    className="group p-5 rounded-xl border border-weprom-gray-200 dark:border-weprom-gray-800 hover:border-weprom-yellow transition-all duration-300 transform hover:-translate-y-1"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-weprom-yellow to-weprom-orange flex items-center justify-center">
+                        <Star className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-left">
+                        <h4 className="font-bold text-weprom-gray-900 dark:text-weprom-white">Nueva Reseña</h4>
+                        <p className="text-sm text-weprom-gray-600 dark:text-weprom-gray-400">Agregar reseña de cliente</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center text-weprom-yellow text-sm">
+                      <span>Iniciar</span>
+                      <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
@@ -2094,8 +2362,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                         </thead>
                         <tbody>
                           {contacts.map((contact) => (
-                            <tr 
-                              key={contact.id} 
+                            <tr
+                              key={contact.id}
                               className={`border-b border-weprom-gray-100 dark:border-weprom-gray-800 hover:bg-weprom-gray-50 dark:hover:bg-weprom-dark/50 transition-colors ${contact.status === 'unread' ? 'bg-weprom-red/5 dark:bg-weprom-red/10' : ''}`}
                             >
                               <td className="py-4 px-6">
@@ -2185,6 +2453,227 @@ export default function Dashboard({ onLogout }: DashboardProps) {
               </div>
             </div>
           )}
+
+          {activeTab === 'reviews' && (
+            <div>
+              <div className="bg-white dark:bg-weprom-dark-gray rounded-2xl p-6 shadow-lg border border-weprom-gray-200 dark:border-weprom-gray-800">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                  <div>
+                    <div className="inline-flex items-center gap-2 mb-3">
+                      <div className="h-0.5 w-6 bg-gradient-to-r from-weprom-yellow to-weprom-orange"></div>
+                      <span className="text-sm font-semibold text-weprom-yellow uppercase tracking-widest">
+                        Reseñas de Clientes
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                      Gestión de Reseñas
+                    </h2>
+                  </div>
+                  <button
+                    onClick={() => setShowReviewForm(true)}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-weprom-yellow to-weprom-orange text-white px-6 py-3.5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Plus className="w-5 h-5" />
+                    Nueva Reseña
+                  </button>
+                </div>
+
+                {showReviewForm ? (
+                  <div className="bg-gradient-to-br from-weprom-gray-50 to-white dark:from-weprom-dark dark:to-weprom-dark-gray rounded-2xl p-6 border-2 border-weprom-yellow/20">
+                    <div className="flex justify-between items-center mb-6">
+                      <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white">
+                        {editingReview ? 'Editar Reseña' : 'Nueva Reseña'}
+                      </h3>
+                      <button onClick={resetReviewForm} className="text-weprom-gray-400 hover:text-weprom-yellow transition-colors">
+                        <X className="w-6 h-6" />
+                      </button>
+                    </div>
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
+                          Nombre del Cliente
+                        </label>
+                        <input
+                          type="text"
+                          value={reviewForm.name}
+                          onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
+                          className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-yellow focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-weprom-gray-900 dark:text-white placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-400"
+                          placeholder="Nombre completo del cliente"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
+                          Calificación (Estrellas)
+                        </label>
+                        <div className="flex items-center gap-4">
+                          <StarRating
+                            rating={reviewForm.rating}
+                            onChange={(rating) => setReviewForm({ ...reviewForm, rating })}
+                            editable={true}
+                          />
+                          <span className="text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300">
+                            {reviewForm.rating}/5
+                          </span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
+                          Ubicación
+                        </label>
+                        <input
+                          type="text"
+                          value={reviewForm.location}
+                          onChange={(e) => setReviewForm({ ...reviewForm, location: e.target.value })}
+                          className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-yellow focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-weprom-gray-900 dark:text-white placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-400"
+                          placeholder="Ej: Ciudad, País"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
+                          Reseña
+                        </label>
+                        <textarea
+                          value={reviewForm.review}
+                          onChange={(e) => setReviewForm({ ...reviewForm, review: e.target.value })}
+                          className="w-full px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-yellow focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-weprom-gray-900 dark:text-white placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-400 resize-none"
+                          rows={4}
+                          placeholder="Reseña del cliente..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-3">
+                          ¿A cuántas personas les ha sido útil esta reseña?
+                        </label>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          <input
+                            type="number"
+                            value={reviewForm.helpfulCount}
+                            onChange={(e) => setReviewForm({
+                              ...reviewForm,
+                              helpfulCount: Math.max(0, parseInt(e.target.value) || 0)
+                            })}
+                            required
+                            min="0"
+                            className="w-full sm:w-auto px-4 py-3.5 bg-white dark:bg-weprom-dark border border-weprom-gray-300 dark:border-weprom-gray-800 rounded-xl focus:ring-2 focus:ring-weprom-yellow focus:border-transparent outline-none transition-all hover:border-weprom-gray-400 dark:hover:border-weprom-gray-700 text-weprom-gray-900 dark:text-white placeholder:text-weprom-gray-500 dark:placeholder:text-weprom-gray-400"
+                            placeholder="Número de personas"
+                          />
+                          <div className="flex items-center gap-2 text-sm text-weprom-gray-600 dark:text-weprom-gray-400">
+                            <UsersIcon className="w-4 h-4" />
+                            <span>Personas encontraron útil esta reseña</span>
+                          </div>
+                        </div>
+                        <p className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400 mt-2">
+                          Ingresa el número de personas que han encontrado útil esta reseña
+                        </p>
+                      </div>
+
+
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                        <button
+                          onClick={handleSaveReview}
+                          disabled={loading}
+                          className="flex-1 flex items-center justify-center gap-3 bg-gradient-to-r from-weprom-yellow to-weprom-orange text-white px-6 py-3.5 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                          {loading ? 'Guardando...' : (editingReview ? 'Actualizar' : 'Crear Reseña')}
+                        </button>
+                        <button
+                          onClick={resetReviewForm}
+                          className="px-6 py-3.5 bg-weprom-gray-100 dark:bg-weprom-gray-900 hover:bg-weprom-gray-200 dark:hover:bg-weprom-gray-800 text-weprom-gray-700 dark:text-weprom-gray-300 rounded-xl font-semibold transition-colors"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {reviews.map((review) => (
+                      <div key={review.id} className="group bg-white dark:bg-weprom-dark-gray border-2 border-weprom-gray-200 dark:border-weprom-gray-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-500 hover:border-weprom-yellow p-6">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="text-xl font-extrabold text-weprom-gray-900 dark:text-weprom-white mb-1">
+                              {review.name}
+                            </h3>
+                            {review.location && (
+                              <div className="flex items-center gap-1 text-sm text-weprom-gray-500 dark:text-weprom-gray-400">
+                                <Building className="w-4 h-4" />
+                                {review.location}
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <StarRating rating={review.rating} />
+                          </div>
+                        </div>
+
+                        {review.helpfulCount > 0 && (
+                          <div className="flex items-center gap-2 mb-4">
+                            <div className="px-3 py-1 bg-weprom-green/10 text-weprom-green rounded-lg flex items-center gap-1 text-sm">
+                              <UsersIcon className="w-3 h-3" />
+                              <span>{review.helpfulCount} persona{review.helpfulCount > 1 ? 's' : ''} encontró útil</span>
+                            </div>
+                          </div>
+                        )}
+
+
+
+                        <div className="mb-6">
+                          <p className="text-weprom-gray-600 dark:text-weprom-gray-400 italic line-clamp-3">
+                            "{review.review}"
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs text-weprom-gray-500 dark:text-weprom-gray-400">
+                            {formatDate(review.created_at)}
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleEditReview(review)}
+                              className="flex items-center gap-2 px-3 py-1.5 bg-weprom-gray-100 dark:bg-weprom-gray-900 hover:bg-weprom-gray-200 dark:hover:bg-weprom-gray-800 text-weprom-gray-700 dark:text-weprom-gray-300 rounded-lg font-semibold transition-all text-sm"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => handleDeleteReview(review.id)}
+                              className="flex items-center justify-center bg-red-100 dark:bg-red-900/20 hover:bg-red-200 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 p-1.5 rounded-lg transition-all"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {reviews.length === 0 && !showReviewForm && (
+                  <div className="text-center py-12">
+                    <Star className="w-16 h-16 text-weprom-gray-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-weprom-gray-700 dark:text-weprom-gray-300 mb-2">
+                      No hay reseñas
+                    </h3>
+                    <p className="text-weprom-gray-500 dark:text-weprom-gray-400 mb-6">
+                      Aún no has agregado reseñas de clientes.
+                    </p>
+                    <button
+                      onClick={() => setShowReviewForm(true)}
+                      className="inline-flex items-center gap-2 bg-gradient-to-r from-weprom-yellow to-weprom-orange text-white px-6 py-3 rounded-xl font-semibold hover:shadow-xl transition-all"
+                    >
+                      <Plus className="w-5 h-5" />
+                      Crear Primera Reseña
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </main>
 
@@ -2214,8 +2703,5 @@ export default function Dashboard({ onLogout }: DashboardProps) {
         </div>
       </footer>
     </div>
-    
-
-);
-  
+  );
 }
