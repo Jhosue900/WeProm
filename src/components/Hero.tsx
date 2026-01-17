@@ -93,7 +93,8 @@ export default function Hero() {
       {/* Barra de colores superior */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue z-10"></div>
       
-      <div className="container mx-auto px-4 sm:px-6 relative z-[5] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-30 lg:py-10 mt-28">
+      <div className="container mx-auto px-4 sm:px-6 relative z-[5] flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center pt-48 pb-20 lg:pt-48 lg:pb-32">
+
         {/* CONTENIDO TEXTO */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -134,16 +135,17 @@ export default function Hero() {
           </p>
 
           {/* Botones CTA */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
+          
+          <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center lg:justify-start">
             <motion.a
               href="#contacto"
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="relative overflow-hidden bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 text-center text-base group font-bold"
+              className="relative overflow-hidden bg-gradient-to-r from-weprom-red to-weprom-yellow text-white px-10 py-4 rounded-full font-bold shadow-lg hover:shadow-2xl transition-all duration-300 text-center group"
             >
-              <span className="text-2xl relative z-10 flex items-center justify-center gap-2 font-bold">
+              <span className="text-xl sm:text-2xl relative z-10 flex items-center justify-center gap-2">
                 Contáctanos
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </span>
@@ -153,9 +155,11 @@ export default function Hero() {
         </motion.div>
 
         {/* IMAGEN HERO - Carrusel Interactivo */}
-        <div className="hidden lg:flex relative h-[450px] w-full items-center justify-center">
-          <div className="relative w-full max-w-2xl aspect-[16/10] group">
-            <div className="absolute inset-0 rounded-[2rem] overflow-hidden">
+        
+{/* IMAGEN HERO - Carrusel Interactivo */}
+        <div className="flex relative h-[300px] sm:h-[400px] lg:h-[450px] w-full items-center justify-center mt-8 lg:mt-0">
+          <div className="relative w-full max-w-lg lg:max-w-2xl aspect-[16/10] group">
+            <div className="absolute inset-0 rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white/10 dark:border-white/5">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={currentIndex}
@@ -166,8 +170,6 @@ export default function Hero() {
                   transition={{ duration: 0.6 }}
                   className="w-full h-full object-cover"
                   alt="Producto WeProm"
-                  loading="eager"
-                  decoding="async"
                 />
               </AnimatePresence>
             </div>
@@ -175,20 +177,24 @@ export default function Hero() {
             {/* FLECHAS INTERACTIVAS */}
             <button
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-weprom-red z-20 shadow-xl border border-white/20"
+              className="absolute left-2 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-weprom-red z-20 shadow-xl border border-white/20 transition-all"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
             </button>
 
             <button
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-weprom-red z-20 shadow-xl border border-white/20"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-weprom-red z-20 shadow-xl border border-white/20 transition-all"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
 
             {/* Puntos indicadores */}
-            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
               {heroImages.map((_, index) => (
                 <button
                   key={index}
