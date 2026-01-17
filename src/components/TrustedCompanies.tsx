@@ -130,11 +130,12 @@ export default function TrustedCompanies() {
                     whileHover={{ scale: 1.05 }}
                     className={`
                       relative p-6 sm:p-8 rounded-2xl 
-                      bg-white
+                      /* Forzamos fondo blanco/claro incluso en dark mode para que el logo resalte */
+                      bg-white dark:bg-gray-50 
                       border-2 transition-all duration-500
                       ${hoveredIndex === index 
-                        ? `border-weprom-${logo.color} shadow-xl` 
-                        : 'border-weprom-gray-100 dark:border-weprom-gray-700'
+                        ? `border-weprom-${logo.color} shadow-xl scale-[1.02]` 
+                        : 'border-weprom-gray-100 dark:border-gray-700'
                       }
                       flex items-center justify-center h-24 sm:h-32
                     `}
