@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react'; // Añadido useRef
 import { motion } from 'framer-motion';
-import { Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
+import { Sparkles, RefreshCw, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react'; // Añadidos Chevrons
 
 // Configuración de la API
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -18,6 +18,19 @@ export default function Campaigns() {
   const [error, setError] = useState<string | null>(null);
 
   const WHATSAPP_NUMBER = "523334590989";
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (containerRef.current) {
+      // 420px es ideal para las campañas que son más grandes
+      const scrollAmount = direction === 'left' ? -420 : 420;
+      containerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   // Cargar campañas desde el servidor
   useEffect(() => {
@@ -224,100 +237,104 @@ export default function Campaigns() {
           </motion.p>
         </motion.div>
 
-        {/* Grid de campañas */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 max-w-7xl mx-auto">
-          {campaigns.map((campaign, index) => (
-            <motion.div
-              key={campaign.id}
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.05, duration: 0.4 }}
-              className="group relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-shadow duration-200 cursor-pointer bg-gradient-to-br from-white to-weprom-gray-50 dark:from-weprom-dark-gray dark:to-weprom-dark"
+        
+        {/* Carrusel de Campañas */}
+        <div className="relative mt-8 group/container">
+          
+          {/* Controles Mobile */}
+          <div className="flex sm:hidden justify-end gap-3 mb-6 px-4">
+            <button 
+              onClick={() => scroll('left')}
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 active:scale-90 transition-transform"
             >
-              {/* Contenedor de imagen */}
-              <div className="relative h-64 sm:h-80 overflow-hidden rounded-t-3xl">
-                <img
-                  src={campaign.img}
-                  alt={campaign.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&h=600&fit=crop';
-                  }}
-                />
-                
-                {/* Overlay gradiente sutil */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                
-                {/* Badge "Nuevo" */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
-                  <div className={`
-                    px-4 py-2 rounded-full text-xs sm:text-sm font-bold text-white shadow-lg
-                    bg-gradient-to-r from-weprom-${rainbowColors[index % 4]} to-weprom-yellow
-                    backdrop-blur-sm border border-white/20
-                  `}>
-                    ✨ Nuevo
-                  </div>
-                </div>
+              <ChevronLeft className="w-6 h-6 text-weprom-red" />
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 active:scale-90 transition-transform"
+            >
+              <ChevronRight className="w-6 h-6 text-weprom-red" />
+            </button>
+          </div>
 
-                {/* Número de campaña */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/10 backdrop-blur-md border-2 border-white/30 flex items-center justify-center shadow-xl">
-                    <span className="text-white font-extrabold text-xl sm:text-2xl">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                </div>
-              </div>
+          {/* Máscaras laterales fijas */}
+          <div className="absolute inset-y-0 left-0 w-12 sm:w-32 z-20 pointer-events-none bg-gradient-to-r from-weprom-gray-50 dark:from-weprom-dark to-transparent"></div>
+          <div className="absolute inset-y-0 right-0 w-12 sm:w-32 z-20 pointer-events-none bg-gradient-to-l from-weprom-gray-50 dark:from-weprom-dark to-transparent"></div>
 
-              {/* Contenido de texto */}
-              <div className="p-6 sm:p-8 space-y-4">
-                {/* Línea decorativa */}
-                <div className={`w-16 h-1 rounded-full bg-gradient-to-r from-weprom-${rainbowColors[index % 4]} to-weprom-yellow`}></div>
-
-                {/* Título */}
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-weprom-gray-900 dark:text-weprom-white group-hover:text-weprom-red dark:group-hover:text-weprom-yellow transition-colors duration-200">
-                  {campaign.title}
-                </h3>
-
-                {/* Descripción */}
-                <p className="text-sm sm:text-base text-weprom-gray-600 dark:text-weprom-gray-400 leading-relaxed line-clamp-2">
-                  {campaign.desc}
-                </p>
-
-                {/* Botón CTA - REEMPLAZA TU BOTÓN ACTUAL POR ESTE BLOQUE */}
-                <div className="pt-2">
-                  <motion.a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                      `Hola! visité su página y me interesa conocer su catálogo de promocionales para la campaña: ${campaign.title}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`
-                      inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold
-                      bg-gradient-to-r from-weprom-${rainbowColors[index % 4]} to-weprom-yellow
-                      text-white shadow-lg hover:shadow-xl
-                      transition-all duration-200
-                      group/btn
-                    `}
+          {/* Área de Scroll */}
+          <div 
+            ref={containerRef} 
+            className="w-full overflow-x-auto no-scrollbar scroll-smooth px-4 sm:px-6"
+          >
+            <motion.div
+              className="flex gap-8 w-max pb-12 pt-4"
+              animate={typeof window !== 'undefined' && window.innerWidth > 640 ? { x: ["0%", "-33.33%"] } : {}} 
+              transition={{
+                ease: "linear",
+                duration: 50, // Un poco más rápido que productos porque son menos cards
+                repeat: Infinity,
+              }}
+              drag="x"
+              dragConstraints={containerRef}
+              dragElastic={0.05}
+              whileHover={{ animationPlayState: "paused" }}
+            >
+              {[...campaigns, ...campaigns, ...campaigns].map((campaign, index) => {
+                const color = rainbowColors[index % 4];
+                return (
+                  <div
+                    key={`${campaign.id}-${index}`}
+                    className="group relative flex-shrink-0 w-[300px] sm:w-[450px] overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer bg-gradient-to-br from-white to-weprom-gray-50 dark:from-weprom-dark-gray dark:to-weprom-dark border border-gray-200 dark:border-gray-800"
                   >
-                    <span>Conocer más</span>
-                    <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </motion.a>
-                </div>
+                    {/* Contenedor de imagen */}
+                    <div className="relative h-56 sm:h-72 overflow-hidden rounded-t-3xl">
+                      <img
+                        src={campaign.img}
+                        alt={campaign.title}
+                        draggable="false"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 select-none"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                      <div className="absolute top-4 right-4 px-4 py-2 rounded-full text-xs font-bold text-white shadow-lg bg-gradient-to-r from-weprom-red to-weprom-yellow backdrop-blur-sm border border-white/20">
+                        ✨ Nuevo
+                      </div>
+                    </div>
 
+                    {/* Contenido */}
+                    <div className="p-6 sm:p-8 space-y-4 select-none">
+                      <div className={`w-16 h-1 rounded-full bg-weprom-${color}`}></div>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-weprom-gray-900 dark:text-weprom-white group-hover:text-weprom-red transition-colors duration-200 line-clamp-1">
+                        {campaign.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-weprom-gray-600 dark:text-weprom-gray-400 leading-relaxed line-clamp-2 min-h-[40px]">
+                        {campaign.desc}
+                      </p>
+                      
+                      <div className="pt-2">
+                        <motion.a
+                          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                            `Hola! Me interesa la campaña: ${campaign.title}`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold bg-weprom-${color} text-white shadow-lg text-sm`}
+                        >
+                          <span>Conocer más</span>
+                          <ChevronRight className="w-4 h-4" />
+                        </motion.a>
+                      </div>
+                    </div>
 
-              </div>
-
-              {/* Barra inferior */}
-              <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-weprom-red via-weprom-yellow to-weprom-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center rounded-b-3xl"></div>
+                    {/* Barra inferior animada */}
+                    <div className={`absolute bottom-0 left-0 right-0 h-1.5 bg-weprom-${color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center rounded-b-3xl`}></div>
+                  </div>
+                );
+              })}
             </motion.div>
-          ))}
+          </div>
         </div>
 
       

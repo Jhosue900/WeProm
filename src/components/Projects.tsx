@@ -1,6 +1,7 @@
-import { ArrowRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+
 
 // Configuración de la API
 const API_URL = 'https://we-prom-backend.vercel.app';
@@ -16,6 +17,20 @@ interface Product {
 }
 
 export default function Projects() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (containerRef.current) {
+      // 304px es el ancho de la card mobile (280px) + gap (24px)
+      const scrollAmount = direction === 'left' ? -304 : 304;
+      containerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -145,87 +160,93 @@ export default function Projects() {
         </div>
 
 
-        {/* Contenedor Principal con Recorte Estricto */}
-        <div className="relative mt-8 w-full overflow-hidden px-4 sm:px-6">
+        {/* Controles de navegación y Carrusel */}
+        <div className="relative mt-8 group/container">
           
-          {/* Máscaras laterales mejoradas y adaptadas al Dark Mode */}
-          {/* Usamos colores directos o clases exactas para asegurar que no se vea blanco en modo oscuro */}
-          <div className="absolute inset-y-0 left-0 w-12 sm:w-32 z-30 pointer-events-none bg-gradient-to-r from-weprom-light-bg dark:from-[#0f172a] to-transparent"></div>
-          <div className="absolute inset-y-0 right-0 w-12 sm:w-32 z-30 pointer-events-none bg-gradient-to-l from-weprom-light-bg dark:from-[#0f172a] to-transparent"></div>
+          {/* Botones de navegación (visibles solo en mobile/tablet para facilitar el uso) */}
+          <div className="flex sm:hidden justify-end gap-3 mb-6 px-4">
+            <button 
+              onClick={() => scroll('left')}
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 active:scale-90 transition-transform"
+              aria-label="Anterior"
+            >
+              <ChevronLeft className="w-6 h-6 text-weprom-red" />
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 active:scale-90 transition-transform"
+              aria-label="Siguiente"
+            >
+              <ChevronRight className="w-6 h-6 text-weprom-red" />
+            </button>
+          </div>
 
-          <motion.div
-            className="flex gap-6 w-max" // w-max es vital para que no se amontonen
-            // Animación automática infinita
-            animate={{ x: ["0%", "-33.33%"] }} 
-            transition={{
-              ease: "linear",
-              duration: 60,
-              repeat: Infinity,
-            }}
-            // Control Manual (Drag) mejorado
-            drag="x"
-            dragConstraints={{ 
-              left: -((products.length * 320) * 2), // Limita el arrastre para no ver el vacío
-              right: 0 
-            }}
-            dragElastic={0.05}
-            whileHover={{ animationPlayState: "paused" }}
-            whileTap={{ cursor: "grabbing" }}
+          {/* Máscaras de degradado fijas (están fuera del scroll para que no se muevan) */}
+          <div className="absolute inset-y-0 left-0 w-12 sm:w-32 z-20 pointer-events-none bg-gradient-to-r from-weprom-light-bg dark:from-[#0f172a] to-transparent"></div>
+          <div className="absolute inset-y-0 right-0 w-12 sm:w-32 z-20 pointer-events-none bg-gradient-to-l from-weprom-light-bg dark:from-[#0f172a] to-transparent"></div>
+
+          {/* Contenedor con Scroll Real */}
+          <div 
+            ref={containerRef} 
+            className="w-full overflow-x-auto no-scrollbar scroll-smooth px-4 sm:px-6"
           >
-            {/* Duplicamos x3 para asegurar que el usuario nunca llegue al final del carrusel */}
-            {[...products, ...products, ...products].map((product, index) => {
-              const color = colors[index % 4];
-              
-              return (
-                <div
-                  key={`${product.id}-${index}`}
-                  className="relative flex-shrink-0 w-[280px] sm:w-[320px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-md border border-gray-200 dark:border-gray-800 group overflow-hidden transition-all duration-300"
-                  onMouseEnter={() => setHoveredProduct(index)}
-                  onMouseLeave={() => setHoveredProduct(null)}
-                >
-                  {/* Imagen del Proyecto con selección bloqueada */}
-                  <div className="relative h-48 sm:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
-                    <img
-                      src={product.img}
-                      alt={product.name}
-                      draggable="false"
-                      className={`w-full h-full object-cover transition-transform duration-700 select-none ${
-                        hoveredProduct === index ? 'scale-110' : 'scale-100'
-                      }`}
-                    />
-                    {/* Badge sutil */}
-                    <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-lg border border-white/20">
-                      PROYECTO
+            <motion.div
+              className="flex gap-6 w-max pb-8 pt-4"
+              // Solo animamos automáticamente si la pantalla es mayor a 640px (Desktop)
+              animate={typeof window !== 'undefined' && window.innerWidth > 640 ? { x: ["0%", "-33.33%"] } : {}} 
+              transition={{
+                ease: "linear",
+                duration: 60,
+                repeat: Infinity,
+              }}
+              drag="x"
+              dragConstraints={{ right: 0, left: -((products.length * 320) * 2) }}
+              dragElastic={0.05}
+              whileHover={{ animationPlayState: "paused" }}
+            >
+              {[...products, ...products, ...products].map((product, index) => {
+                const color = colors[index % 4];
+                return (
+                  <div
+                    key={`${product.id}-${index}`}
+                    className="relative flex-shrink-0 w-[280px] sm:w-[320px] bg-white dark:bg-[#1e293b] rounded-2xl shadow-md border border-gray-200 dark:border-gray-800 group overflow-hidden transition-all duration-300"
+                    onMouseEnter={() => setHoveredProduct(index)}
+                    onMouseLeave={() => setHoveredProduct(null)}
+                  >
+                    <div className="relative h-48 sm:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
+                      <img
+                        src={product.img}
+                        alt={product.name}
+                        draggable="false"
+                        className={`w-full h-full object-cover transition-transform duration-700 select-none ${
+                          hoveredProduct === index ? 'scale-110' : 'scale-100'
+                        }`}
+                      />
+                      <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-lg border border-white/20 uppercase">
+                        Proyecto
+                      </div>
                     </div>
-                  </div>
-                  
-                  {/* Detalles del Producto */}
-                  <div className="p-5 select-none">
-                    <div className="flex justify-between items-start mb-2">
-                      <h4 className="font-bold text-gray-900 dark:text-white text-base sm:text-lg line-clamp-1">
+                    
+                    <div className="p-5 select-none">
+                      <h4 className="font-bold text-gray-900 dark:text-white text-base sm:text-lg line-clamp-1 mb-2">
                         {product.name}
                       </h4>
+                      <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full mb-3 font-bold uppercase tracking-wider bg-weprom-${color}/10 text-weprom-${color} border border-weprom-${color}/20`}>
+                        {product.category || 'General'}
+                      </span>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-normal line-clamp-2 min-h-[32px]">
+                        {product.description || 'Calidad premium personalizada para marcas exigentes.'}
+                      </p>
                     </div>
-                    
-                    <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full mb-3 font-bold uppercase tracking-wider bg-weprom-${color}/10 text-weprom-${color} border border-weprom-${color}/20`}>
-                      {product.category || 'General'}
-                    </span>
-                    
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-normal line-clamp-2 min-h-[32px] mb-4">
-                      {product.description || 'Calidad premium personalizada para marcas exigentes.'}
-                    </p>
 
-                    
+                    <div className={`absolute bottom-0 left-0 h-1 transition-all duration-500 bg-weprom-${color} ${
+                      hoveredProduct === index ? 'w-full opacity-100' : 'w-0 opacity-0'
+                    }`}></div>
                   </div>
-
-                  {/* Línea de acento inferior */}
-                  <div className={`absolute bottom-0 left-0 h-1 transition-all duration-500 bg-weprom-${color} ${
-                    hoveredProduct === index ? 'w-full opacity-100' : 'w-0 opacity-0'
-                  }`}></div>
-                </div>
-              );
-            })}
-          </motion.div>
+                );
+              })}
+            </motion.div>
+          </div>
         </div>
 
 
@@ -250,8 +271,6 @@ export default function Projects() {
             <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
           </motion.a>
         </div>
-
-
 
       </div>
     </section>
